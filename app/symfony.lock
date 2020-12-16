@@ -90,14 +90,14 @@
     "doctrine/persistence": {
         "version": "2.0.0"
     },
-    "doctrine/reflection": {
-        "version": "1.2.1"
-    },
     "doctrine/sql-formatter": {
         "version": "1.1.1"
     },
     "egulias/email-validator": {
         "version": "2.1.22"
+    },
+    "fzaninotto/faker": {
+        "version": "v1.9.2"
     },
     "laminas/laminas-code": {
         "version": "3.4.1"
