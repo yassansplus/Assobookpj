@@ -61,7 +61,7 @@ RUN set -eux; \
 	\
 	apk del .build-deps
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:1.10.10 /usr/bin/composer /usr/bin/composer
 
 RUN curl -sLO https://github.com/gordalina/cachetool/releases/latest/download/cachetool.phar
 RUN mv cachetool.phar /usr/bin/cachetool

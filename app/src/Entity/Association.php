@@ -32,6 +32,11 @@ class Association
      */
     private $location;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="association", cascade={"persist", "remove"})
+     */
+    private $user_account;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,28 @@ class Association
     public function setLocation(?string $location): self
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getUserAccount(): ?User
+    {
+        return $this->user_account;
+    }
+
+    public function setUserAccount(?User $user_account): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($user_account === null && $this->user_account !== null) {
+            $this->user_account->setAssociation(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user_account !== null && $user_account->getAssociation() !== $this) {
+            $user_account->setAssociation($this);
+        }
+
+        $this->user_account = $user_account;
 
         return $this;
     }
