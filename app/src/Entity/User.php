@@ -6,6 +6,7 @@ use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -39,6 +40,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
+     *
      */
     private $registerDate;
 
@@ -52,8 +54,19 @@ class User implements UserInterface
      */
     private $tags;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Adherent::class, inversedBy="user_account", cascade={"persist", "remove"})
+     */
+    private $adherent;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Association::class, inversedBy="user_account", cascade={"persist", "remove"})
+     */
+    private $association;
+
     public function __construct()
     {
+        $this->registerDate = new DateTime();
         $this->tags = new ArrayCollection();
     }
 
@@ -140,9 +153,9 @@ class User implements UserInterface
         return $this->registerDate;
     }
 
-    public function setRegisterDate(\DateTimeInterface $registerDate): self
+    public function setRegisterDate(): self
     {
-        $this->registerDate = $registerDate;
+        $this->registerDate = new DateTime();
 
         return $this;
     }
@@ -183,6 +196,30 @@ class User implements UserInterface
             $this->tags->removeElement($tag);
             $tag->removeUserTag($this);
         }
+
+        return $this;
+    }
+
+    public function getAdherent(): ?Adherent
+    {
+        return $this->adherent;
+    }
+
+    public function setAdherent(?Adherent $adherent): self
+    {
+        $this->adherent = $adherent;
+
+        return $this;
+    }
+
+    public function getAssociation(): ?Association
+    {
+        return $this->association;
+    }
+
+    public function setAssociation(?Association $association): self
+    {
+        $this->association = $association;
 
         return $this;
     }

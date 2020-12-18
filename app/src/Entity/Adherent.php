@@ -37,6 +37,11 @@ class Adherent
      */
     private $birthday;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, mappedBy="adherent", cascade={"persist", "remove"})
+     */
+    private $user_account;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,28 @@ class Adherent
     public function setBirthday(\DateTimeInterface $birthday): self
     {
         $this->birthday = $birthday;
+
+        return $this;
+    }
+
+    public function getUserAccount(): ?User
+    {
+        return $this->user_account;
+    }
+
+    public function setUserAccount(?User $user_account): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($user_account === null && $this->user_account !== null) {
+            $this->user_account->setAdherent(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user_account !== null && $user_account->getAdherent() !== $this) {
+            $user_account->setAdherent($this);
+        }
+
+        $this->user_account = $user_account;
 
         return $this;
     }

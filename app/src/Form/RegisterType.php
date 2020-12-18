@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
@@ -21,7 +23,7 @@ class RegisterType extends AbstractType
                 'label' => false,
                 'constraints' => new Length([
                     'min' => 2,
-                    'max' =>60
+                    'max' => 60
                 ]),
                 'attr' => [
                     'placeholder' => 'Email',
@@ -32,6 +34,10 @@ class RegisterType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'required' => true,
+                'constraints' => new Length([
+                    'min' => 8,
+                    'max' => 16,
+                ]),
                 'first_options' => [
                     'label' => false,
                     'attr' => [
@@ -49,11 +55,13 @@ class RegisterType extends AbstractType
             ])
             ->add('roles', ChoiceType::class, [
                 'label' => false,
-                'choices' => [
-                    'Membre' => 'member',
-                    'Association' => 'assoc',
-                ],
+                'required' => true,
+                'multiple' => false,
                 'expanded' => true,
+                'choices' => [
+                    'Adhérant' => 'ROLE_ADH',
+                    'Association' => 'ROLE_ASSOC',
+                ],
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'S\'inscrire',
@@ -62,12 +70,25 @@ class RegisterType extends AbstractType
                 ]
             ])
         ;
+
+        $builder->get('roles')
+            ->addModelTransformer(new CallbackTransformer(
+                    function ($rolesArray) {
+                        // transform the array to a string
+                        return count($rolesArray) ? $rolesArray[0] : null;
+                    },
+                    function ($rolesString) {
+                        // transform the string back to an array
+                        return [$rolesString];
+                    }
+                )
+            );
     }
 
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            // Configure your form options here
+            'data_class' => User::class,
         ]);
     }
 }

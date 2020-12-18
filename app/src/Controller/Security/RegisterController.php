@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class RegisterController extends AbstractController
 {
@@ -20,18 +21,26 @@ class RegisterController extends AbstractController
     /**
      * @Route("/s-inscrire", name="register")
      */
-    public function index(Request $request)
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
         if ($this->getUser()) {
             return $this->redirectToRoute('account');
         }
 
-        $form = $this->createForm(RegisterType::class,null);
+        $user = new User();
+
+        $form = $this->createForm(RegisterType::class,$user);
 
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            dd($form->getData());
+            $user = $form->getData();
+
+            $passwordEncoder = $passwordEncoder->encodePassword($user,$user->getPassword());
+            $user->setPassword($passwordEncoder);
+
+            $this->em->persist($user);
+            $this->em->flush();
         }
 
         return $this->render('security/register.html.twig',[
