@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=TagRepository::class)
+ * @ORM\Table(name="tag", schema="iw")
  */
 class Tag
 {

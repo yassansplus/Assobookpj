@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AssociationRepository::class)
+ * @ORM\Table(name="association", schema="iw")
  */
 class Association
 {

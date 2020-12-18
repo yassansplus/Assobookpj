@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
+ * @ORM\Table(name="adherent", schema="iw")
  */
 class Adherent
 {
