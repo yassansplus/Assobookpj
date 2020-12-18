@@ -8,7 +8,6 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
@@ -18,28 +17,6 @@ class RegisterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstname', TextType::class, [
-                'label' => false,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'max' =>30
-                ]),
-                "attr" => [
-                    'placeholder' => 'Prénom',
-                    'class' => 'form-control',
-                ]
-            ])
-            ->add('lastname',TextType::class, [
-                'label' => false,
-                'constraints' => new Length([
-                    'min' => 2,
-                    'max' =>30
-                ]),
-                'attr' => [
-                    'placeholder' => 'Nom',
-                    'class' => 'form-control',
-                ]
-            ])
             ->add('email', EmailType::class, [
                 'label' => false,
                 'constraints' => new Length([
