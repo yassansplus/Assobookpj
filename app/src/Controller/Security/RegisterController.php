@@ -23,8 +23,10 @@ class RegisterController extends AbstractController
      */
     public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder)
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('account');
+        if ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))) {
+            return $this->redirectToRoute('profile_register');
+        }elseif($this->getUser()){
+            return $this->redirectToRoute('default_index');
         }
 
         $user = new User();
@@ -39,6 +41,8 @@ class RegisterController extends AbstractController
 
             $this->em->persist($user);
             $this->em->flush();
+
+            return $this->redirectToRoute('app_login');
         }
 
         return $this->render('security/register.html.twig',[

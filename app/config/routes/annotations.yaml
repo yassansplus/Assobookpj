@@ -12,6 +12,11 @@ controllers_back:
     prefix: /admin
     type: annotation
 
+controllers_complete:
+    resource: ../../src/Controller/Profile
+    name_prefix: profile_
+    type: annotation
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

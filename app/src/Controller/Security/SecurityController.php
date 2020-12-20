@@ -15,8 +15,10 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser() && in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
-             return $this->redirectToRoute('admin_default_index');
-        } elseif ($this->getUser()) {
+            return $this->redirectToRoute('admin_default_index');
+        } elseif ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))){
+            return $this->redirectToRoute('profile_register');
+        } elseif($this->getUser()){
             return $this->redirectToRoute('default_index');
         }
 
@@ -33,6 +35,6 @@ class SecurityController extends AbstractController
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        $this->redirectToRoute('default_index');
     }
 }

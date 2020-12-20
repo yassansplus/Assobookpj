@@ -14,6 +14,9 @@
         <a href="#" class="brand-logo">Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="{{ path('default_index') }}">Accueil</a></li>
+            {% if app.user and is_granted("ROLE_USER") %}
+                <li><a href="">Mon compte</a></li>
+            {% endif %}
             {% if app.user and is_granted("ROLE_ADMIN") %}
                 <li><a href="{{ path('admin_default_index') }}">Admin</a></li>
             {% endif %}
