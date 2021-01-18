@@ -3,7 +3,9 @@
 namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
+use App\Entity\Association;
 use App\Form\AdherentType;
+use App\Form\AssociationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,8 +41,20 @@ class CompleteRegisterController extends AbstractController
 
                 return $this->redirectToRoute('default_index');
             }
-        }else{
-            echo "wowowowo";
+        }elseif($this->isGranted('ROLE_ASSOC')){
+            $assoc = new Association();
+            $form = $this->createForm(AssociationType::class, $assoc);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $assoc = $form->getData();
+                $assoc->setUserAccount($this->getUser());
+
+                $user->setRoles(['ROLE_ASSOC_CONFIRME']);
+                $this->em->persist($assoc);
+                $this->em->flush();
+
+                return $this->redirectToRoute('default_index');
+            }
         }
         return $this->render('profile/index.html.twig',[
             'form' => $form->createView()
