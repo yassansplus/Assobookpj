@@ -1,3 +1,93 @@
+html {
+    height:100%;
+}
+
+body {
+    height:100%;
+    background-image: url("../images/front/bcgModal.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.container {
+    height: 100%;
+}
+
 .formGender label:nth-child(2){
     margin-right:10px;
+}
+
+.box {
+    transform: translateY(50%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.box form {
+    width:40%;
+    padding: 20px;
+    border: 2px solid #59cfef;
+    border-radius: 5px;
+    background-color:#ffffff;
+}
+
+.box h1 {
+    font-size:25px;
+    text-align: center;
+    color: #b8111d;
+    margin-bottom: 20px;
+}
+
+.box input{
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding:7px 20px;
+}
+
+.box input::placeholder{
+    opacity: 0.5;
+}
+
+.box button {
+    border-radius: 20px;
+    border: 2px solid #0477a0;
+    width: 100%;
+    padding: 5px 0px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    color: #a4a3a3;
+    cursor: pointer;
+}
+
+.forgetmdp {
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.accueil {
+    text-decoration: none !important;
+    color:white;
+    font-size:15px;
+}
+
+#cercle {
+    display:flex;
+    justify-content: center;
+    padding: 3px;
+    font-size:15px;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background: #41b2e9;
+    position:absolute;
+    left:68%;
+    top:-5%;
+}
+
+#cercle a {
+    color:#ffffff;
+    text-decoration: none;
 }
