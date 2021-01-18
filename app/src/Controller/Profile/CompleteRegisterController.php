@@ -60,5 +60,4 @@ class CompleteRegisterController extends AbstractController
             'form' => $form->createView()
         ]);
     }
-
 }
