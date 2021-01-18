@@ -6,7 +6,5 @@
 
 {% block body %}
     <h1>Completez votre profil</h1>
-    {% if is_granted('ROLE_ADH') %}
-        {{ form(form) }}
-    {% endif %}
+    {{ form(form) }}
 {% endblock %}
