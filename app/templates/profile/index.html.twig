@@ -1,12 +1,12 @@
 {% extends 'base_front.html.twig' %}
 
-{% block title %}S'inscrire - AssoBook{% endblock %}
+{% block title %} Completer Inscription - AssoBook{% endblock %}
 
 {% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">{% endblock %}
 
 {% block body %}
-    <h1>Inscrivez-vous !</h1>
-    <div class="container border py-3">
+    <h1>Completez votre profil</h1>
+    {% if is_granted('ROLE_ADH') %}
         {{ form(form) }}
-    </div>
+    {% endif %}
 {% endblock %}
