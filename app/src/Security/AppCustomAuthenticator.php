@@ -68,7 +68,6 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
         }
 
         $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
-
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Invalid credentials.');
@@ -79,7 +78,11 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if(empty($user->getToken())){
+            return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        }else{
+            throw new CustomUserMessageAuthenticationException('Veuillez activez votre compte');
+        }
     }
 
     /**
