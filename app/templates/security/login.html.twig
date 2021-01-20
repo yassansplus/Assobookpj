@@ -13,13 +13,6 @@
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
-            {% if app.user %}
-                Impossible de tomber ici, du fait d'avoir une redirection au sein du controller security:login
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
-
             <h1>Connexion</h1>
             <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                    placeholder="Email" required autofocus>
@@ -28,21 +21,10 @@
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
-            </div>
-            #}
-
             <button class="btn btn-primary" type="submit">Connexion</button>
             <div class="column_flex">
                 <a class="forgetmdp" href="#">Mot de passe oublié ?</a>
-                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous</a> maintenant ! </p>
+                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous maintenant !</a></p>
             </div>
         </form>
     </div>
