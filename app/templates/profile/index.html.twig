@@ -2,9 +2,18 @@
 
 {% block title %} Completer Inscription - AssoBook{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/formAuth.css') }}">{% endblock %}
 
 {% block body %}
-    <h1>Completez votre profil</h1>
-    {{ form(form) }}
+    <div class="box">
+        <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
+        {{ form_start(form) }}
+            <h1>Completez votre profil</h1>
+            <div class="fullname_inline">
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+            </div>
+        {{ form_row(form.birthday) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}

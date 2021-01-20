@@ -5,37 +5,51 @@
     <title>{% block title %}AssoBook{% endblock %}</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
-<nav>
-    <div class="nav-wrapper">
+
+{% if app.request.get('_route') is not same as('app_login') and app.request.get('_route') is not same as('register') and app.request.get('_route') is not same as('profile_register') %}
+    <nav class="navbar navbar-light bg-light">
         <a href="#" class="brand-logo">Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
             <li><a href="{{ path('default_index') }}">Accueil</a></li>
-            {% if app.user and is_granted("ROLE_USER") %}
-                <li><a href="">Mon compte</a></li>
-            {% endif %}
-            {% if app.user and is_granted("ROLE_ADMIN") %}
-                <li><a href="{{ path('admin_default_index') }}">Admin</a></li>
-            {% endif %}
+
             {% if app.user %}
                 <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
             {% else %}
-                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                <a href="{{ path('app_login') }}">Se connecter</a>
                 <li><a href="{{ path('register') }}">S'inscrire</a></li>
             {% endif %}
+
+            {% if is_granted('ROLE_ADH') or is_granted('ROLE_ASSOC') %}
+                <li><a href="{{ path('profile_register') }}">Finir mon inscription</a></li>
+            {% elseif app.user %}
+                <li><a href="{{ path('app_logout') }}">Mon compte ({{ app.user.adherent.firstname }})</a></li>
+            {% endif %}
         </ul>
-    </div>
-</nav>
+    </nav>
+{% endif %}
 
 <div class="container">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="notice">
+                <div style="width:50%;">
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    {% endfor %}
     {% block body %}{% endblock %}
 </div>
 
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+<script src="https://code.jquery.com/jquery-3.5.1.js"
+        integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc="
         crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
@@ -43,6 +57,8 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
+<script src="{{ asset('assets/js/script.js') }}"></script>
+
 {% block javascripts %}{% endblock %}
 </body>
 </html>

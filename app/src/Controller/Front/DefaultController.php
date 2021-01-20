@@ -16,7 +16,6 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default_index", methods={"GET"})
-     * @Security("not is_granted('ROLE_ASSOC') and not is_granted('ROLE_ADH')", statusCode=404, message="Veuillez terminer votre inscription")
      */
     public function index()
     {

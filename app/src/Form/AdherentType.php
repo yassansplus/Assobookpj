@@ -18,7 +18,7 @@ class AdherentType extends AbstractType
     {
         $builder
             ->add('firstname', TextType::class, [
-                'label' => 'Votre prénom',
+                'label' => false,
                 'required' => true,
                 'constraints' => new Length([
                     'min' => 2,
@@ -30,7 +30,7 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('lastname', TextType::class, [
-                'label' => 'Votre nom',
+                'label' => false,
                 'required' => true,
                 'constraints' => new Length([
                     'min' => 2,
@@ -42,7 +42,7 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('gender',ChoiceType::class, [
-                'label' => 'Votre sexe',
+                'label' => false,
                 'required' => true,
                 'multiple' => false,
                 'expanded' => true,
@@ -55,12 +55,11 @@ class AdherentType extends AbstractType
                 ]
             ])
             ->add('birthday',DateType::class,[
-                'label' => 'Votre date de naissance',
+                'label' => false,
                 'widget' => 'single_text',
                 'input'  => 'datetime_immutable',
                 'attr' => [
-                    'class' => 'js-datepicker',
-                    'style' => 'display:block;'
+                    'class' => 'form-control',
                 ],
             ])
             ->add('submit', SubmitType::class, [
