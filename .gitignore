@@ -46,7 +46,7 @@ app/public/upload/
 
 # Composer PHAR
 /app/composer.phar
-
+/vendor/
 # Backup entities generated with doctrine:generate:entities command
 /app/**/Entity/*~
 

@@ -9,6 +9,17 @@ $ cd docker/nginx/
 $ find . -name "*.sh" | xargs dos2unix
 ```
 
+##Installation des assets
+```
+$ docker-compose up node
+```
+
+##Ajouter des package
+Entrer dans le container php et éxécuter
+ ```
+ composer install *nom du package*
+``` 
+
 ## Debug docker 
 
 - docker-compose ps
