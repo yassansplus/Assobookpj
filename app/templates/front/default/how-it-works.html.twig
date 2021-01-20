@@ -1,0 +1,35 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block body %}
+    <div class="col-sm-12">
+        <h1 class="text-center text-danger">Comment ça marche?</h1>
+        <h4 class="text-center">Assobook est une plateforme sociale dédiée aux associations. Elle s'adapte à tout type d'associations, que ce soit à but lucratif ou non, humanitaire, dédiée au sauvetage des animaux, aux passionnés de bretzel.. <br>
+        Elle est également ouverte aux bénévoles souhaitant se renseigner ou rejoindre une association, elle permets une mise en relation très simplifiée et une expérience unique dans ce domaine!</h4>
+        <section>
+            <h1 class="text-center text-danger">Bénévole ou Association</h1>
+            <div class="container text-center d-flex justify-content-around">
+                    <img src="{{ asset('assets/images/icons/icons8-add-user-male-96.png') }}" alt="Image bénévole" style="width: 30%"/>
+                <span class="border-right"></span>
+                    <img src="{{ asset('assets/images/icons/userInterro.png') }}" alt="Image Association?" style="width: 30%"/>
+            </div>
+            <hr/>
+        </section>
+
+        <section>
+            <h1 class="text-center text-danger">Association</h1>
+            <div class="d-flex flex-row">
+                <img src="{{ asset('assets/images/icons/calendar.png') }}" alt="Image calendrier" style="width: 30%" />
+                <p class="display-4" style="margin-left:10px;">Gérez le calendrier de votre association et mettez votre fil d'actualité à jour pour tenir vos bénévoles au courant!</p>
+            </div>
+        </section>
+        <section>
+            <h1 class="text-center text-danger">Bénévole</h1>
+            <div class="d-flex flex-row-reverse">
+                <img src="{{ asset('assets/images/icons/jumelles.png') }}" alt="Image calendrier" style="width: 30%"/>
+                <p class="display-4" style="margin-left:10px;">Recherchez les associations et les événements auxquels vous voulez participer et suivez les afin d'être au courant de toutes leur activités</p>
+            </div>
+        </section>
+    </div>
+{% endblock %}
