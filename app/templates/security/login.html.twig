@@ -2,7 +2,8 @@
 
 {% block title %}Se connecter - AssoBook{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">{% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/formAuth.css') }}">{% endblock %}
 
 {% block body %}
     <div class="box">
@@ -20,8 +21,10 @@
             {% endif %}
 
             <h1>Connexion</h1>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Email" required autofocus>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                   placeholder="Email" required autofocus>
+            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
+                   required>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
@@ -36,8 +39,11 @@
             </div>
             #}
 
-            <button class="" type="submit">Connexion</button>
-            <a class="forgetmdp" href="#">Mot de passe oublié ?</a>
+            <button class="btn btn-primary" type="submit">Connexion</button>
+            <div class="column_flex">
+                <a class="forgetmdp" href="#">Mot de passe oublié ?</a>
+                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous</a> maintenant ! </p>
+            </div>
         </form>
     </div>
 {% endblock %}

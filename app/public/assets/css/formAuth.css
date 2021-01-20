@@ -1,0 +1,132 @@
+body {
+    background-image: url("../images/front/bcgModal.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+
+.box {
+    transform: translateY(50%);
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.box form {
+    width:40%;
+    padding: 20px;
+    border: 2px solid #59cfef;
+    border-radius: 5px;
+    background-color:#ffffff;
+}
+
+.box h1 {
+    font-size:25px;
+    text-align: center;
+    color: #b8111d;
+    margin-bottom: 20px;
+}
+
+.box input{
+    border-radius: 20px;
+    margin-bottom: 20px;
+    padding:7px 20px;
+}
+
+.box input::placeholder, #adherent_birthday::placeholder{
+    opacity: 0.5;
+}
+
+.box button {
+    border-radius: 20px;
+    border: 2px solid #0477a0;
+    width: 100%;
+    padding: 5px 0px;
+    background-color: #ffffff;
+    margin-bottom: 10px;
+    color: #a4a3a3;
+    cursor: pointer;
+}
+
+
+
+.forgetmdp {
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.column_flex {
+    display: flex;
+    flex-direction: column;
+}
+
+.box p {
+    font-size:13px;
+}
+
+.accueil {
+    text-decoration: none !important;
+    color:white;
+    font-size:15px;
+}
+
+#cercle {
+    display:flex;
+    justify-content: center;
+    padding: 3px;
+    font-size:15px;
+    color: #ffffff;
+    width: 30px;
+    height: 30px;
+    border-radius: 20px;
+    background: #41b2e9;
+    position:absolute;
+    left:68%;
+    top:-5%;
+}
+
+
+
+#cercle a {
+    color:#ffffff;
+    text-decoration: none;
+}
+
+#register_roles, #adherent_gender {
+    text-align:center;
+}
+
+#register_roles label, #adherent_gender label {
+    padding: 10px;
+}
+
+
+
+.fullname_inline {
+    display: flex;
+    justify-content: space-between;
+}
+
+.fullname_inline div {
+    width:48%;
+}
+
+#adherent_birthday {
+    width: 100%;
+    color: #b9bdc0;
+}
+
+
+.notice {
+    transform: translateY(110px);
+    display: flex;
+    justify-content: center;
+}
+
+.alert {
+    width: 50%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}

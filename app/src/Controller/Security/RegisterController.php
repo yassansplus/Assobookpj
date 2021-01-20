@@ -42,6 +42,8 @@ class RegisterController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
+            $this->addFlash('success','Inscription effectué. Un email de confirmation vous a été envoyé');
+
             return $this->redirectToRoute('app_login');
         }
 

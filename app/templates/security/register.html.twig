@@ -2,11 +2,13 @@
 
 {% block title %}S'inscrire - AssoBook{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">{% endblock %}
+{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/formAuth.css') }}">{% endblock %}
 
 {% block body %}
-    <h1>Inscrivez-vous !</h1>
-    <div class="container border py-3">
-        {{ form(form) }}
+    <div class="box">
+        <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
+        {{ form_start(form) }}
+            <h1>Inscription</h1>
+        {{ form_end(form) }}
     </div>
 {% endblock %}
