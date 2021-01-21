@@ -1,7 +1,6 @@
+@import "variables";
 body {
-    background-image: url("../images/front/bcgModal.png");
-    background-position: center;
-    background-repeat: no-repeat;
+    background: url("/assets/images/front/bcgModal.png") no-repeat center;
     background-size: cover;
 }
 
@@ -16,7 +15,7 @@ body {
 .box form {
     width:40%;
     padding: 20px;
-    border: 2px solid #59cfef;
+    border: 2px solid $low-blue;
     border-radius: 5px;
     background-color:#ffffff;
 }
@@ -40,12 +39,12 @@ body {
 
 .box button {
     border-radius: 20px;
-    border: 2px solid #0477a0;
+    border: 2px solid $high-blue;
     width: 100%;
-    padding: 5px 0px;
+    padding: 5px 0;
     background-color: #ffffff;
     margin-bottom: 10px;
-    color: #a4a3a3;
+    color: $low-grey;
     cursor: pointer;
 }
 
@@ -80,7 +79,7 @@ body {
     width: 30px;
     height: 30px;
     border-radius: 20px;
-    background: #41b2e9;
+    background: $low-blue;
     position:absolute;
     left:68%;
     top:-5%;

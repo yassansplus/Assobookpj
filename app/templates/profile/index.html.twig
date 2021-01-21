@@ -2,7 +2,10 @@
 
 {% block title %} Completer Inscription - AssoBook{% endblock %}
 
-{% block stylesheets %}<link rel="stylesheet" href="{{ asset('assets/css/formAuth.css') }}">{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('formAuth') }}
+{% endblock %}
 
 {% block body %}
     <div class="box">
