@@ -1,0 +1,21 @@
+{% if app.request.get('_route') is not same as('app_login') and app.request.get('_route') is not same as('register') and app.request.get('_route') is not same as('profile_register') %}
+    <nav class="navbar navbar-light bg-light">
+        <a href="#" class="brand-logo">Logo</a>
+        <ul id="nav-mobile" class="right hide-on-med-and-down">
+            <li><a href="{{ path('default_index') }}">Accueil</a></li>
+
+            {% if app.user %}
+                <li><a href="{{ path('app_logout') }}">Se déconnecter</a></li>
+            {% else %}
+                <a href="{{ path('app_login') }}">Se connecter</a>
+                <li><a href="{{ path('register') }}">S'inscrire</a></li>
+            {% endif %}
+
+            {% if is_granted('ROLE_ADH') or is_granted('ROLE_ASSOC') %}
+                <li><a href="{{ path('profile_register') }}">Finir mon inscription</a></li>
+            {% elseif app.user %}
+                <li><a href="{{ path('app_logout') }}">Mon compte ({{ app.user.adherent.firstname }})</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

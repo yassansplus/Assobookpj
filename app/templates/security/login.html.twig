@@ -3,20 +3,22 @@
 {% block title %}Se connecter - AssoBook{% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" href="{{ asset('assets/css/formAuth.css') }}">{% endblock %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('formAuth') }}
+{% endblock %}
 
 {% block body %}
     <div class="box">
-        <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
+        <div id="cercle"><a href="{{ path('default_index') }}"><i class="fas fa-times"></i></a></div>
         <form method="post">
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
 
             <h1>Connexion</h1>
-            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+            <input aria-label="email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
                    placeholder="Email" required autofocus>
-            <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
+            <input aria-label="mot de passe" type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
                    required>
 
             <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
@@ -24,7 +26,8 @@
             <button class="btn btn-primary" type="submit">Connexion</button>
             <div class="column_flex">
                 <a class="forgetmdp" href="#">Mot de passe oublié ?</a>
-                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous maintenant !</a></p>
+                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous maintenant
+                        !</a></p>
             </div>
         </form>
     </div>
