@@ -37,6 +37,8 @@ class RegisterController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $user = $form->getData();
 
+            $user->setEmail(strtolower($user->getEmail()));
+
             $passwordEncoder = $passwordEncoder->encodePassword($user,$user->getPassword());
             $user->setPassword($passwordEncoder);
 
@@ -77,6 +79,7 @@ class RegisterController extends AbstractController
 
         // On supprime le token
         $user->setToken(null);
+        // On met le champs confirm a False
         $this->em->flush();
 
         $this->addFlash('success', 'Votre compte a été activé avec succès');
