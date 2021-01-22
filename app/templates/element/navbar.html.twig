@@ -1,4 +1,7 @@
-{% if app.request.get('_route') is not same as('app_login') and app.request.get('_route') is not same as('register') and app.request.get('_route') is not same as('profile_register') %}
+{% if app.request.get('_route') is not same as('app_login') and app.request.get('_route') is not same as('register')
+    and app.request.get('_route') is not same as('profile_register') and app.request.get('_route') is not same as('forgetpwd')
+    and app.request.get('_route') is not same as('resetpwd')
+%}
     <nav class="navbar navbar-light bg-light">
         <a href="#" class="brand-logo">Logo</a>
         <ul id="nav-mobile" class="right hide-on-med-and-down">
@@ -14,7 +17,7 @@
             {% if is_granted('ROLE_ADH') or is_granted('ROLE_ASSOC') %}
                 <li><a href="{{ path('profile_register') }}">Finir mon inscription</a></li>
             {% elseif app.user %}
-                <li><a href="{{ path('app_logout') }}">Mon compte ({{ app.user.adherent.firstname }})</a></li>
+                <li><a href="#"> {{ is_granted('ROLE_ASSOC_CONFIRME') ? 'Mon association' : 'Mon compte' }} ({{ is_granted('ROLE_ASSOC_CONFIRME') ? app.user.association.name : app.user.adherent.firstname }})</a></li>
             {% endif %}
         </ul>
     </nav>

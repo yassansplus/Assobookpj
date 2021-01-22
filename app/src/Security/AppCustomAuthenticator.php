@@ -78,10 +78,14 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        if(empty($user->getToken())){
-            return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
-        }else{
+        $token = $user->getToken();
+        $isValid = $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
+        if(empty($token)){
+            return $isValid;
+        }else if(!empty($token) && $isValid){
             throw new CustomUserMessageAuthenticationException('Veuillez activez votre compte');
+        }else{
+            return false;
         }
     }
 

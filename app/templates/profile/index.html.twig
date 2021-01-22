@@ -11,12 +11,14 @@
     <div class="box">
         <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
         {{ form_start(form) }}
-            <h1>Completez votre profil</h1>
-            <div class="fullname_inline">
-                {{ form_row(form.firstname) }}
-                {{ form_row(form.lastname) }}
-            </div>
-        {{ form_row(form.birthday) }}
+        <h1>Completez votre profil</h1>
+            {% if is_granted('ROLE_ADH') %}
+                <div class="fullname_inline">
+                    {{ form_row(form.firstname) }}
+                    {{ form_row(form.lastname) }}
+                </div>
+                {{ form_row(form.birthday) }}
+            {% endif %}
         {{ form_end(form) }}
     </div>
 {% endblock %}
