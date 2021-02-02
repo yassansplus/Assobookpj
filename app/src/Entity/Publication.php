@@ -20,18 +20,23 @@ class Publication
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="publications")
+     * @ORM\ManyToOne(targetEntity=Association::class, inversedBy="publications")
      */
-    private $event;
+    private $association;
 
     /**
-     * @ORM\OneToMany(targetEntity=Survey::class, mappedBy="publication")
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="publication")
      */
-    private $surveys;
+    private $comments;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Survey::class, inversedBy="event", cascade={"persist", "remove"})
+     */
+    private $survey;
 
     public function __construct()
     {
-        $this->surveys = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,46 +44,58 @@ class Publication
         return $this->id;
     }
 
-    public function getEvent(): ?Event
+    public function getAssociation(): ?Association
     {
-        return $this->event;
+        return $this->association;
     }
 
-    public function setEvent(?Event $event): self
+    public function setAssociation(?Association $association): self
     {
-        $this->event = $event;
+        $this->association = $association;
 
         return $this;
     }
 
     /**
-     * @return Collection|Survey[]
+     * @return Collection|Comment[]
      */
-    public function getSurveys(): Collection
+    public function getComments(): Collection
     {
-        return $this->surveys;
+        return $this->comments;
     }
 
-    public function addSurvey(Survey $survey): self
+    public function addComment(Comment $comment): self
     {
-        if (!$this->surveys->contains($survey)) {
-            $this->surveys[] = $survey;
-            $survey->setPublication($this);
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setPublication($this);
         }
 
         return $this;
     }
 
-    public function removeSurvey(Survey $survey): self
+    public function removeComment(Comment $comment): self
     {
-        if ($this->surveys->contains($survey)) {
-            $this->surveys->removeElement($survey);
+        if ($this->comments->removeElement($comment)) {
             // set the owning side to null (unless already changed)
-            if ($survey->getPublication() === $this) {
-                $survey->setPublication(null);
+            if ($comment->getPublication() === $this) {
+                $comment->setPublication(null);
             }
         }
 
         return $this;
     }
+
+    public function getSurvey(): ?Survey
+    {
+        return $this->survey;
+    }
+
+    public function setSurvey(?Survey $survey): self
+    {
+        $this->survey = $survey;
+
+        return $this;
+    }
+
 }

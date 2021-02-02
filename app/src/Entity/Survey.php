@@ -22,16 +22,16 @@ class Survey
      */
     private $title;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="surveys")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $publication;
 
     /**
      * @ORM\Column(type="json")
      */
     private $options = [];
+
+    /**
+     * @ORM\OneToOne(targetEntity=Publication::class, mappedBy="survey", cascade={"persist", "remove"})
+     */
+    private $publication;
 
     public function getId(): ?int
     {
@@ -50,17 +50,6 @@ class Survey
         return $this;
     }
 
-    public function getPublication(): ?Publication
-    {
-        return $this->publication;
-    }
-
-    public function setPublication(?Publication $publication): self
-    {
-        $this->publication = $publication;
-
-        return $this;
-    }
 
     public function getOptions(): ?array
     {
@@ -70,6 +59,28 @@ class Survey
     public function setOptions(array $options): self
     {
         $this->options = $options;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?Publication $publication): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($publication === null && $this->publication !== null) {
+            $this->publication->setSurvey(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($publication !== null && $publication->getSurvey() !== $this) {
+            $publication->setSurvey($this);
+        }
+
+        $this->publication = $publication;
 
         return $this;
     }

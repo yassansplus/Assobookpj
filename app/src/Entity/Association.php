@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AssociationRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,6 +38,16 @@ class Association
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="association", cascade={"persist", "remove"})
      */
     private $user_account;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="association")
+     */
+    private $publications;
+
+    public function __construct()
+    {
+        $this->publications = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -96,6 +108,36 @@ class Association
         }
 
         $this->user_account = $user_account;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Publication[]
+     */
+    public function getPublications(): Collection
+    {
+        return $this->publications;
+    }
+
+    public function addPublication(Publication $publication): self
+    {
+        if (!$this->publications->contains($publication)) {
+            $this->publications[] = $publication;
+            $publication->setAssociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removePublication(Publication $publication): self
+    {
+        if ($this->publications->removeElement($publication)) {
+            // set the owning side to null (unless already changed)
+            if ($publication->getAssociation() === $this) {
+                $publication->setAssociation(null);
+            }
+        }
 
         return $this;
     }
