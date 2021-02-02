@@ -1,0 +1,49 @@
+@import "variables";
+
+#indexHeader {
+  background: url("/assets/images/front/event.png") no-repeat center;
+  display: flex;
+  justify-content: space-around;
+
+  p {
+    font-size: 3rem;
+    padding: 80px;
+    color: #fff;
+
+    &:nth-child(2) {
+      padding-top: 150px;
+      font-weight: bold;
+      color: $high-blue;
+    }
+  }
+}
+
+.row {
+  margin: 40px 0;
+}
+
+h2 {
+  color: $high-red;
+}
+.form-control{
+  border-radius: 20px;
+}
+textarea.form-control{
+  resize: none;
+  height: 200px;
+}
+input[type=submit]{
+  margin-top: 15px;
+  border: 1px dashed $low-grey;
+  transition: all linear 0.2s;
+  &:hover{
+    border: 1px solid $low-grey;
+    background-color: $low-grey;
+    color: white;
+
+  }
+}
+
+.stepSection{
+  background-color: $low-blue;
+}

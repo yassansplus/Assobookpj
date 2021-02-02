@@ -1,7 +1,103 @@
 {% extends 'base_front.html.twig' %}
 
 {% block title %}Accueil{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 
 {% block body %}
-    Page d'accueil front
+
+    {# section header #}
+    <section id="indexHeader">
+        <p>Creer vos evenements en 5 minutes</p>
+        <p>OU</p>
+        <p>Inscrivez-vous pour participer à un evenement</p>
+    </section>
+
+    {# section presentation rapide #}
+    <section class="container">
+        <div class="row justify-content-around">
+            <div class="col-md-3"><img src='{{ asset('assets/images/icons/horloge.png') }}' alt="" class="w-100"></div>
+            <div class="col-md-5">
+                <h2>Organiser un évenement</h2>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. A accusantium alias aperiam consequatur
+                    dolores eius fuga incidunt inventore itaque magni maiores minima nesciunt perferendis, quas quia
+                    rem, vitae voluptas voluptatem?
+                </p>
+            </div>
+        </div>
+        <div class="row justify-content-around">
+            <div class="col-md-5">
+                <h2>Participer à un evenement</h2>
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis debitis deserunt dolores ea id
+                    itaque laborum nemo nulla, numquam officiis pariatur quo quod ratione reiciendis reprehenderit
+                    repudiandae sint unde, veritatis.
+                </p>
+            </div>
+            <div class="col-md-3"><img alt="participer à un évènement"
+                                       src='{{ asset('assets/images/icons/icons8-ticket-purchase-96.png') }}'
+                                       class="w-100">
+            </div>
+        </div>
+    </section>
+    {# section step #}
+    <section class=" stepSection">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-3">
+                    <img src="{{ asset('assets/images/icons/icons8-checked-user-male-96.png') }}"
+                         class="w-100"
+                         alt="">
+                    <p class="text-center">It's my awesome caption</p>
+                </div>
+                <div class="col-3">
+                    <img src="{{ asset('assets/images/icons/calendar.png') }}"
+                         class="w-100"
+                         alt="">
+                    <p class="text-center">It's my awesome caption</p>
+                </div>
+                <div class="col-3">
+                    <img src="{{ asset('assets/images/icons/icons8-user-groups-96.png') }}"
+                         class="w-100"
+                         alt="">
+                    <p class="text-center">It's my awesome caption</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    {# section formulaire #}
+    <section class="container">
+        <h2 class="text-center">Des questions? Contactez-nous!</h2>
+        <form action="">
+            <div class="row">
+                <div class="col-8 offset-2">
+                    <div class="row">
+                        <div class="col-6">
+                            <input type="text" class="form-control" aria-label="Nom" placeholder="Nom">
+                        </div>
+                        <div class="col-6">
+                            <input type="text" class="form-control" aria-label="Prénom" placeholder="Prénom">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="email" placeholder="Email" class="form-control" aria-label="Email"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <textarea class="form-control"
+                                      aria-label="Message"
+                                      placeholder="Bonjour l'équipe AssoBook, j'aimerai vous dire que..."></textarea>
+                            <input type="submit" class="btn float-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
 {% endblock %}
