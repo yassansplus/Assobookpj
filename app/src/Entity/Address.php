@@ -32,6 +32,11 @@ class Address
      */
     private $street;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Event::class, mappedBy="adress", cascade={"persist", "remove"})
+     */
+    private $event;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +74,28 @@ class Address
     public function setStreet(string $street): self
     {
         $this->street = $street;
+
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(?Event $event): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($event === null && $this->event !== null) {
+            $this->event->setAdress(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($event !== null && $event->getAdress() !== $this) {
+            $event->setAdress($this);
+        }
+
+        $this->event = $event;
 
         return $this;
     }

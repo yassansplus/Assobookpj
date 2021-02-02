@@ -3,8 +3,6 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -35,14 +33,9 @@ class Event
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Publication::class, mappedBy="event")
+     * @ORM\OneToOne(targetEntity=Address::class, inversedBy="event", cascade={"persist", "remove"})
      */
-    private $publications;
-
-    public function __construct()
-    {
-        $this->publications = new ArrayCollection();
-    }
+    private $adress;
 
     public function getId(): ?int
     {
@@ -85,34 +78,16 @@ class Event
         return $this;
     }
 
-    /**
-     * @return Collection|Publication[]
-     */
-    public function getPublications(): Collection
+    public function getAdress(): ?Address
     {
-        return $this->publications;
+        return $this->adress;
     }
 
-    public function addPublication(Publication $publication): self
+    public function setAdress(?Address $adress): self
     {
-        if (!$this->publications->contains($publication)) {
-            $this->publications[] = $publication;
-            $publication->setEvent($this);
-        }
+        $this->adress = $adress;
 
         return $this;
     }
 
-    public function removePublication(Publication $publication): self
-    {
-        if ($this->publications->contains($publication)) {
-            $this->publications->removeElement($publication);
-            // set the owning side to null (unless already changed)
-            if ($publication->getEvent() === $this) {
-                $publication->setEvent(null);
-            }
-        }
-
-        return $this;
-    }
 }

@@ -37,6 +37,11 @@ class Comment
      */
     private $publicationDate;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="comments")
+     */
+    private $publication;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -86,6 +91,18 @@ class Comment
     public function setPublicationDate(\DateTimeInterface $publicationDate): self
     {
         $this->publicationDate = $publicationDate;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?Publication $publication): self
+    {
+        $this->publication = $publication;
 
         return $this;
     }
