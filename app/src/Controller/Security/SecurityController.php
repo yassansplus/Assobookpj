@@ -6,6 +6,7 @@ use App\Entity\User;
 use App\Form\ForgetPassType;
 use App\Form\ResetPassType;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -56,7 +57,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/mot-de-passe-oublie", name="forgetpwd")
      */
-    public function forgetPassword(Request $request, UserRepository $users, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
+    public function forgetPassword(Request $request, UserRepository $users, EmailService $emailService, TokenGeneratorInterface $tokenGenerator)
     {
         $form = $this->createForm(ForgetPassType::class);
 
@@ -95,19 +96,10 @@ class SecurityController extends AbstractController
             // On génère l'URL de réinitialisation de mot de passe
             $url = $this->generateUrl('resetpwd', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
 
-            // On génère l'e-mail
-            $message = (new \Swift_Message('Mot de passe oublié'))
-                ->setFrom('assobookpa@gmail.com')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/reset_password.html.twig', ['url' => $url]
-                    ),
-                    'text/html'
-                );
-
-            // On envoie l'e-mail
-            $mailer->send($message);
+            // On utilise le service EmailService s'occupant de créer l'email et de l'envoyer
+            $emailService->sendMail('Mot de passe oublié',$user->getEmail(),[$this->renderView(
+                'emails/reset_password.html.twig', ['url' => $url]),
+                'text/html']);
 
             // On crée le message flash de confirmation
             $this->addFlash('success', 'E-mail de réinitialisation du mot de passe envoyé !');

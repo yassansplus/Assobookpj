@@ -5,6 +5,7 @@ namespace App\Controller\Security;
 use App\Entity\User;
 use App\Form\RegisterType;
 use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,7 +23,7 @@ class RegisterController extends AbstractController
     /**
      * @Route("/s-inscrire", name="register")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, \Swift_Mailer $mailer)
+    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, EmailService $emailService)
     {
         if ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))) {
             return $this->redirectToRoute('profile_register');
@@ -45,18 +46,11 @@ class RegisterController extends AbstractController
             $this->em->persist($user);
             $this->em->flush();
 
-            $message = (new \Swift_Message('Nouveau compte'))
-                ->setFrom('assobookpa@gmail.com')
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'emails/activation.html.twig', ['token' => $user->getToken()]
-                    ),
-                    'text/html'
-                );
+            $emailService->sendMail('Nouveau compte',$user->getEmail(),[$this->renderView(
+                'emails/activation.html.twig', ['token' => $user->getToken()]
+            ),'text/html']);
 
-            $mailer->send($message);
-            $this->addFlash('success','Inscription effectué. Un email de confirmation vous a été envoyé');
+            $this->addFlash('success','Inscription effectuée. Un email de confirmation vous a été envoyé');
 
             return $this->redirectToRoute('app_login');
         }
