@@ -1,0 +1,37 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Accueil{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('wawFront') }}
+{% endblock %}
+
+{% block body %}
+<main>
+    <div class="container">
+
+        <div class="bloc1">
+            <h1 class="title">Qui sommes nous ?</h1>
+
+            <p>Assobook est une plateforme de création d'évenement. Elle permet entre autre de simplifier la vie aux organisateurs et aux participants d'événement. L'idée nous est venu lorsque plusisuers associations nous demandait le même travail : leur simplifier la tâche ! Le concept est simple : on crée un profil et selon ce dernier on participe ou on se rattache à un évenement.</p>
+        </div>
+
+        <div class="bloc2">
+            <img src="{{ asset('assets/images/icons/banner.png') }}" alt="Bannière" class="col-12">
+        </div>
+
+        <div class="bloc3">
+            <p>Assobook est conçu pour évoluer dans le temps. Si vous avez des suggestions, des questions contactez-nous via le formulaire de contact en page d'accueil ! <br><br>
+            
+            Nous garantissons :
+                <ul>
+                    <li>Une écoute</li>
+                    <li>Une réponse dès que possible</li>
+                    <li>Un petit message gentil</li>
+                </ul>
+            </p>
+        </div>
+    </div>  
+  </main>
+{% endblock %}
