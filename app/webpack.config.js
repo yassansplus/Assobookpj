@@ -25,6 +25,7 @@ Encore
     .addStyleEntry('global','./assets/styles/global.scss')
     .addStyleEntry('formAuth', './assets/styles/formAuth.scss')
     .addStyleEntry('index', './assets/styles/index.scss')
+    .addStyleEntry('wawFront','./assets/styles/wawFront.scss')
 
     //Add javascript
 
