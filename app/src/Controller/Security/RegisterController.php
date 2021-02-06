@@ -33,26 +33,34 @@ class RegisterController extends AbstractController
 
         $user = new User();
         $form = $this->createForm(RegisterType::class,$user);
-
         $form->handleRequest($request);
+
         if($form->isSubmitted() && $form->isValid()){
             $user = $form->getData();
+            $email = strtolower($user->getEmail());
+            $emailExist = $this->em->getRepository(User::class)->findByEmail($email);
 
-            $user->setEmail(strtolower($user->getEmail()));
-            $passwordEncoder = $passwordEncoder->encodePassword($user,$user->getPassword());
-            $user->setPassword($passwordEncoder);
+            try{
+                if($emailExist){
+                    throw new \Exception("L'email est déjà prise",500);
+                }
+                $user->setEmail($email);
+                $passwordEncoder = $passwordEncoder->encodePassword($user,$user->getPassword());
+                $user->setPassword($passwordEncoder);
+                $user->setToken(md5(uniqid()));
+                $this->em->persist($user);
+                $this->em->flush();
 
-            $user->setToken(md5(uniqid()));
-            $this->em->persist($user);
-            $this->em->flush();
+                $emailService->sendMail('Nouveau compte',$user->getEmail(),[$this->renderView(
+                    'emails/activation.html.twig', ['token' => $user->getToken()]
+                ),'text/html']);
 
-            $emailService->sendMail('Nouveau compte',$user->getEmail(),[$this->renderView(
-                'emails/activation.html.twig', ['token' => $user->getToken()]
-            ),'text/html']);
-
-            $this->addFlash('success','Inscription effectuée. Un email de confirmation vous a été envoyé');
-
-            return $this->redirectToRoute('app_login');
+                $this->addFlash('success','Inscription effectuée. Un email de confirmation vous a été envoyé');
+                return $this->redirectToRoute('app_login');
+            } catch (\Exception $e) {
+                $this->addFlash('danger', $e->getMessage());
+                return $this->redirectToRoute('register');
+            }
         }
         return $this->render('security/register.html.twig',[
             'form' => $form->createView()

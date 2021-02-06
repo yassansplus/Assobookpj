@@ -27,34 +27,20 @@ class CompleteRegisterController extends AbstractController
     public function index(Request $request): Response
     {
         $user = $this->getUser();
-        if($this->isGranted('ROLE_ADH')){
-            $adherent = new Adherent();
-            $form = $this->createForm(AdherentType::class, $adherent);
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid()){
-                $adherent = $form->getData();
-                $adherent->setUserAccount($this->getUser());
+        $hasRole = $this->isGranted('ROLE_ADH');
 
-                $user->setRoles(['ROLE_ADH_CONFIRME']);
-                $this->em->persist($adherent);
-                $this->em->flush();
+        $typeUser = $hasRole ? new Adherent() : new Association();
+        $form = $this->createForm($hasRole ? AdherentType::class : AssociationType::class, $typeUser);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()) {
+            $adherent = $form->getData();
+            $adherent->setUserAccount($this->getUser());
 
-                return $this->redirectToRoute('default_index');
-            }
-        }elseif($this->isGranted('ROLE_ASSOC')){
-            $assoc = new Association();
-            $form = $this->createForm(AssociationType::class, $assoc);
-            $form->handleRequest($request);
-            if($form->isSubmitted() && $form->isValid()){
-                $assoc = $form->getData();
-                $assoc->setUserAccount($this->getUser());
+            $user->setRoles([$hasRole ? 'ROLE_ADH_CONFIRME' : 'ROLE_ASSOC_CONFIRME']);
+            $this->em->persist($typeUser);
+            $this->em->flush();
 
-                $user->setRoles(['ROLE_ASSOC_CONFIRME']);
-                $this->em->persist($assoc);
-                $this->em->flush();
-
-                return $this->redirectToRoute('default_index');
-            }
+            return $this->redirectToRoute('default_index');
         }
         return $this->render('profile/index.html.twig',[
             'form' => $form->createView()
