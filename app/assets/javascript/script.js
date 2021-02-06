@@ -11,3 +11,9 @@ window.setTimeout(function () {
         $(this).remove();
     });
 }, 2000);
+
+$(window).scroll(function(e) {
+    const distanceScrolled = $(this).scrollTop();
+    console.log(distanceScrolled);
+    $('.banner-photo div:first-child').css('-webkit-filter', 'blur('+distanceScrolled/40+'px)');
+});

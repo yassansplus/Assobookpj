@@ -1,6 +1,16 @@
-<div class="banner-size-photo">
-
+{% set array = [['☆','Mes événements'],['♥','Mes followers'],['✎','Mes publications']] %}
+<div class="banner-photo">
+    <div></div>
+    <div></div>
+    <div><p>Youcef</p></div>
 </div>
-<div class="banner-size-button">
-
+<div class="banner-button">
+    {% for elem in array %}
+        <div>
+            <a href="#">
+                <p>{{ elem[0] }}</p>
+                <p>{{ elem[1] }}</p>
+            </a>
+        </div>
+    {% endfor %}
 </div>

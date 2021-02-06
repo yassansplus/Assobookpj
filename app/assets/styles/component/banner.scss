@@ -1,16 +1,72 @@
 @import "assets/styles/variables";
 
-.banner-size-photo,.banner-size-button{
+%banner-size{
   width: 100%;
 }
 
-.banner-size-photo
-{
-  height: 180px;
-  background-color: blue;
+%flex {
+  display: flex;
+  justify-content: center;
 }
 
-.banner-size-button {
-  height: 50px;
-  background-color: red;
+.banner-photo
+{
+  @extend %banner-size;
+  height: 180px;
+  display:flex;
+  justify-content:center;
+  div {
+    &:first-child{
+      width: 100%;
+      height: 100%;
+      background: url("/assets/images/front/event.jpg") no-repeat center;
+    }
+    &:nth-child(2){
+      position: absolute;
+      top: 115px;
+      width: 110px;
+      height: 110px;
+      border-radius: 100px;
+      border: 5px solid rgba(217, 211, 211, 0.7);
+      background-clip: padding-box;
+      background: url("/assets/images/icons/user.png") no-repeat center white;
+    }
+    &:last-child{
+      position: absolute;
+      top: 225px;
+      font-size:20px;
+    }
+  }
+}
+
+.banner-button {
+  @extend %banner-size;
+  @extend %flex;
+  height: 60px;
+  div {
+    @extend %flex;
+    flex-direction: column;
+    width: calc((100%)/3);
+    &:first-child{
+      background-color: $medium-blue;
+    }
+    &:nth-child(2){
+      background-color: $low-red;
+    }
+    &:last-child{
+      background-color: $low-yellow;
+    }
+    &:hover {
+      opacity: 0.8;
+      transition-duration: 0.4s;
+    }
+    a{
+      text-decoration: none !important;
+    }
+    p{
+      @extend %flex;
+      margin:0;
+      color: $white;
+    }
+  }
 }
