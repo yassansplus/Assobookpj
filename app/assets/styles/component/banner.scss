@@ -1,0 +1,16 @@
+@import "assets/styles/variables";
+
+.banner-size-photo,.banner-size-button{
+  width: 100%;
+}
+
+.banner-size-photo
+{
+  height: 180px;
+  background-color: blue;
+}
+
+.banner-size-button {
+  height: 50px;
+  background-color: red;
+}

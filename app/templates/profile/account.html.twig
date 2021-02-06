@@ -4,8 +4,9 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {{ encore_entry_link_tags('banner') }}
 {% endblock %}
 
 {% block body %}
-
+    {{ include('element/banner.html.twig') }}
 {% endblock %}
