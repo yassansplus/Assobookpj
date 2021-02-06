@@ -37,4 +37,12 @@ class DefaultController extends AbstractController
     {
         return $this->render('front/default/how-it-works.html.twig');
     }
+
+    /**
+     * @Route("/who-are-we", name="default_who_are_we", methods={"GET"})
+     */
+    public function who_are_we()
+    {
+        return $this->render('front/default/who_are_we.html.twig');
+    }
 }
