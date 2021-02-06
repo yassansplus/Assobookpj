@@ -5,6 +5,9 @@ window.iziToast = require('izitoast');
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 require('popper.js')
+require('jquery.amsify.suggestags')
+
+
 
 window.setTimeout(function () {
     $(".alert").fadeTo(1000, 0).slideUp(500, function () {
