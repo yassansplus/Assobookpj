@@ -43,6 +43,6 @@ class DefaultController extends AbstractController
      */
     public function who_are_we()
     {
-        return $this->render('front/default/who_are_we.html.twig');
+        return $this->render('front/default/who-are-we.html.twig');
     }
 }
