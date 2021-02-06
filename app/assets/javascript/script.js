@@ -5,8 +5,6 @@ window.iziToast = require('izitoast');
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
 require('popper.js')
-require('jquery.amsify.suggestags')
-
 
 
 
