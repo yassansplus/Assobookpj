@@ -1,15 +1,10 @@
-.bloc1,
-.bloc2,
-.bloc3 {
-  margin-top: 100px;
-}
+@import "variables";
 
-.step {
-  margin-left: 15px;
-  margin-right: 15px;
+.bloc {
+  margin-top: 100px;
 }
 
 .title {
   text-align: center;
-  color: #a23848;
+  color: $low-red;
 }
