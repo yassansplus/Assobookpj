@@ -30,7 +30,7 @@
       width: 110px;
       height: 110px;
       border-radius: 100px;
-      border: 5px solid rgba(217, 211, 211, 0.8);
+      border: 5px solid $medium-grey;
       background-clip: padding-box;
       img{
         width:100px;
@@ -77,4 +77,5 @@
       color: $white;
     }
   }
+  margin-bottom: 70px;
 }
