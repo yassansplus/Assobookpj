@@ -9,6 +9,9 @@
   justify-content: center;
 }
 
+%p {
+  margin:0;
+}
 .banner-photo
 {
   @extend %banner-size;
@@ -27,14 +30,19 @@
       width: 110px;
       height: 110px;
       border-radius: 100px;
-      border: 5px solid rgba(217, 211, 211, 0.7);
+      border: 5px solid rgba(217, 211, 211, 0.8);
       background-clip: padding-box;
-      background: url("/assets/images/icons/user.png") no-repeat center white;
+      img{
+        width:100px;
+      }
     }
     &:last-child{
       position: absolute;
-      top: 225px;
+      top: 230px;
       font-size:20px;
+      p{
+        @extend %p
+      }
     }
   }
 }
@@ -65,7 +73,7 @@
     }
     p{
       @extend %flex;
-      margin:0;
+      @extend %p;
       color: $white;
     }
   }

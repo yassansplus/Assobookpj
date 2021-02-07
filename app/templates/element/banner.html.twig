@@ -1,8 +1,8 @@
 {% set array = [['☆','Mes événements'],['♥','Mes followers'],['✎','Mes publications']] %}
 <div class="banner-photo">
     <div></div>
-    <div></div>
-    <div><p>Youcef</p></div>
+    <div><img src="{{ asset('assets/images/icons/user.png') }}" alt="user"></div>
+    <div><p id="text" contenteditable>{{ app.user.adherent.firstname }}</p></div>
 </div>
 <div class="banner-button">
     {% for elem in array %}
