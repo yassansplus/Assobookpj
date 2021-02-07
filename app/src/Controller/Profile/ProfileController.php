@@ -3,6 +3,7 @@
 namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
+use App\Entity\Association;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,9 +19,10 @@ class ProfileController extends AbstractController {
         $this->em = $em;
     }
 
-    protected function getArrayMessage($title, $data=null){
+    protected function getArrayMessage($title, $typeUser, $data=null){
         $array = [
             'title' => $title,
+            'type' => $typeUser,
         ];
         if(!is_null($data)){
             $array['data'] = $data;
@@ -33,8 +35,6 @@ class ProfileController extends AbstractController {
      */
     public function index(): Response
     {
-        $user = $this->getUser();
-        $hasRole = $this->isGranted('ROLE_ADH');
         return $this->render('profile/account.html.twig');
     }
 
@@ -45,17 +45,26 @@ class ProfileController extends AbstractController {
     {
         if($request->isXmlHttpRequest()){
             $name = $request->request->get('name');
+            $typeAjax = $request->request->get('type');
             $currentUser = $this->getUser();
-            $adherent = $this->em->getRepository(Adherent::class)->findById($currentUser->getAdherent())[0];
-            if($adherent->getFirstname() === $name){
-                return new JsonResponse($this->getArrayMessage('Warning'));
-            }
-            if(empty($name)){
-                return new JsonResponse($this->getArrayMessage('Error',$adherent->getFirstname()));
-            }
-            $adherent->setFirstname($name);
+            $getType = $currentUser->getAdherent();
+            //0 : adherent / 1: association
+            $type = $getType ? 0 : 1;
+            $typeUser = $this->em->getRepository($getType ? Adherent::class : Association::class)->findById($getType ? $getType : $currentUser->getAssociation())[0];
+
+            if($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
+            $dataCompare = $getType ? $firstnameOrLastname : $typeUser->getName();
+
+            if($dataCompare === $name) return new JsonResponse($this->getArrayMessage('Warning', $type));
+
+            if(empty($name)) return new JsonResponse($this->getArrayMessage('Error', $type, $dataCompare));
+            if($getType) $setFirstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->setLastname($name) : $typeUser->setFirstname($name);
+            $getType ? $setFirstnameOrLastname : $typeUser->setName($name);
             $this->em->flush();
-            return new JsonResponse($this->getArrayMessage('OK'));
+
+            if($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
+            $dataCompare = $getType ?  $firstnameOrLastname : $typeUser->getName();
+            return new JsonResponse($this->getArrayMessage('OK', $type, $dataCompare));
         }
         return new JsonResponse('Une erreur est survenue',500);
     }
