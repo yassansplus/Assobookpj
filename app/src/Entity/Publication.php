@@ -34,6 +34,11 @@ class Publication
      */
     private $survey;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -94,6 +99,18 @@ class Publication
     public function setSurvey(?Survey $survey): self
     {
         $this->survey = $survey;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
