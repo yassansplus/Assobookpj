@@ -33,6 +33,9 @@ Encore
 
     //Add javascript
 
+  .addEntry("script", "./assets/javascript/script.js")
+  .addEntry("bannerjs", "./assets/javascript/banner.js")
+  .addEntry("scrlrvl", "./assets/javascript/scrollreveal.js")
     .addEntry('script', './assets/javascript/script.js')
     .addEntry('pwdreset', './assets/javascript/pwdreset.js')
 
