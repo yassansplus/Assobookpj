@@ -27,6 +27,10 @@ Encore
     .addStyleEntry('index', './assets/styles/index.scss')
     .addStyleEntry('wawFront','./assets/styles/wawFront.scss')
 
+    .addStyleEntry('banner', './assets/styles/component/banner.scss')
+    .addStyleEntry('sidebar', './assets/styles/component/sidebar.scss')
+
+
     //Add javascript
 
     .addEntry('script', './assets/javascript/script.js')

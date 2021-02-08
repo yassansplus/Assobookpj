@@ -6,11 +6,22 @@ high -> foncé
  */
 
 //Bleu
-$low-blue: #59cfef;
-$high-blue: #0477a0;
+
+$low-blue : #59cfef;
+$high-blue : #0477a0;
+$medium-blue : rgb(69,122,178);
 //rouge
 $high-red: #b8111d;
-$low-red: #a23848;
+$low-red: #d4484f;
 
 //grey
-$low-grey: #a4a3a3;
+$low-grey : #a4a3a3;
+$high-grey : #b9bdc0;
+$medium-grey : rgba(217, 211, 211, 0.8);
+
+//yellow
+$low-yellow : #e99e08;
+
+//Basic
+$white : #ffffff;
+

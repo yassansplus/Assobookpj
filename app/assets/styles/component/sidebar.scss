@@ -1,0 +1,31 @@
+@import "assets/styles/variables";
+
+%p {
+  margin: 0;
+}
+
+%flex {
+  display: flex;
+}
+
+.sidebar {
+  padding: 0 50px;
+  hr {
+    margin-top: 0;
+  }
+  p{
+    @extend %p;
+  }
+  div {
+    @extend %flex;
+    margin-bottom: 8px;
+    p {
+      padding-left: 3px;
+    }
+    span {
+      color:$medium-blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  }
+}

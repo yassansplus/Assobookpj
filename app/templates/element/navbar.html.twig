@@ -17,7 +17,7 @@
             {% if is_granted('ROLE_ADH') or is_granted('ROLE_ASSOC') %}
                 <li><a href="{{ path('profile_register') }}">Finir mon inscription</a></li>
             {% elseif app.user %}
-                <li><a href="#"> {{ is_granted('ROLE_ASSOC_CONFIRME') ? 'Mon association' : 'Mon compte' }} ({{ is_granted('ROLE_ASSOC_CONFIRME') ? app.user.association.name : app.user.adherent.firstname }})</a></li>
+                <li><a href="{{ path('profile_account') }}"> {{ is_granted('ROLE_ASSOC_CONFIRME') ? 'Mon association' : 'Mon compte' }} ({{ is_granted('ROLE_ASSOC_CONFIRME') ? app.user.association.name : app.user.adherent.firstname }})</a></li>
             {% endif %}
         </ul>
     </nav>
