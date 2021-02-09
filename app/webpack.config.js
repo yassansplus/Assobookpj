@@ -37,6 +37,7 @@ Encore
   .addEntry("bannerjs", "./assets/javascript/banner.js")
   .addEntry("scrlrvl", "./assets/javascript/scrollreveal.js")
   .addEntry("pwdreset", "./assets/javascript/pwdreset.js")
+    .addEntry('suggestions', './assets/javascript/suggestions.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

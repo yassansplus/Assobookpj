@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AdherentRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,17 @@ class Adherent
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="adherent", cascade={"persist", "remove"})
      */
     private $user_account;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Association::class, inversedBy="adherents")
+     */
+    private $associations;
+
+    public function __construct()
+    {
+        $this->associations = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -113,6 +126,30 @@ class Adherent
         }
 
         $this->user_account = $user_account;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Association[]
+     */
+    public function getAssociations(): Collection
+    {
+        return $this->associations;
+    }
+
+    public function addAssociation(Association $association): self
+    {
+        if (!$this->associations->contains($association)) {
+            $this->associations[] = $association;
+        }
+
+        return $this;
+    }
+
+    public function removeAssociation(Association $association): self
+    {
+        $this->associations->removeElement($association);
 
         return $this;
     }

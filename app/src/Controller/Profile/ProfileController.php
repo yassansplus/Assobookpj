@@ -22,12 +22,13 @@ class ProfileController extends AbstractController {
         $this->passwordEncoder = $passwordEncoder;
     }
 
-    protected function getArrayMessage($title, $typeUser, $data=null){
+    protected function getArrayMessage($title, $typeUser, $data = null)
+    {
         $array = [
             'title' => $title,
             'type' => $typeUser,
         ];
-        if(!is_null($data)){
+        if (!is_null($data)) {
             $array['data'] = $data;
         }
         return $array;
@@ -49,7 +50,7 @@ class ProfileController extends AbstractController {
      */
     public function editName(Request $request): Response
     {
-        if($request->isXmlHttpRequest()){
+        if ($request->isXmlHttpRequest()) {
             $name = $request->request->get('name');
             $typeAjax = $request->request->get('type');
             $currentUser = $this->getUser();
@@ -58,21 +59,21 @@ class ProfileController extends AbstractController {
             $type = $getType ? 0 : 1;
             $typeUser = $this->em->getRepository($getType ? Adherent::class : Association::class)->findById($getType ? $getType : $currentUser->getAssociation())[0];
 
-            if($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
+            if ($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
             $dataCompare = $getType ? $firstnameOrLastname : $typeUser->getName();
 
-            if($dataCompare === $name) return new JsonResponse($this->getArrayMessage('Warning', $type));
+            if ($dataCompare === $name) return new JsonResponse($this->getArrayMessage('Warning', $type));
 
-            if(empty($name)) return new JsonResponse($this->getArrayMessage('Error', $type, $dataCompare));
-            if($getType) $setFirstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->setLastname($name) : $typeUser->setFirstname($name);
+            if (empty($name)) return new JsonResponse($this->getArrayMessage('Error', $type, $dataCompare));
+            if ($getType) $setFirstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->setLastname($name) : $typeUser->setFirstname($name);
             $getType ? $setFirstnameOrLastname : $typeUser->setName($name);
             $this->em->flush();
 
-            if($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
-            $dataCompare = $getType ?  $firstnameOrLastname : $typeUser->getName();
+            if ($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
+            $dataCompare = $getType ? $firstnameOrLastname : $typeUser->getName();
             return new JsonResponse($this->getArrayMessage('OK', $type, $dataCompare));
         }
-        return new JsonResponse('Une erreur est survenue',500);
+        return new JsonResponse('Une erreur est survenue', 500);
     }
 
     /**
@@ -103,4 +104,26 @@ class ProfileController extends AbstractController {
         }
         return new JsonResponse('Error',500);
     }
+
+
+    /**
+     * @Route("/follow", name="follow")
+     */
+    public function follow(Request $request): Response
+    {
+        $association = $request->get('association');
+        $em = $this->getDoctrine()->getManager();
+        $association = $em->getRepository(Association::class)->find($association);
+        $adherent = $this->getUser()->getAdherent();
+        if (!in_array($this->getUser()->getAdherent(), $association->getAdherents()->toArray())) {
+            $association->addAdherent($adherent);
+            $em->flush();
+            return new JsonResponse(['title' => 'ET BOOM!💥', 'message' => 'Vous suivez desormais ' . $association->getName()]);
+        } else {
+            $association->removeAdherent($adherent);
+            $em->flush();
+            return new JsonResponse(['title' => 'ET BOOM!💥', 'message' => 'Vous ne suivez plus ' . $association->getName()]);
+        }
+    }
+
 }

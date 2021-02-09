@@ -25,7 +25,7 @@ class Tag
     private $user_tag;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, unique=true)
      */
     private $tag;
 
