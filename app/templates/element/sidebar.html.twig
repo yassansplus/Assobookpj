@@ -30,7 +30,11 @@
             <p>situé : {{ app.user.association.location }}</p>
         </div>
     {% endif %}
-    <div>
+    <div class="upd-pwd">
         <span>Modifier mot de passe</span>
+    </div>
+    <div class="d-none">
+        {{ form(form) }}
+        <div class="btn btn-secondary">Annuler</div>
     </div>
 </div>

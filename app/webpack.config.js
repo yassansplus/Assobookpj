@@ -34,7 +34,7 @@ Encore
     //Add javascript
 
     .addEntry('script', './assets/javascript/script.js')
-
+    .addEntry('pwdreset', './assets/javascript/pwdreset.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge('./assets/controllers.json')

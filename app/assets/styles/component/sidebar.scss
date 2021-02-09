@@ -16,7 +16,7 @@
   p{
     @extend %p;
   }
-  div {
+  div:not(div:last-child) {
     @extend %flex;
     margin-bottom: 8px;
     p {
@@ -27,5 +27,8 @@
       cursor: pointer;
       text-decoration: underline;
     }
+  }
+  div:last-child{
+    width: 80%;
   }
 }
