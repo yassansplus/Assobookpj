@@ -7,25 +7,26 @@
 h2 {
   color: $high-red;
 }
-.form-control {
+.form-control{
   border-radius: 20px;
 }
-textarea.form-control {
+textarea.form-control{
   resize: none;
   height: 200px;
 }
-input[type="submit"] {
+input[type=submit]{
   margin-top: 15px;
   border: 1px dashed $low-grey;
   transition: all linear 0.2s;
-  &:hover {
+  &:hover{
     border: 1px solid $low-grey;
     background-color: $low-grey;
-    color: $white;
+    color: white;
+
   }
 }
 
-/* Nouveau */
+/* Section STEP */
 
 .how-section1 {
   margin-top: -15%;
@@ -44,6 +45,9 @@ input[type="submit"] {
 .how-img img {
   width: 40%;
 }
+
+
+/* Banner */
 
 #panel {
   position: relative;
