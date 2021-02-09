@@ -1,0 +1,35 @@
+{% extends 'profile/account.html.twig' %}
+
+{% block title %} Mon compte - AssoBook{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('amsify.suggestags') }}
+{% endblock %}
+
+{% block profile %}
+    <div class="row">
+        <div class="col-6">
+
+            <input type="text" aria-label="tags" id="suggestions"
+                   value="{% for tag in app.user.tags %} {{ tag.tag }}, {% endfor %}"
+                   placeholder="Vos Tags"
+                   class="form-control">
+        </div>
+        <div class="col-2">
+            <button class="btn btn-success" id="validateTags"> Valider mes Tags</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <ul id="resultMatch" class="list-group" >
+            </ul>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {{ encore_entry_script_tags('suggestions') }}
+    <script src="{{ asset('assets/javascript/jquery.amsify.suggestags.js') }}"></script>
+{% endblock %}

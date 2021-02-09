@@ -6,12 +6,6 @@ controllers_front:
     resource: ../../src/Controller/Front
     type: annotation
 
-controllers_back:
-    resource: ../../src/Controller/Back
-    name_prefix: admin_
-    prefix: /admin
-    type: annotation
-
 controllers_complete:
     resource: ../../src/Controller/Profile
     name_prefix: profile_

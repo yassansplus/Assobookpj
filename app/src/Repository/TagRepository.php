@@ -47,4 +47,17 @@ class TagRepository extends ServiceEntityRepository
         ;
     }
     */
+    public function findAllTag()
+    {
+        $query = $this->createQueryBuilder('t')
+            ->select('t.tag');
+
+        $tagsByName = $query->getQuery()->getResult();
+        $onlyName= [];
+        foreach ($tagsByName as $tag){
+            array_push($onlyName, $tag['tag']);
+        }
+        return $onlyName;
+    }
+
 }

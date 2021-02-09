@@ -44,9 +44,16 @@ class Association
      */
     private $publications;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Adherent::class, mappedBy="associations")
+     */
+    private $adherents;
+
+
     public function __construct()
     {
         $this->publications = new ArrayCollection();
+        $this->adherents = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -141,4 +148,30 @@ class Association
 
         return $this;
     }
+
+    /**
+     * @return Collection|Adherent[]
+     */
+    public function getAdherents(): Collection
+    {
+        return $this->adherents;
+    }
+
+    public function addAdherent(Adherent $adherent): self
+    {
+        $this->adherents[] = $adherent;
+        $adherent->addAssociation($this);
+
+        return $this;
+    }
+
+    public function removeAdherent(Adherent $adherent): self
+    {
+        if ($this->adherents->removeElement($adherent)) {
+            $adherent->removeAssociation($this);
+        }
+
+        return $this;
+    }
+
 }
