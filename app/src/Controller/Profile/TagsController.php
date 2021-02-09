@@ -4,6 +4,7 @@ namespace App\Controller\Profile;
 
 use App\Entity\Association;
 use App\Entity\Tag;
+use App\Form\UpdatePwdType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +22,11 @@ class TagsController extends AbstractController
      */
     public function index(): Response
     {
-        return $this->render('profile/suggestions.hmtl.twig');
+        $form = $this->createForm(UpdatePwdType::class);
+
+        return $this->render('profile/suggestions.hmtl.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
@@ -105,7 +110,7 @@ class TagsController extends AbstractController
                 if ($res == $tt) {
                     array_push($bestResult, $serializer->serialize($association,
                         'json',
-                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags','adherents', 'association']]));
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags', 'adherents', 'association']]));
                 }
 
             }
