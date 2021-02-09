@@ -1,40 +1,50 @@
-<!DOCTYPE html>
+{% extends 'base_front.html.twig' %}
 
-<title>Publication index</title>
+{% block title %}Publication{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Mes Publication</h1>
+    <h1 class="text-red">Mes Publications</h1>
 
     <div classe="publication" style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: auto;">
-        <p> a publier un evenement le :</p>
+
 
         <table class="table">
             <thead>
             <tr>
-                <th>Id</th>
+                <th>Association</th>
                 <th>Description</th>
                 <th>actions</th>
             </tr>
             </thead>
             <tbody>
             {% for publication in publications %}
+
                 <tr>
+                    <td>{{ publication.association.name }}</td>
                     <td>{{ publication.id }}</td>
                     <td>{{ publication.description }}</td>
                     <td>
-                        <a href="{{ path('publication_show', {'id': publication.id}) }}">show</a>
-                        <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a>
+                        <button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la publication</a>
+                        </button>
+                        {% if app.user.association.id == publication.association.id %}
+                            <button><a href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
+                            </button>
+                        {% endif %}
                     </td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="3">no records found</td>
+                    <td colspan="3">Aucune publication pour l'instant</td>
                 </tr>
             {% endfor %}
             </tbody>
         </table>
 
-        <a href="{{ path('publication_new') }}">Create new</a>
+        <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
 
     </div>
 {% endblock %}

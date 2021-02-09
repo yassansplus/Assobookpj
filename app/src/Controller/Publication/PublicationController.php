@@ -2,6 +2,7 @@
 
 namespace App\Controller\Publication;
 
+use App\Entity\Association;
 use App\Entity\Publication;
 use App\Form\PublicationType;
 use App\Repository\PublicationRepository;
@@ -24,7 +25,7 @@ class PublicationController extends AbstractController
     public function index(PublicationRepository $publicationRepository): Response
     {
         return $this->render('publication/index.html.twig', [
-            'publications' => $publicationRepository->findAll(),
+            'publications' => $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]),
         ]);
     }
 
@@ -68,6 +69,9 @@ class PublicationController extends AbstractController
      */
     public function edit(Request $request, Publication $publication): Response
     {
+        if ($this->getUser()->getAssociation() != $publication->getAssociation()) {
+            return $this->redirectToRoute('publication_index');
+        }
         $form = $this->createForm(PublicationType::class, $publication);
         $form->handleRequest($request);
 
@@ -88,7 +92,10 @@ class PublicationController extends AbstractController
      */
     public function delete(Request $request, Publication $publication): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$publication->getId(), $request->request->get('_token'))) {
+        if ($this->getUser()->getAssociation() != $publication->getAssociation()) {
+            return $this->redirectToRoute('publication_index');
+        }
+        if ($this->isCsrfTokenValid('delete' . $publication->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($publication);
             $entityManager->flush();

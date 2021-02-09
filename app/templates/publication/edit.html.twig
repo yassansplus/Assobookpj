@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 
-<title>Edit Publication</title>
+<title>Modifier la Publication</title>
 
 {% block body %}
-    <h1>Edit Publication</h1>
+    {% if app.user.association.id == publication.association.id %}
+    <h1>Modifier</h1>
+    {% elseif %}
 
     {{ include('publication/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('publication_index') }}">back to list</a>
+    <a href="{{ path('publication_index') }}">Retour aux publications</a>
 
     {{ include('publication/_delete_form.html.twig') }}
 {% endblock %}
