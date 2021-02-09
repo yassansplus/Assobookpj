@@ -34,10 +34,21 @@
         <div class="upd-pwd col-12">
             <span>Modifier mot de passe</span>
         </div>
-        <div class="d-none col-12">
-            {{ form(form) }}
-            <div class="btn btn-secondary">Annuler</div>
+        <div class="d-none formPassword col-12 formPwd">
+            <div class="row">
+                <div class="col-12">
+                    {{ form(form) }}
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-secondary formPassword">Annuler</button>
+                </div>
+            </div>
         </div>
+        <div class="col-12">
+
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <a href="{{ path('profile_tags') }}">Trouver des association</a>
         </div>
