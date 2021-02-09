@@ -3,5 +3,5 @@
     <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ publication.id) }}">
     {% if app.user.association.id == publication.association.id %}
     <button class="btn">Supprimer</button>
-    {% elseif %}
+    {% endif %}
 </form>
