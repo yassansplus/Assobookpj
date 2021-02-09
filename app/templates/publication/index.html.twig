@@ -5,34 +5,36 @@
 {% block body %}
     <h1>Mes Publication</h1>
 
-    <div>
-        <p>{{  publication.association_id }} a publier un evenement le :</p>
-    </div>
-    <table class="table">
-        <thead>
+    <div classe="publication" style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: auto;">
+        <p> a publier un evenement le :</p>
+
+        <table class="table">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Description</th>
                 <th>actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for publication in publications %}
-            <tr>
-                <td>{{ publication.id }}</td>
-                <td>{{ publication.description }}</td>
-                <td>
-                    <a href="{{ path('publication_show', {'id': publication.id}) }}">show</a>
-                    <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for publication in publications %}
+                <tr>
+                    <td>{{ publication.id }}</td>
+                    <td>{{ publication.description }}</td>
+                    <td>
+                        <a href="{{ path('publication_show', {'id': publication.id}) }}">show</a>
+                        <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
 
-    <a href="{{ path('publication_new') }}">Create new</a>
+        <a href="{{ path('publication_new') }}">Create new</a>
+
+    </div>
 {% endblock %}

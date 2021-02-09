@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\PublicationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -38,6 +39,11 @@ class Publication
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $datePublication;
 
     public function __construct()
     {
@@ -112,6 +118,17 @@ class Publication
     {
         $this->description = $description;
 
+        return $this;
+    }
+
+    public function getDatePublication():\DateTimeInterface
+    {
+        return $this->datePublication;
+    }
+
+    public function setDatePublication(): self
+    {
+        $this->datePublication = new DateTime();
         return $this;
     }
 

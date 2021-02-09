@@ -40,6 +40,7 @@ class PublicationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $publication->setAssociation($this->getUser()->getAssociation());
+            $publication->setDatePublication();
             $entityManager->persist($publication);
             $entityManager->flush();
 
