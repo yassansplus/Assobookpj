@@ -5,9 +5,6 @@ $(document).ready(function () {
 
   autoTimer = setTimeout(function () {
     $("div#panel").slideDown("slow");
-    /* autoTimer = setTimeout(function(){
-            $("div#panel").slideUp("slow");
-        }, 5000); */
   }, 2000);
 
   $("#open").click(function () {
