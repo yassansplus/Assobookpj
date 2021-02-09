@@ -65,28 +65,27 @@
     {# section formulaire #}
     <section class="container">
         <h2 class="text-center">Des questions? Contactez-nous!</h2>
-        <form action="">
+        <form name="contact" method="post" action="{{ path("default_contact-form") }}">
             <div class="row">
                 <div class="col-8 offset-2">
                     <div class="row">
                         <div class="col-6">
-                            <input type="text" class="form-control" aria-label="Nom" placeholder="Nom">
+                            {{ form_row(form.nom) }}
                         </div>
                         <div class="col-6">
-                            <input type="text" class="form-control" aria-label="Prénom" placeholder="Prénom">
+                            {{ form_row(form.prenom) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <input type="email" placeholder="Email" class="form-control" aria-label="Email"/>
+                            {{ form_row(form.email) }}
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-12">
-                            <textarea class="form-control"
-                                      aria-label="Message"
-                                      placeholder="Bonjour l'équipe AssoBook, j'aimerai vous dire que..."></textarea>
+                            {{ form_row(form.message) }}
                             <input type="submit" class="btn float-right">
+                            {{ form_row(form._token) }}
                         </div>
                     </div>
                 </div>
