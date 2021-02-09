@@ -1,15 +1,35 @@
-{% extends 'base_front.html.twig' %}
+<!DOCTYPE html>
 
-{% block title %}Mes publications - AssoBook{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-{% endblock %}
+<title>Publication index</title>
 
 {% block body %}
-    <h1>Mes publications</h1>
-    <p>Vous n'avez pas de publications actuellement, vous pouvez en créer une dès maintenant.</p>
-    <div>
-        <button>Ajouter une publication</button>
-    </div>
+    <h1>Publication index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for publication in publications %}
+            <tr>
+                <td>{{ publication.id }}</td>
+                <td>{{ publication.description }}</td>
+                <td>
+                    <a href="{{ path('publication_show', {'id': publication.id}) }}">show</a>
+                    <a href="{{ path('publication_edit', {'id': publication.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('publication_new') }}">Create new</a>
 {% endblock %}

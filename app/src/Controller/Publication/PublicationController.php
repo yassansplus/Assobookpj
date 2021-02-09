@@ -2,58 +2,97 @@
 
 namespace App\Controller\Publication;
 
+use App\Entity\Publication;
+use App\Form\PublicationType;
+use App\Repository\PublicationRepository;
+use App\Controller\Security;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * @Route("/publication")
+ * @Security("is_granted('ROLE_ASSOC')")
+ */
 class PublicationController extends AbstractController
 {
     /**
-     * @Route("/publication", name="publication")
+     * @Route("/", name="publication_index", methods={"GET"})
      */
-    public function index(): Response
+    public function index(PublicationRepository $publicationRepository): Response
     {
         return $this->render('publication/index.html.twig', [
-            'controller_name' => 'PublicationController',
+            'publications' => $publicationRepository->findAll(),
         ]);
     }
 
     /**
-     * @Route ("/publication/new", name="publication_create")
+     * @Route("/new", name="publication_new", methods={"GET","POST"})
      */
-    public function createPublication(): Response
+    public function new(Request $request): Response
     {
-        // creates a task object and initializes some data for this example
         $publication = new Publication();
-        $publication->setPublication('Ajouter une nouvelle publication');
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
 
-        $form = $this->createForm(publicationType::class, $publication);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $publication->setAssociation($this->getUser()->getAssociation());
+            $entityManager->persist($publication);
+            $entityManager->flush();
 
+            return $this->redirectToRoute('publication_index');
+        }
+
+        return $this->render('publication/new.html.twig', [
+            'publication' => $publication,
+            'form' => $form->createView(),
+        ]);
     }
 
     /**
-     * @Route("/publication/{id}", name="publication")
+     * @Route("/{id}", name="publication_show", methods={"GET"})
      */
-    /*public function show(Publication $publication): Response
+    public function show(Publication $publication): Response
     {
         return $this->render('publication/show.html.twig', [
             'publication' => $publication,
         ]);
-    }*/
+    }
 
-    /*public function show(Request $request, Publication $publication): Response
+    /**
+     * @Route("/{id}/edit", name="publication_edit", methods={"GET","POST"})
+     */
+    public function edit(Request $request, Publication $publication): Response
     {
-    +        $comment = new Comment();
-    +        $form = $this->createForm(CommentFormType::class, $comment;
-    +
-    $offset = max(0, $request->query->getInt('offset', 0));
-    $paginator = $commentRepository->getCommentPaginator($publication, $offset);
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
 
-    @@ -43,6 +48,7 @@ class PublicationController extends AbstractController
-         'comments' => $paginator,
-         'previous' => $offset - CommentRepository::PAGINATOR_PER_PAGE,
-         'next' => min(count($paginator), $offset + CommentRepository::PAGINATOR_PER_PAGE),
-+            'comment_form' => $form->createView(),
-     ]));
-    }*/
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('publication_index');
+        }
+
+        return $this->render('publication/edit.html.twig', [
+            'publication' => $publication,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/{id}", name="publication_delete", methods={"DELETE"})
+     */
+    public function delete(Request $request, Publication $publication): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$publication->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($publication);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('publication_index');
+    }
 }
