@@ -36,11 +36,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        {{ form_start(form) }}
-                            {{ form_widget(form) }}
+                        {{ form_start(formComment) }}
+                            {{ form_widget(formComment) }}
                             <input type="hidden" value="{{publication.id}}" name="publication">
                             <button class="btn">{{ button_label|default('Save') }}</button>
-                        {{ form_end(form) }}
+                        {{ form_end(formComment) }}
                     </td>
                 </tr>
             {% else %}

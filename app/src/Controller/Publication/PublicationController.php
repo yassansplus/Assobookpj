@@ -10,6 +10,7 @@ use App\Form\CommentType;
 use App\Repository\CommentRepository;
 use App\Repository\PublicationRepository;
 use App\Controller\Security;
+use App\Form\UpdatePwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,6 +31,7 @@ class PublicationController extends AbstractController
         $comment = new Comment();
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
+        $formPwd = $this->createForm(UpdatePwdType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -43,7 +45,8 @@ class PublicationController extends AbstractController
 
         return $this->render('publication/index.html.twig', [
             'publications' => $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]),
-            'form' => $form->createView()
+            'formComment' => $form->createView(),
+            'form' => $formPwd->createView(),
         ]);
     }
 
