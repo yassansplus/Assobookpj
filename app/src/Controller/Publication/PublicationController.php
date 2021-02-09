@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/publication")
- * @Security("is_granted('ROLE_ASSOC')")
+ * @IsGranted("ROLE_ASSOC_CONFIRME")
  */
 class PublicationController extends AbstractController
 {
