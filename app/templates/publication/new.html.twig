@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>Nouvelle Publication</title>
+
+{% block body %}
+    <h1>Créer une nouvelle Publication</h1>
+
+    {{ include('publication/_form.html.twig') }}
+
+    <button class="btn"><a href="{{ path('publication_index') }}">Retourner aux publications</a></button>
+{% endblock %}

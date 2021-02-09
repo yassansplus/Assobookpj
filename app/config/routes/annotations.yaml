@@ -17,6 +17,10 @@ controllers_complete:
     name_prefix: profile_
     type: annotation
 
+controllers_publication:
+    resource: ../../src/Controller/Publication
+    type: annotation
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

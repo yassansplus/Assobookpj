@@ -28,11 +28,6 @@ class Event
     private $endingDate;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $description;
-
-    /**
      * @ORM\OneToOne(targetEntity=Address::class, inversedBy="event", cascade={"persist", "remove"})
      */
     private $adress;
@@ -62,18 +57,6 @@ class Event
     public function setEndingDate(\DateTimeInterface $endingDate): self
     {
         $this->endingDate = $endingDate;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(string $description): self
-    {
-        $this->description = $description;
 
         return $this;
     }
