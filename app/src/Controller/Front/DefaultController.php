@@ -2,11 +2,12 @@
 
 namespace App\Controller\Front;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use App\Form\ContactType;
+use App\Service\EmailService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Asset\Package;
-use Symfony\Component\Asset\VersionStrategy\EmptyVersionStrategy;
 
 /**
  * Class DefaultController
@@ -16,11 +17,16 @@ class DefaultController extends AbstractController
 {
     /**
      * @Route("/", name="default_index", methods={"GET"})
+     * @return Response
      */
     public function index()
     {
-        return $this->render('front/default/index.html.twig');
+        $form = $this->createForm(ContactType::class); // Formulaire de contact
+        return $this->render('front/default/index.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
+
 
     /**
      * @Route("/custom", name="default_custom", methods={"GET"})
@@ -44,5 +50,26 @@ class DefaultController extends AbstractController
     public function who_are_we()
     {
         return $this->render('front/default/who-are-we.html.twig');
+    }
+
+    /**
+     * @param Request $request
+     * @param EmailService $emailService
+     * @Route("/contact-form", name="default_contact-form", methods={"POST"});
+     */
+    public function contact_form(Request $request, EmailService $emailService){
+        $form = $this->createForm(ContactType::class);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()){
+            $formData = $form->getData();
+            $emailService->sendMail('Assobook - Nouveau Message', 'assobookpa@gmail.com',
+                [$this->renderView('emails/contact-form.html.twig',
+                    ['nom' => $formData['nom'],
+                        'prenom' => $formData['prenom'],
+                        'message' => $formData['message'],
+                        'email' => $formData['email']
+                    ]), 'text/html']);
+        }
+        return $this->redirectToRoute('default_index');
     }
 }
