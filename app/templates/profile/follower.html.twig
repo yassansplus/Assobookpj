@@ -31,7 +31,7 @@
                                     <div class="candidate-list-info">
                                         <div class="candidate-list-title">
                                             <h5 class="mb-0">
-                                                <a href="{{path('publication_by_id', {id : follower.id})}}">{% if follower.firstname is defined %}{{ follower.firstname }}{% endif %} {{ follower.name }} </a>
+                                                <a href="{{ path('publication_by_id', {id : follower.id}) }}">{% if follower.firstname is defined %}{{ follower.firstname }}{% endif %} {{ follower.name }} </a>
                                             </h5>
                                         </div>
                                         <div class="candidate-list-option">
