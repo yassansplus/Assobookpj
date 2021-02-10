@@ -22,12 +22,13 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
-    .addStyleEntry("global", "./assets/styles/global.scss")
-    .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
-    .addStyleEntry("index", "./assets/styles/index.scss")
-    .addStyleEntry("wawFront", "./assets/styles/wawFront.scss")
-    .addStyleEntry("publication", "./assets/styles/publication.scss")
 
+    .addStyleEntry('global', './assets/styles/global.scss')
+    .addStyleEntry('formAuth', './assets/styles/formAuth.scss')
+    .addStyleEntry('index', './assets/styles/index.scss')
+    .addStyleEntry('amsify.suggestags', './assets/styles/amsify.suggestags.scss')
+    .addStyleEntry('wawFront', './assets/styles/wawFront.scss')
+    .addStyleEntry("publication", "./assets/styles/publication.scss")
     .addStyleEntry("banner", "./assets/styles/component/banner.scss")
     .addStyleEntry("sidebar", "./assets/styles/component/sidebar.scss")
     .addStyleEntry("follower", "./assets/styles/component/follower.scss")
