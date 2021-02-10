@@ -1,0 +1,77 @@
+{% extends 'profile/account.html.twig' %}
+
+{% block title %} Mon compte - AssoBook{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('follower') }}
+{% endblock %}
+
+{% block profile %}
+    <div class="row">
+        <div class="col-md-9">
+            <div class="user-dashboard-info-box table-responsive mb-0 bg-white p-4 shadow-sm">
+                <table class="table manage-candidates-top mb-0">
+                    <thead>
+                    <tr>
+                        <th>Mes abonnements</th>
+                        <th class="text-center">Status</th>
+                        <th class="action text-right">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for follower in followers %}
+                        <tr class="candidates-list">
+                            <td class="title">
+                                <div class="thumb">
+                                    <img class="img-fluid" src="https://bootdey.com/img/Content/avatar/avatar7.png"
+                                         alt="">
+                                </div>
+                                <div class="candidate-list-details">
+                                    <div class="candidate-list-info">
+                                        <div class="candidate-list-title">
+                                            <h5 class="mb-0">
+                                                <a href="{{path('publication_by_id', {id : follower.id})}}">{% if follower.firstname is defined %}{{ follower.firstname }}{% endif %} {{ follower.name }} </a>
+                                            </h5>
+                                        </div>
+                                        <div class="candidate-list-option">
+                                            <ul class="list-unstyled">
+
+                                                <li><i class="fas fa-map-marker-alt pr-1"></i>{{ follower.location }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="candidate-list-favourite-time text-center">
+                                <a class="candidate-list-favourite order-2 text-danger" href="#"><i
+                                            class="fas fa-heart"></i></a>
+                                <span class="candidate-list-time order-1">Suivie</span>
+                            </td>
+                            <td>
+                                <ul class="list-unstyled mb-0 d-flex justify-content-end">
+
+                                    <li>
+                                        <span class="text-danger suivre" data-id="{{ follower.id }}"
+                                              data-toggle="tooltip" title=""
+                                              data-original-title="Delete">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    {{ encore_entry_script_tags('suggestions') }}
+    <script src="{{ asset('assets/javascript/jquery.amsify.suggestags.js') }}"></script>
+{% endblock %}

@@ -22,21 +22,22 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
-    .addStyleEntry('global','./assets/styles/global.scss')
+    .addStyleEntry('global', './assets/styles/global.scss')
     .addStyleEntry('formAuth', './assets/styles/formAuth.scss')
     .addStyleEntry('index', './assets/styles/index.scss')
     .addStyleEntry('amsify.suggestags', './assets/styles/amsify.suggestags.scss')
-    .addStyleEntry('wawFront','./assets/styles/wawFront.scss')
+    .addStyleEntry('wawFront', './assets/styles/wawFront.scss')
 
-  .addStyleEntry("banner", "./assets/styles/component/banner.scss")
-  .addStyleEntry("sidebar", "./assets/styles/component/sidebar.scss")
+    .addStyleEntry("banner", "./assets/styles/component/banner.scss")
+    .addStyleEntry("sidebar", "./assets/styles/component/sidebar.scss")
+    .addStyleEntry("follower", "./assets/styles/component/follower.scss")
 
-  //Add javascript
+    //Add javascript
 
-  .addEntry("script", "./assets/javascript/script.js")
-  .addEntry("bannerjs", "./assets/javascript/banner.js")
-  .addEntry("scrlrvl", "./assets/javascript/scrollreveal.js")
-  .addEntry("pwdreset", "./assets/javascript/pwdreset.js")
+    .addEntry("script", "./assets/javascript/script.js")
+    .addEntry("bannerjs", "./assets/javascript/banner.js")
+    .addEntry("scrlrvl", "./assets/javascript/scrollreveal.js")
+    .addEntry("pwdreset", "./assets/javascript/pwdreset.js")
     .addEntry('suggestions', './assets/javascript/suggestions.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
@@ -75,18 +76,18 @@ Encore
     // enables Sass/SCSS support
     .enableSassLoader()
 
-    // uncomment if you use TypeScript
-    //.enableTypeScriptLoader()
+// uncomment if you use TypeScript
+//.enableTypeScriptLoader()
 
-    // uncomment if you use React
-    //.enableReactPreset()
+// uncomment if you use React
+//.enableReactPreset()
 
-    // uncomment to get integrity="..." attributes on your script & link tags
-    // requires WebpackEncoreBundle 1.4 or higher
-    //.enableIntegrityHashes(Encore.isProduction())
+// uncomment to get integrity="..." attributes on your script & link tags
+// requires WebpackEncoreBundle 1.4 or higher
+//.enableIntegrityHashes(Encore.isProduction())
 
-    // uncomment if you're having problems with a jQuery plugin
-    //.autoProvidejQuery()
+// uncomment if you're having problems with a jQuery plugin
+//.autoProvidejQuery()
 ;
 
 module.exports = Encore.getWebpackConfig();
