@@ -36,7 +36,7 @@
                 <p>Aucune publication pour l'instant</p>
             {% endfor %}
             {% if app.user.association %}
-                <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
+                <a class="btn btn-outline-primary" href="{{ path('publication_new') }}">Ajouter une publication</a>
             {% endif %}
         </div>
     </div>
