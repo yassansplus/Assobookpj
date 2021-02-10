@@ -29,9 +29,9 @@ class PublicationController extends AbstractController
     public function index(PublicationRepository $publicationRepository, Request $request): Response
     {
         $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
-        $form->handleRequest($request);
-        $formPwd = $this->createForm(UpdatePwdType::class);
+        $formComment = $this->createForm(CommentType::class, $comment);
+        $formComment->handleRequest($request);
+        $form = $this->createForm(UpdatePwdType::class);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -45,8 +45,8 @@ class PublicationController extends AbstractController
 
         return $this->render('publication/index.html.twig', [
             'publications' => $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]),
-            'formComment' => $form->createView(),
-            'form' => $formPwd->createView(),
+            'formComment' => $formComment->createView(),
+            'form' => $form->createView(),
         ]);
     }
 
