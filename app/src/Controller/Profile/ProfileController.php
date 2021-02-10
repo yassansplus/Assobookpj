@@ -41,6 +41,9 @@ class ProfileController extends AbstractController
      */
     public function index(): Response
     {
+        if (in_array('ROLE_ADH_CONFIRME',$this->getUser()->getRoles())){
+            return $this->redirectToRoute('profile_followers');
+        }
         $form = $this->createForm(UpdatePwdType::class);
         return $this->render('profile/account.html.twig', [
             'form' => $form->createView(),
