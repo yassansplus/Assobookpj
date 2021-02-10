@@ -5,8 +5,12 @@ namespace App\Controller\Publication;
 use App\Entity\Association;
 use App\Entity\Publication;
 use App\Form\PublicationType;
+use App\Entity\Comment;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\PublicationRepository;
 use App\Controller\Security;
+use App\Form\UpdatePwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,12 +24,29 @@ use Symfony\Component\Routing\Annotation\Route;
 class PublicationController extends AbstractController
 {
     /**
-     * @Route("/", name="publication_index", methods={"GET"})
+     * @Route("/", name="publication_index", methods={"GET", "POST"})
      */
-    public function index(PublicationRepository $publicationRepository): Response
+    public function index(PublicationRepository $publicationRepository, Request $request): Response
     {
+        $comment = new Comment();
+        $formComment = $this->createForm(CommentType::class, $comment);
+        $formComment->handleRequest($request);
+        $form = $this->createForm(UpdatePwdType::class);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $publication = $publicationRepository->find($request->get("publication"));
+            $comment->setPublication($publication);
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('publication_index');
+        }
+
         return $this->render('publication/index.html.twig', [
             'publications' => $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]),
+            'formComment' => $formComment->createView(),
+            'form' => $form->createView(),
         ]);
     }
 

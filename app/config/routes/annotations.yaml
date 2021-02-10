@@ -15,6 +15,10 @@ controllers_publication:
     resource: ../../src/Controller/Publication
     type: annotation
 
+controllers_comment:
+    resource: ../../src/Controller/Comment
+    type: annotation
+
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

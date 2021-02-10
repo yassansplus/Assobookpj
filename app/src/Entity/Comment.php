@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CommentRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +42,11 @@ class Comment
      * @ORM\ManyToOne(targetEntity=Publication::class, inversedBy="comments")
      */
     private $publication;
+
+    public function __construct()
+    {
+        $this->publicationDate = new \DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -86,13 +92,6 @@ class Comment
     public function getPublicationDate(): ?\DateTimeInterface
     {
         return $this->publicationDate;
-    }
-
-    public function setPublicationDate(\DateTimeInterface $publicationDate): self
-    {
-        $this->publicationDate = $publicationDate;
-
-        return $this;
     }
 
     public function getPublication(): ?Publication

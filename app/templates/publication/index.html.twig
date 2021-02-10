@@ -1,4 +1,4 @@
-{% extends 'base_front.html.twig' %}
+{% extends 'profile/account.html.twig' %}
 
 {% block title %}Publication{% endblock %}
 {% block stylesheets %}
@@ -6,7 +6,7 @@
     {{ encore_entry_link_tags('index') }}
 {% endblock %}
 
-{% block body %}
+{% block profile %}
     <h1 class="text-red">Mes Publications</h1>
 
     <div classe="publication" style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: auto;">
@@ -34,6 +34,13 @@
                             <button><a href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
                             </button>
                         {% endif %}
+                    </td>
+                    <td>
+                        {{ form_start(formComment) }}
+                            {{ form_widget(formComment) }}
+                            <input type="hidden" value="{{publication.id}}" name="publication">
+                            <button class="btn">{{ button_label|default('Save') }}</button>
+                        {{ form_end(formComment) }}
                     </td>
                 </tr>
             {% else %}
