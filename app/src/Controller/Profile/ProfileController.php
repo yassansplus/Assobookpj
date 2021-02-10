@@ -13,11 +13,13 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class ProfileController extends AbstractController {
+class ProfileController extends AbstractController
+{
     private $em;
     private $passwordEncoder;
 
-    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder){
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
+    {
         $this->em = $em;
         $this->passwordEncoder = $passwordEncoder;
     }
@@ -40,7 +42,7 @@ class ProfileController extends AbstractController {
     public function index(): Response
     {
         $form = $this->createForm(UpdatePwdType::class);
-        return $this->render('profile/account.html.twig',[
+        return $this->render('profile/account.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -57,7 +59,7 @@ class ProfileController extends AbstractController {
             $getType = $currentUser->getAdherent();
             //0 : adherent / 1: association
             $type = $getType ? 0 : 1;
-            $typeUser = $this->em->getRepository($getType ? Adherent::class : Association::class)->findById($getType ? $getType : $currentUser->getAssociation())[0];
+            $typeUser = $this->em->getRepository($getType ? Adherent::class : Association::class)->find($getType ? $getType : $currentUser->getAssociation())[0];
 
             if ($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
             $dataCompare = $getType ? $firstnameOrLastname : $typeUser->getName();
@@ -81,28 +83,27 @@ class ProfileController extends AbstractController {
      */
     public function resetPassword(Request $request)
     {
-        if($request->isXmlHttpRequest()){
+        if ($request->isXmlHttpRequest()) {
             $form = $request->request->all();
             $currentUser = $this->getUser();
-            $type = $currentUser->getAdherent() ? 0 : 1;
 
-            if((int)$form['input'] !== 3 || (int)$form['required'] !== 3){
+            if ((int)$form['input'] !== 3 || (int)$form['required'] !== 3) {
                 return new JsonResponse('Input');
             }
-            if(!$this->passwordEncoder->isPasswordValid($currentUser, $form['oldpwd'])){
+            if (!$this->passwordEncoder->isPasswordValid($currentUser, $form['oldpwd'])) {
                 return new JsonResponse('Pwd');
             }
-            if($form['newpwd'] !== $form['confirmpwd']){
+            if ($form['newpwd'] !== $form['confirmpwd']) {
                 return new JsonResponse('Equals');
             }
-            if(strlen($form['newpwd']) < 8 || strlen($form['newpwd']) > 16){
+            if (strlen($form['newpwd']) < 8 || strlen($form['newpwd']) > 16) {
                 return new JsonResponse('Size');
             }
-            $currentUser->setPassword($this->passwordEncoder->encodePassword($currentUser,$form['newpwd']));
+            $currentUser->setPassword($this->passwordEncoder->encodePassword($currentUser, $form['newpwd']));
             $this->em->flush();
             return new JsonResponse('OK');
         }
-        return new JsonResponse('Error',500);
+        return new JsonResponse('Error', 500);
     }
 
 
@@ -126,4 +127,21 @@ class ProfileController extends AbstractController {
         }
     }
 
+    /**
+     * @Route("/mes-follower", name="followers")
+     */
+    public function myfollowers(): Response
+    {
+        if (in_array('ROLE_ADH_CONFIRME',$this->getUser()->getRoles())){
+            $followers = $this->getUser()->getAdherent()->getAssociations();
+        }else{
+            $followers = $this->getUser()->getAssociation()->getAdherents();
+        }
+        $form = $this->createForm(UpdatePwdType::class);
+        return $this->render('profile/follower.html.twig', [
+            'form' => $form->createView(),
+            'followers'=> $followers
+        ]);
+
+    }
 }

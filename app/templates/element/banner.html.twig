@@ -1,4 +1,4 @@
-{% set array = [['☆','Mes événements'],['♥', app.user.adherent ? "Mes associations" : "Mes followers"],['✎','Mes publications']] %}
+{% set array = [['☆','Mes événements','default_index'],['♥', app.user.adherent ? "Mes associations" : "Mes followers", 'profile_followers'],['✎','Mes publications', 'publication_index']] %}
 <div class="banner-photo">
     <div></div>
     <div><img src="{{ asset('assets/images/icons/user.png') }}" alt="user"></div>
@@ -7,7 +7,7 @@
 <div class="banner-button">
     {% for elem in array %}
         <div>
-            <a href="#">
+            <a href="{{ path(elem[2]) }}">
                 <p>{{ elem[0] }}</p>
                 <p>{{ elem[1] }}</p>
             </a>

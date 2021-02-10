@@ -5,12 +5,10 @@ namespace App\Controller\Publication;
 use App\Entity\Association;
 use App\Entity\Publication;
 use App\Form\PublicationType;
+use App\Form\UpdatePwdType;
 use App\Entity\Comment;
 use App\Form\CommentType;
-use App\Repository\CommentRepository;
 use App\Repository\PublicationRepository;
-use App\Controller\Security;
-use App\Form\UpdatePwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +17,6 @@ use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * @Route("/publication")
- * @IsGranted("ROLE_ASSOC_CONFIRME")
  */
 class PublicationController extends AbstractController
 {
@@ -51,7 +48,20 @@ class PublicationController extends AbstractController
     }
 
     /**
+     * @Route("/list/{id}", name="publication_by_id", methods={"GET"})
+     */
+    public function publicationById(Association $association): Response
+    {
+        $form = $this->createForm(UpdatePwdType::class);
+        return $this->render('publication/index.html.twig', [
+            'publications' => $association->getPublications(),
+            'form' => $form->createView()
+            ]);
+    }
+
+    /**
      * @Route("/new", name="publication_new", methods={"GET","POST"})
+     * @IsGranted("ROLE_ASSOC_CONFIRME")
      */
     public function new(Request $request): Response
     {
@@ -77,6 +87,7 @@ class PublicationController extends AbstractController
 
     /**
      * @Route("/{id}", name="publication_show", methods={"GET"})
+     * @IsGranted("ROLE_ASSOC_CONFIRME")
      */
     public function show(Publication $publication): Response
     {
