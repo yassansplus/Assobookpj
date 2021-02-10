@@ -1,40 +1,56 @@
 <div class="sidebar col-md-3">
     <hr>
     <div>
-        <img src="{{ asset('assets/images/icons/id-card.svg') }}">
+        <img src="{{ asset('assets/images/icons/id-card.svg') }}" alt="id-card">
         {% if app.user.adherent %}
-        <p data-id="id" data-elem="adh-firstname" contenteditable>{{ app.user.adherent.firstname }}</p>
-        <p data-id="id" data-elem="adh-lastname" contenteditable>{{ app.user.adherent.lastname }}</p>
+            <p data-id="id" data-elem="adh-firstname" contenteditable>{{ app.user.adherent.firstname }}</p>
+            <p data-id="id" data-elem="adh-lastname" contenteditable>{{ app.user.adherent.lastname }}</p>
         {% elseif app.user.association %}
             <p data-id="id" data-elem="assos" contenteditable>{{ app.user.association.name }}</p>
         {% endif %}
     </div>
     {% if app.user.adherent %}
-    <div>
-        <img src="{{ asset('assets/images/icons/link.svg') }}">
-        <p>suit : 0 association(s)</p>
-    </div>
+        <div>
+            <img src="{{ asset('assets/images/icons/link.svg') }}" alt="link">
+            <p>suit : 0 association(s)</p>
+        </div>
     {% elseif app.user.association %}
         <div>
-            <img src="{{ asset('assets/images/icons/calendar.svg') }}">
+            <img src="{{ asset('assets/images/icons/calendar.svg') }}" alt="calendar">
             <p>Crée : {{ app.user.registerDate|date('d/m/Y') }}</p>
         </div>
 
         <div>
-            <img src="{{ asset('assets/images/icons/link.svg') }}">
+            <img src="{{ asset('assets/images/icons/link.svg') }}" alt="calendar">
             <p>est suivi par : 0 adhérent(s)</p>
         </div>
 
         <div>
-            <img src="{{ asset('assets/images/icons/location.svg') }}">
+            <img src="{{ asset('assets/images/icons/location.svg') }}" alt="location">
             <p>situé : {{ app.user.association.location }}</p>
         </div>
     {% endif %}
-    <div class="upd-pwd">
-        <span>Modifier mot de passe</span>
+    <div class="row">
+        <div class="upd-pwd col-12">
+            <span>Modifier mot de passe</span>
+        </div>
+        <div class="d-none formPassword col-12 formPwd">
+            <div class="row">
+                <div class="col-12">
+                    {{ form(form) }}
+                </div>
+                <div class="col-12">
+                    <button class="btn btn-secondary formPassword">Annuler</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+
+        </div>
     </div>
-    <div class="d-none">
-        {{ form(form) }}
-        <div class="btn btn-secondary">Annuler</div>
+    <div class="row">
+        <div class="col-12">
+            <a href="{{ path('profile_tags') }}">Trouver des association</a>
+        </div>
     </div>
 </div>

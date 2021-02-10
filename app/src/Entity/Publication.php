@@ -31,7 +31,7 @@ class Publication
     private $comments;
 
     /**
-     * @ORM\OneToOne(targetEntity=Survey::class, inversedBy="event", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Survey::class, inversedBy="survey", cascade={"persist", "remove"})
      */
     private $survey;
 
