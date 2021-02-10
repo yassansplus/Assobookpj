@@ -22,8 +22,7 @@
                     <p>{{ publication.description }}</p>
 
                     <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la
-                        publication</a>-->
-                    </button>
+                        publication</a></button>-->
                     {% if app.user.association.id == publication.association.id %}
                         <a class="btn btn-primary" href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
 
@@ -32,7 +31,9 @@
             {% else %}
                 <p>Aucune publication pour l'instant</p>
             {% endfor %}
-            <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
+            {% if app.user.association %}
+                <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
