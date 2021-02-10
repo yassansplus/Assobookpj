@@ -50,7 +50,7 @@ class UpdatePwdType extends AbstractType
                 ],
             ])
             ->add('submit', SubmitType::class, [
-                'label' => 'Modfier',
+                'label' => 'Modifier',
                 'attr' => [
                     'class' => 'btn btn-primary btn-block',
                 ]
