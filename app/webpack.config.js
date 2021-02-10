@@ -22,6 +22,7 @@ Encore
      */
     .addEntry('app', './assets/app.js')
 
+
     .addStyleEntry('global', './assets/styles/global.scss')
     .addStyleEntry('formAuth', './assets/styles/formAuth.scss')
     .addStyleEntry('index', './assets/styles/index.scss')
