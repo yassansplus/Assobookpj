@@ -3,13 +3,16 @@
 <title>Modifier la Publication</title>
 
 {% block body %}
-    {% if app.user.association.id == publication.association.id %}
-    <h1>Modifier</h1>
-    {% elseif %}
+    <div class="publication"
+         style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: 5% auto 5% auto; padding: 25px;">
+        {% if app.user.association.id == publication.association.id %}
+            <h1>Modifier</h1>
+        {% endif %}
 
-    {{ include('publication/_form.html.twig', {'button_label': 'Update'}) }}
+        {{ include('publication/_form.html.twig', {'button_label': 'Mettre à jours'}) }}
 
-    <a href="{{ path('publication_index') }}">Retour aux publications</a>
+        <button><a href="{{ path('publication_index') }}">Retour aux publications</a></button>
 
-    {{ include('publication/_delete_form.html.twig') }}
+        {{ include('publication/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

@@ -4,47 +4,35 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags('index') }}
+    {{ encore_entry_link_tags('publication') }}
 {% endblock %}
 
 {% block body %}
-    <h1 class="text-red">Mes Publications</h1>
+    <div class="container">
+        <h2 class="titleMesPubli">Mes Publications</h2>
+        <hr>
 
-    <div classe="publication" style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: auto;">
+        <div>
 
-
-        <table class="table">
-            <thead>
-            <tr>
-                <th>Association</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-            </thead>
-            <tbody>
             {% for publication in publications %}
+                <div class="publication col-md-10">
+                    <p><strong>{{ publication.association.name }}</strong> - a publier une publication le :</p>
 
-                <tr>
-                    <td>{{ publication.association.name }}</td>
-                    <td>{{ publication.id }}</td>
-                    <td>{{ publication.description }}</td>
-                    <td>
-                        <button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la publication</a>
-                        </button>
-                        {% if app.user.association.id == publication.association.id %}
-                            <button><a href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
-                            </button>
-                        {% endif %}
-                    </td>
-                </tr>
+                    <p>{{ publication.datePublication|date("d/m/Y") }}</p>
+                    <p>{{ publication.description }}</p>
+
+                    <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la
+                        publication</a>-->
+                    </button>
+                    {% if app.user.association.id == publication.association.id %}
+                        <a class="btn btn-primary" href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
+
+                    {% endif %}
+                </div>
             {% else %}
-                <tr>
-                    <td colspan="3">Aucune publication pour l'instant</td>
-                </tr>
+                <p>Aucune publication pour l'instant</p>
             {% endfor %}
-            </tbody>
-        </table>
-
-        <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
-
+            <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
+        </div>
     </div>
 {% endblock %}
