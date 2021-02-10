@@ -45,6 +45,11 @@ class Publication
      */
     private $datePublication;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Event::class, mappedBy="publication", cascade={"persist", "remove"})
+     */
+    private $event;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
@@ -129,6 +134,23 @@ class Publication
     public function setDatePublication(): self
     {
         $this->datePublication = new DateTime();
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(Event $event): self
+    {
+        // set the owning side of the relation if necessary
+        if ($event->getPublication() !== $this) {
+            $event->setPublication($this);
+        }
+
+        $this->event = $event;
+
         return $this;
     }
 

@@ -19,12 +19,15 @@
                     <p><strong>{{ publication.association.name }}</strong> - a publier une publication le :</p>
 
                     <p>{{ publication.datePublication|date("d/m/Y") }}</p>
+                    {% if publication.event is not null %}
+                        <p>Du {{ publication.event.startDate|date("d/m/Y") }} au {{ publication.event.endingDate|date("d/m/Y") }}.</p>
+                        <h5>{{ publication.event.title }}</h5>
+                    {% endif %}
                     <p>{{ publication.description }}</p>
 
                     <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la
-                        publication</a>-->
-                    </button>
-                    {% if app.user.association.id == publication.association.id %}
+                        publication</a></button>-->
+                    {% if app.user.association.id  is not null and  app.user.association.id == publication.association.id %}
                         <a class="btn btn-primary" href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
 
                     {% endif %}
@@ -32,7 +35,9 @@
             {% else %}
                 <p>Aucune publication pour l'instant</p>
             {% endfor %}
-            <a class="btn btn-outline-primary" href="{{ path('publication_new') }}">+ Ajouter une publication</a>
+            {% if app.user.association %}
+                <button><a href="{{ path('publication_new') }}">Ajouter une publication</a></button>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

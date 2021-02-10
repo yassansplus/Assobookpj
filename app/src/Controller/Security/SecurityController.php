@@ -70,7 +70,7 @@ class SecurityController extends AbstractController
             $donnees = $form->getData();
 
             // On cherche un utilisateur ayant cet e-mail
-            $user = $users->findOneBy(['email' => $donnees->getEmail()]);
+            $user = $users->findOneBy(['email' => strtolower($donnees->getEmail())]);
 
             // Si l'utilisateur n'existe pas
             if ($user === null) {
