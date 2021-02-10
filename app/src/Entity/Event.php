@@ -33,6 +33,11 @@ class Event
     private $adress;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $title;
+
+    /**
      * @ORM\OneToOne(targetEntity=Publication::class, inversedBy="event", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -87,6 +92,18 @@ class Event
     public function setPublication(Publication $publication): self
     {
         $this->publication = $publication;
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
 
         return $this;
     }

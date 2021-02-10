@@ -27,7 +27,7 @@
                 <td>{{ event.endingDate ? event.endingDate|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     {% if event.publication %}
-                            <a href="{{ path('publication_show', {'id': event.publication.id}) }}">{{ event.publication }}</a>
+                            <a href="{{ path('publication_show', {'id': event.publication.id}) }}">{{ event.title }}</a>
                     {% endif %}
                 </td>
                 <td>

@@ -16,10 +16,6 @@ class PublicationType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('title', TextType::class, [
-                'label' => 'Titre',
-                'required' => true
-            ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true

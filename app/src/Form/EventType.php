@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\Publication;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -20,6 +21,10 @@ class EventType extends AbstractType
             ])
             ->add('endingDate', DateTimeType::class, [
                 'label' => 'Date de fin'
+            ])
+            ->add('title', TextType::class, [
+                'label' => 'Titre',
+                'required' => true
             ])
             ->add('Publication', PublicationType::class);
         ;

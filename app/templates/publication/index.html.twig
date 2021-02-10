@@ -19,6 +19,10 @@
                     <p><strong>{{ publication.association.name }}</strong> - a publier une publication le :</p>
 
                     <p>{{ publication.datePublication|date("d/m/Y") }}</p>
+                    {% if publication.event is not null %}
+                        <p>Du {{ publication.event.startDate|date("d/m/Y") }} au {{ publication.event.endingDate|date("d/m/Y") }}.</p>
+                        <h5>{{ publication.event.title }}</h5>
+                    {% endif %}
                     <p>{{ publication.description }}</p>
 
                     <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la

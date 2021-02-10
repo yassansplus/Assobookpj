@@ -41,11 +41,6 @@ class Publication
     private $description;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $title;
-
-    /**
      * @ORM\Column(type="datetime")
      */
     private $datePublication;
@@ -58,10 +53,6 @@ class Publication
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-    }
-
-    public function __toString(){
-        return $this->title;
     }
 
     public function getId(): ?int
@@ -131,18 +122,6 @@ class Publication
     public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
 
         return $this;
     }
