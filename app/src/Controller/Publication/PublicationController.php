@@ -30,7 +30,7 @@ class PublicationController extends AbstractController
         $formComment->handleRequest($request);
         $form = $this->createForm(UpdatePwdType::class);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if ($formComment->isSubmitted() && $formComment->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
             $publication = $publicationRepository->find($request->get("publication"));
             $comment->setPublication($publication);
@@ -40,6 +40,8 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('publication_index');
         }
 
+        $maPublication = $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]);
+        //dd($maPublication[0]->getComments()->getValues()[0]);
         return $this->render('publication/index.html.twig', [
             'publications' => $publicationRepository->findBy(["association" => $this->getUser()->getAssociation()]),
             'formComment' => $formComment->createView(),
@@ -56,7 +58,7 @@ class PublicationController extends AbstractController
         return $this->render('publication/index.html.twig', [
             'publications' => $association->getPublications(),
             'form' => $form->createView()
-            ]);
+        ]);
     }
 
     /**

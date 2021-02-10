@@ -21,12 +21,26 @@
                     <p>{{ publication.datePublication|date("d/m/Y") }}</p>
                     <p>{{ publication.description }}</p>
 
+                    <div class="commentaire">
+                        <b>Commentaire :</b>
+                    {% for comment in publication.comments.values %}
+                        <p>{{ comment.comment }} à <i>{{ comment.publicationDate|date('H:i d/m/y') }}</i></p>
+                    {% endfor %}
+                    </div>
+
                     <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la
                         publication</a></button>-->
                     {% if app.user.association.id == publication.association.id %}
                         <a class="btn btn-primary" href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
 
                     {% endif %}
+
+                    {{ form_start(formComment) }}
+                        {{ form_widget(formComment) }}
+                        <input hidden aria-label="commentaire" name="publication" value="{{publication.id}}">
+                        <button class="btn">{{ button_label|default('Save') }}</butto>
+                    {{ form_end(formComment) }}
+
                 </div>
             {% else %}
                 <p>Aucune publication pour l'instant</p>
