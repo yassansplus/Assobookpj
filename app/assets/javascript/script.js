@@ -6,8 +6,6 @@ window.iziToast = require('izitoast');
 require('bootstrap');
 require('popper.js')
 
-
-
 window.setTimeout(function () {
     $(".alert").fadeTo(1000, 0).slideUp(500, function () {
         $(this).remove();
@@ -58,7 +56,7 @@ $(document).click(function(event) {
                         if(data['title'] === 'OK'){
                             getIziToast('OK','Modification réussie !','fas fa-check','green');
                             if(getId !== 'adh-lastname'){
-                                $('#nav-mobile li:last-child a').text(`${data['type'] === 0 ? 'Mon compte' : 'Mon association'} (${data['data']})`);
+                                $('.nav-item:last-child .nav-link').html(`<i class="bi bi-house-door" style="margin-right: 0.5em"></i> ${data['data']}`);
                                 $(`p[data-elem=${typeUser}]`).text(data['data']);
                                 $('p[data-elem=banner]').text(data['data']);
                             }

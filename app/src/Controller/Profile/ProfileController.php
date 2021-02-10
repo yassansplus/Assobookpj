@@ -62,7 +62,8 @@ class ProfileController extends AbstractController
             $getType = $currentUser->getAdherent();
             //0 : adherent / 1: association
             $type = $getType ? 0 : 1;
-            $typeUser = $this->em->getRepository($getType ? Adherent::class : Association::class)->find($getType ? $getType : $currentUser->getAssociation())[0];
+            $class = $getType ? Adherent::class : Association::class;
+            $typeUser = $this->em->getRepository($class)->find($getType ? $getType : $currentUser->getAssociation());
 
             if ($getType) $firstnameOrLastname = $typeAjax === 'adh-lastname' ? $typeUser->getLastname() : $typeUser->getFirstname();
             $dataCompare = $getType ? $firstnameOrLastname : $typeUser->getName();
