@@ -1,11 +1,17 @@
-<!DOCTYPE html>
+{% extends 'profile/account.html.twig' %}
 
-<title>Nouvelle Publication</title>
+{% block title %}Ajouter une Publication{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+    {{ encore_entry_link_tags('publication') }}
+{% endblock %}
 
 {% block body %}
-    <h1>Créer une nouvelle Publication</h1>
+    <h2>Créer une nouvelle Publication</h2>
+    <hr>
 
     {{ include('publication/_form.html.twig') }}
 
-    <button class="btn"><a href="{{ path('publication_index') }}">Retourner aux publications</a></button>
+    <a class="btn btn-outline-primary" href="{{ path('publication_index') }}">< Retour aux publications</a>
 {% endblock %}
