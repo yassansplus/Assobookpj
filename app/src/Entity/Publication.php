@@ -41,13 +41,27 @@ class Publication
     private $description;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $title;
+
+    /**
      * @ORM\Column(type="datetime")
      */
     private $datePublication;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Event::class, mappedBy="publication", cascade={"persist", "remove"})
+     */
+    private $event;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+    }
+
+    public function __toString(){
+        return $this->title;
     }
 
     public function getId(): ?int
@@ -121,6 +135,18 @@ class Publication
         return $this;
     }
 
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): self
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
     public function getDatePublication():\DateTimeInterface
     {
         return $this->datePublication;
@@ -129,6 +155,23 @@ class Publication
     public function setDatePublication(): self
     {
         $this->datePublication = new DateTime();
+        return $this;
+    }
+
+    public function getEvent(): ?Event
+    {
+        return $this->event;
+    }
+
+    public function setEvent(Event $event): self
+    {
+        // set the owning side of the relation if necessary
+        if ($event->getPublication() !== $this) {
+            $event->setPublication($this);
+        }
+
+        $this->event = $event;
+
         return $this;
     }
 

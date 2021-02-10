@@ -1,0 +1,48 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Events{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags('index') }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-red">Mes Events</h1>
+
+    <div class="publication" style="border: solid 1px lightgrey; border-radius: 20px; width: 50%; margin: auto;">
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Publication liée</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for event in events %}
+            <tr>
+                <td>{{ event.startDate ? event.startDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ event.endingDate ? event.endingDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    {% if event.publication %}
+                            <a href="{{ path('publication_show', {'id': event.publication.id}) }}">{{ event.publication }}</a>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{{ path('event_show', {'id': event.id}) }}">show</a>
+                    <a href="{{ path('event_edit', {'id': event.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">Aucun events pour l'instant</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <button><a href="{{ path('event_new') }}">Ajouter un event</a></button>
+    </div>
+{% endblock %}
