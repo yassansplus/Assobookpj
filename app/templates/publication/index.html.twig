@@ -27,7 +27,7 @@
 
                     <!--<button><a href="{{ path('publication_show', {'id': publication.id}) }}">Voir la
                         publication</a></button>-->
-                    {% if app.user.association.id == publication.association.id %}
+                    {% if app.user.association.id  is not null and  app.user.association.id == publication.association.id %}
                         <a class="btn btn-primary" href="{{ path('publication_edit', {'id': publication.id}) }}">Modifier</a>
 
                     {% endif %}
