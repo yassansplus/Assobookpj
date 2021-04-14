@@ -40,7 +40,7 @@ class PublicationFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return array(
-            TagsFixtures::class,
+            TagsAssociationsFixtures::class,
         );
     }
 }

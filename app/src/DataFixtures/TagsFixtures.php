@@ -21,7 +21,6 @@ class TagsFixtures extends Fixture
                 ->setTag($fakeTag);
             $manager->persist($tag);
         }
-
         $manager->flush();
     }
 }
