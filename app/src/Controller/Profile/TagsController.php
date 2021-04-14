@@ -110,7 +110,7 @@ class TagsController extends AbstractController
                 if ($res == $tt) {
                     array_push($bestResult, $serializer->serialize($association,
                         'json',
-                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags', 'adherents', 'association']]));
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags', 'adherents', 'association','event']]));
                 }
 
             }
