@@ -33,9 +33,34 @@ class Address
     private $street;
 
     /**
-     * @ORM\OneToOne(targetEntity=Event::class, mappedBy="adress", cascade={"persist", "remove"})
+     * @ORM\Column(type="string", length=255)
+     */
+    private $region;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $country;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $latitude;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $longitude;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Event::class, mappedBy="address", cascade={"persist", "remove"})
      */
     private $event;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Association::class, mappedBy="address", cascade={"persist", "remove"})
+     */
+    private $association;
 
     public function getId(): ?int
     {
@@ -87,15 +112,80 @@ class Address
     {
         // unset the owning side of the relation if necessary
         if ($event === null && $this->event !== null) {
-            $this->event->setAdress(null);
+            $this->event->setAddress(null);
         }
 
         // set the owning side of the relation if necessary
-        if ($event !== null && $event->getAdress() !== $this) {
-            $event->setAdress($this);
+        if ($event !== null && $event->getAddress() !== $this) {
+            $event->setAddress($this);
         }
 
         $this->event = $event;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    public function getLatitude(): ?string
+    {
+        return $this->latitude;
+    }
+
+    public function setLatitude(string $latitude): self
+    {
+        $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getLongitude(): ?string
+    {
+        return $this->longitude;
+    }
+
+    public function setLongitude(string $longitude): self
+    {
+        $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getAssociation(): ?Association
+    {
+        return $this->association;
+    }
+
+    public function setAssociation(Association $association): self
+    {
+        // set the owning side of the relation if necessary
+        if ($association->getAddress() !== $this) {
+            $association->setAddress($this);
+        }
+
+        $this->association = $association;
 
         return $this;
     }

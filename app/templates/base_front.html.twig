@@ -4,30 +4,29 @@
     <meta charset="UTF-8" />
     <title>{% block title %}AssoBook{% endblock %}</title>
     {% block stylesheets %}
-    {{
-      encore_entry_link_tags("global")
-    }}
+      {{ encore_entry_link_tags("global") }}
     {% endblock %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
   </head>
   <body>
     {{ include("element/navbar.html.twig") }}
-
-    <div class="container">
-      {% for label, messages in app.flashes %} {% for message in messages %}
-      <div class="notice">
-        <div style="width: 50%">
-          <div class="alert alert-{{ label }}">
-            {{ message }}
+      {% for label, messages in app.flashes %}
+        {% for message in messages %}
+          <div class="notice">
+            <div class="w-50">
+              <div class="alert alert-{{ label }}">
+                {{ message }}
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      {% endfor %} {% endfor %}
-    </div>
-    {% block body %}{% endblock %} {% block javascripts %}
-    {{ encore_entry_script_tags("script") }}
+        {% endfor %}
+      {% endfor %}
+      {% block body %}{% endblock %}
+    {% block javascripts %}
+      {{ encore_entry_script_tags("script") }}
     {% endblock %}
   </body>
 </html>
