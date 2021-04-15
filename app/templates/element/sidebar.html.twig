@@ -14,7 +14,7 @@
             <img src="{{ asset('assets/images/icons/link.svg') }}" alt="link">
             <p>suit : 0 association(s)</p>
         </div>
-    {% elseif app.user.association %}
+    {# {% elseif app.user.association %}
         <div>
             <img src="{{ asset('assets/images/icons/calendar.svg') }}" alt="calendar">
             <p>Crée : {{ app.user.registerDate|date('d/m/Y') }}</p>
@@ -29,6 +29,7 @@
             <img src="{{ asset('assets/images/icons/location.svg') }}" alt="location">
             <p>situé : {{ app.user.association.location }}</p>
         </div>
+    #}
     {% endif %}
     <div class="row">
         <div class="upd-pwd col-12">

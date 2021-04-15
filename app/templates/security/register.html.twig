@@ -8,10 +8,12 @@
 {% endblock %}
 
 {% block body %}
-    <div class="box">
-        <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
-        {{ form_start(form) }}
-            <h1>Inscription</h1>
-        {{ form_end(form) }}
+    <div class="container">
+        <div class="box d-flex justify-content-center align-items-center">
+            {{ form_start(form) }}
+                <div id="cercle"><a href="{{ path('default_index') }}"><i class="fas fa-times"></i></a></div>
+                <h1>Inscription</h1>
+            {{ form_end(form) }}
+        </div>
     </div>
 {% endblock %}
