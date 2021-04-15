@@ -30,7 +30,7 @@ class Event
     /**
      * @ORM\OneToOne(targetEntity=Address::class, inversedBy="event", cascade={"persist", "remove"})
      */
-    private $adress;
+    private $address;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -72,14 +72,14 @@ class Event
         return $this;
     }
 
-    public function getAdress(): ?Address
+    public function getAddress(): ?Address
     {
-        return $this->adress;
+        return $this->address;
     }
 
-    public function setAdress(?Address $adress): self
+    public function setAddress(?Address $address): self
     {
-        $this->adress = $adress;
+        $this->address = $address;
 
         return $this;
     }

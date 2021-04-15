@@ -30,11 +30,6 @@ class Association
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $location;
-
-    /**
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="association", cascade={"persist", "remove"})
      */
     private $user_account;
@@ -48,6 +43,11 @@ class Association
      * @ORM\ManyToMany(targetEntity=Adherent::class, mappedBy="associations")
      */
     private $adherents;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, inversedBy="association", cascade={"persist", "remove"})
+     */
+    private $address;
 
 
     public function __construct()
@@ -81,18 +81,6 @@ class Association
     public function setDescription(string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -170,6 +158,18 @@ class Association
         if ($this->adherents->removeElement($adherent)) {
             $adherent->removeAssociation($this);
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

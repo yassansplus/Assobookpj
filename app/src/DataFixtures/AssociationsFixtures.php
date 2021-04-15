@@ -29,9 +29,10 @@ class AssociationsFixtures extends Fixture implements DependentFixtureInterface
 
         //Ici je génère toutes les associations dont j'ai besoin avec un nom et une email egale à NOM@gmail.com
         for ($i = 0; $i < 30; $i++) {
-            $fakeName = $this->faker->company;
+            $fakeName = str_replace("[, ]+","-",$this->faker->company);
+            dump($fakeName);
             array_push($fakeCompagnies[0], $fakeName);
-            array_push($fakeCompagnies[1], str_replace(' ', '', $fakeName) . "@gmail.com");
+            array_push($fakeCompagnies[1], $fakeName . "@gmail.com");
         }
 
         //Ici je crée une association et un user que je joins ensemble.
@@ -39,8 +40,7 @@ class AssociationsFixtures extends Fixture implements DependentFixtureInterface
             dump("veuillez patienter... il reste " . (count($fakeCompagnies[0]) - $i) . " entrées à traité");
             $assocation = new Association();
             $assocation->setName($fakeCompagnies[0][$i])
-                ->setDescription($this->faker->text(140))
-                ->setLocation($this->faker->city);
+                ->setDescription($this->faker->text(140));
 
 
             $user = new User();

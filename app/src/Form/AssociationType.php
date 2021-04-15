@@ -40,13 +40,9 @@ class AssociationType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('location', TextType::class,[
-                'label'=> 'Où se situe votre association ?',
-                'required' => true,
-                'attr' => [
-                    'placeholder' => '10 rue de paris',
-                    'class' => 'form-control',
-                ]
+            ->add('adress',AddressType::class,[
+                'mapped' => false,
+                'label' => false,
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider mon association',
