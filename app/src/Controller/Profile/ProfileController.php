@@ -4,8 +4,8 @@ namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
 use App\Entity\Association;
-use App\Form\UpdatePwdType;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,17 +37,12 @@ class ProfileController extends AbstractController
     }
 
     /**
-     * @Route("/mon-compte", name="account")
+     * @Route("/profil", name="account")
+     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function index(): Response
     {
-        if (in_array('ROLE_ADH_CONFIRME',$this->getUser()->getRoles())){
-            return $this->redirectToRoute('profile_followers');
-        }
-        $form = $this->createForm(UpdatePwdType::class);
-        return $this->render('profile/account.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('profile/account.html.twig');
     }
 
     /**
@@ -113,6 +108,7 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/follow", name="follow")
+     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function follow(Request $request): Response
     {
@@ -133,6 +129,7 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/mes-follower", name="followers")
+     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function myfollowers(): Response
     {
@@ -141,9 +138,7 @@ class ProfileController extends AbstractController
         }else{
             $followers = $this->getUser()->getAssociation()->getAdherents();
         }
-        $form = $this->createForm(UpdatePwdType::class);
         return $this->render('profile/follower.html.twig', [
-            'form' => $form->createView(),
             'followers'=> $followers
         ]);
 

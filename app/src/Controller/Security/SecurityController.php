@@ -35,7 +35,7 @@ class SecurityController extends AbstractController
         } elseif ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))){
             return $this->redirectToRoute('profile_register');
         } elseif($this->getUser()){
-            return $this->redirectToRoute('default_index');
+            return $this->redirectToRoute('default_connect');
         }
 
         // get the login error if there is one

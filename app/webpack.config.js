@@ -23,7 +23,8 @@ Encore
   .addEntry("app", "./assets/app.js")
 
   .addStyleEntry("global", "./assets/styles/global.scss")
-  .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
+  .addStyleEntry('globalConnect', './assets/styles/globalConnect.scss')
+    .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
   .addStyleEntry("index", "./assets/styles/index.scss")
   .addStyleEntry("amsify.suggestags", "./assets/styles/amsify.suggestags.scss")
   .addStyleEntry("wawFront", "./assets/styles/wawFront.scss")
