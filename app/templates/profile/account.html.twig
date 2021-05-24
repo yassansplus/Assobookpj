@@ -4,18 +4,92 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {{ encore_entry_link_tags("profile") }}
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-9">
-                {% block profile %}
-                {% endblock %}
+        <div class="form-profile mt-4">
+            <div class="col-lg-8 col-12 info-account p-0">
+                <div class="banner-img">
+                    <img src="{{ asset("assets/images/front/event.jpg") }}" alt="">
+                </div>
+                <div class="detail-account">
+                    <div class="photo-profile shadow-sm bg-white mx-sm-0 mx-auto rounded mb-4">
+                        {% set categ = app.user.association ? 'association' : 'adherent' %}
+                        {% set img = app.user.association ? 'dollar.jpg' : 'user.jpg' %}
+                        <div class="dropright">
+                            <button class="border-0" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <img class="rounded" src="{{ asset("assets/images/profile/"~categ~"/"~img~"") }}" alt="">
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="#" style="font-size:13px"><i class="fas fa-pencil-alt" style="font-size:13px"></i> Modifier</a>
+                                <a class="dropdown-item" href="#" style="font-size:13px"><i class="fas fa-trash-alt" style="font-size:13px"></i> Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <h2>
+                            {% if app.user.association %}
+                                <p>{{ app.user.association.name }}</p>
+                            {% else %}
+                                <div class="d-flex flex-wrap justify-content-sm-start justify-content-center">
+                                    <p class="pr-1">{{ app.user.adherent.firstname }}</p>
+                                    <p>{{ app.user.adherent.lastname }}</p>
+                                </div>
+                            {% endif %}
+                        </h2>
+                        <p class="mb-2 text-center text-sm-left">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</p>
+                        <div class="d-flex info-details-account align-items-center justify-content-center justify-content-sm-start flex-wrap">
+                            {{ app.user.association ? 'Design' : (app.user.adherent.gender ? 'Masculin' : 'Féminin') }}
+                            <i class="fas fa-circle px-2"></i>
+                            San Francisco, CA
+                            {% if is_granted('ROLE_ASSOC_CONFIRME') %}
+                                <i class="fas fa-circle px-2"></i>
+                                120,000 Followers
+                            {% endif %}
+                        </div>
+                        <div class="text-sm-left text-center">
+                            <a href="#">Voir les 128 associations du type : Design <i class="fas fa-arrow-right" style="font-size:14px;"></i></a>
+                        </div>
+                        <div class="d-flex flex-wrap mt-3 mx-sm-0 mx-auto" style="width:65%">
+                            <div class="col-sm-5 col-12 p-1">
+                                <button class="btn btn-form btn-form-blue w-100"> {{ app.user.association ? '<i class="fas fa-plus-square"></i> Follow' : '<i class="fas fa-pencil-alt"></i> Modifier' }}</button>
+                            </div>
+                            <div class="col-sm-5 col-12 p-1">
+                                <button class="btn btn-form btn-outline-primary btn-form-outline-blue w-100"><i class="fas fa-eye"></i> Voir </button>
+                            </div>
+                            <div class="col-sm-2 col-12 p-1">
+                                <div class="dropdown">
+                                    <button class="btn btn-form btn-form-light w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        ...
+                                    </button>
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 p-0 col-12 d-none d-lg-block">
+                <div class="info-other-association ml-md-4 mt-md-0 mt-4 px-3 py-4 shadow-sm bg-white rounded">
+                    <p class="text-sm-center">D'autres associations à découvrir </p>
+                    {% for i in 0..5 %}
+                        <div class="row align-items-center mb-3">
+                            <div class="col-lg-2 col-md-12 text-lg-left text-md-center"><img src="{{ asset("assets/images/logo/insta.png") }}" alt="" width="40" height="40"></div>
+                            <div class="col-lg-7 col-md-12 text-lg-left text-md-center">
+                                <p class="m-0" style="font-size:13px;">Instagram</p>
+                                <p class="m-0" style="opacity: 0.4;font-size:12px">Réseau - 12M followers</p>
+                            </div>
+                            <div class="col-lg-3 col-md-12 text-center"><i class="design-logo fas fa-eye"></i></div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
-    </div>
-
 {% endblock %}
 
 {% block javascripts %}

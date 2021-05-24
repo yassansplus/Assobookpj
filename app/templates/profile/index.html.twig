@@ -7,6 +7,10 @@
     {{ encore_entry_link_tags('formAuth') }}
 {% endblock %}
 
+{% block scripts %}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
+{% endblock %}
+
 {% block body %}
     <div class="box d-flex justify-content-center align-items-center">
         <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>

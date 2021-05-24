@@ -1,0 +1,29 @@
+@import "assets/styles/variables";
+
+.btn-form {
+  font-size: 13px !important;
+  color: $white;
+  &:hover {
+    color: $white !important;
+  }
+}
+
+.btn-form-blue {
+  background-color: $blue-linkedin !important;
+  &:hover {
+    background-color: $medium-blue !important;
+  }
+}
+
+.btn-form-outline-blue {
+  border-color: $blue-linkedin !important;
+  color: $black !important;
+  &:hover {
+    background-color: $blue-linkedin !important;
+  }
+}
+
+.btn-form-light {
+  background-color: $medium-grey !important;
+  color: $white;
+}

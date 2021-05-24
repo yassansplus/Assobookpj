@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}AssoBook{% endblock %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags("globalConnect") }}
@@ -9,7 +10,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://unpkg.com/scrollreveal@4"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
+    <link rel="icon" type="image/png" href="{{ asset("assets/images/official/logo-assobook.png") }}" />
+    {% block scripts %}
+    {% endblock %}
 </head>
 <body>
 {{ include("element/navbar_connected.html.twig") }}
@@ -24,7 +27,9 @@
         </div>
     {% endfor %}
 {% endfor %}
-{% block body %}{% endblock %}
+<div class="padding-nav-fixed">
+    {% block body %}{% endblock %}
+</div>
 {% block javascripts %}
     {{ encore_entry_script_tags("script") }}
 {% endblock %}

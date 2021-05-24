@@ -11,7 +11,7 @@ class DefaultConnectController extends AbstractController
 {
     /**
      * @Route("/home", name="default_connect")
-     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function index(): Response
     {

@@ -5,7 +5,9 @@
 }
 
 nav {
-  position: fixed;
+  position: fixed !important;
+  width: 100%;
+  z-index: 999999999;
 }
 
 %input-color {
