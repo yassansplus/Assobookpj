@@ -1,6 +1,15 @@
 @import "variables";
 @import "form-design/media";
 
+%background-white {
+  background: $white;
+}
+
+%border-radius-10 {
+  border-radius: 10px;
+}
+
+
 .info-account {
   position: relative;
   a {
@@ -24,13 +33,14 @@
   }
 }
 
-.detail-account, .photo-profile, .info-other-association {
-  background-color: $white;
+.detail-account, .photo-profile, .info-other-association, .menuAncrage {
+  @extend %background-white;
+  @extend %border-radius-10;
 }
 
 .detail-account {
   position: relative;
-  border-radius: 10px;
+  @extend %border-radius-10;
   width: 100%;
   padding: 20px;
   margin-top: -15px;
@@ -50,7 +60,6 @@
 }
 
 .form-profile {
-  display: flex;
   flex-wrap: wrap;
   margin: 10px 80px;
 }
@@ -68,4 +77,27 @@
       width: 100%;
       object-fit: cover;
     }
+}
+
+.menuAncrage {
+  div {
+    padding: 20px;
+  }
+  a {
+    color: $black !important;
+    font-size:13px;
+    text-decoration: none;
+    &:hover {
+      color: $high-green !important;
+      transition: 0.3s;
+    }
+    &:active {
+      color: $high-green !important;
+    }
+  }
+}
+
+.pipe {
+  opacity: 0.1;
+  font-size: 20px;
 }

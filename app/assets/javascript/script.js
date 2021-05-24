@@ -4,7 +4,38 @@ window.iziToast = require('izitoast');
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
-require('popper.js')
+require('popper.js');
+
+const animateScroll = (value,bool) => {
+    const scroll = (bool ? $(value).offset().top - 80 : value);
+    $('html, body').animate({
+        scrollTop: scroll
+    }, 1000);
+}
+
+$('.content a').on('click', function(e) {
+    e.preventDefault();
+    animateScroll(this.hash,true);
+});
+
+// When the user clicks on the button, scroll to the top of the document
+const topFunction = () => {
+    animateScroll(0,false);
+}
+
+const mybutton = document.getElementById("scroll-to-up");
+mybutton.addEventListener('click',topFunction);
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = () => scrollFunction();
+
+const scrollFunction = () => {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        mybutton.style.display = "block";
+    } else {
+        mybutton.style.display = "none";
+    }
+}
 
 window.setTimeout(function () {
     $(".alert").fadeTo(1000, 0).slideUp(500, function () {
