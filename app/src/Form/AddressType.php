@@ -18,14 +18,14 @@ class AddressType extends AbstractType
                 'label' => 'Ville',
                 'attr' => [
                     'placeholder' => 'Paris',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                 ]
             ])
             ->add('postalCode', IntegerType::class, [
                 'label' => 'Code postal',
                 'attr' => [
                     'placeholder' => '75002',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                     'min' => 0
                 ]
             ])
@@ -33,28 +33,28 @@ class AddressType extends AbstractType
                 'label' => 'Adresse',
                 'attr' => [
                     'placeholder' => '10 rue de paris',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                 ]
             ])
             ->add('region',TextType::class, [
                 'label' => 'Région',
                 'attr' => [
                     'placeholder' => 'Île-De-France',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                 ]
             ])
             ->add('country',TextType::class, [
                 'label' => 'Pays',
                 'attr' => [
                     'placeholder' => 'France',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                 ]
             ])
             ->add('latitude',TextType::class, [
                 'label' => false,
                 'attr' => [
                     'placeholder' => '48.11125775',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                     'hidden' => true,
                 ]
             ])
@@ -62,7 +62,7 @@ class AddressType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'placeholder' => '2.1111478',
-                    'class' => 'form-control',
+                    'class' => 'form-control mb-2',
                     'hidden' => true,
                 ]
             ])

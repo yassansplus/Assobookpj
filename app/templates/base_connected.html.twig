@@ -16,18 +16,19 @@
 </head>
 <body>
 {{ include("element/navbar_connected.html.twig") }}
-{% for label, messages in app.flashes %}
-    {% for message in messages %}
-        <div class="notice">
-            <div class="w-50">
-                <div class="alert alert-{{ label }}">
-                    {{ message }}
+
+<div class="padding-nav-fixed">
+    {% for label, messages in app.flashes %}
+        {% for message in messages %}
+            <div class="notice d-flex justify-content-center text-center mt-2">
+                <div class="w-50">
+                    <div class="alert alert-{{ label }}">
+                        {{ message }}
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endfor %}
     {% endfor %}
-{% endfor %}
-<div class="padding-nav-fixed">
     {% block body %}{% endblock %}
 </div>
 {% block javascripts %}

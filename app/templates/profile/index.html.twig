@@ -9,12 +9,11 @@
 
 {% block scripts %}
     {# Allez sur google cloud plateform pour récupérer l'api créer #}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_API_KEY"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
 {% endblock %}
 
 {% block body %}
     <div class="box d-flex justify-content-center align-items-center">
-        <div id="cercle"><a href="{{ path('default_index') }}">X</a></div>
         {{ form_start(form) }}
         <h1>Completez votre profil</h1>
             {% if is_granted('ROLE_ADH') %}
@@ -34,8 +33,10 @@
                     <div class="col-lg-6">{{ form_row(form.adress.postalCode, {'attr': {'readonly': true}}) }}</div>
                     <div class="col-lg-6">{{ form_row(form.adress.region, {'attr': {'readonly': true}}) }}</div>
                     <div class="col-lg-6">{{ form_row(form.adress.country, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-lg-12">{{ form_row(form.submit) }}</div>
                 </div>
             {% endif %}
+            <a class="d-flex justify-content-center" href="{{ path('default_index') }}">Retour à l'accueil</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}

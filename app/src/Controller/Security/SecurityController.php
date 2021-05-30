@@ -20,10 +20,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 class SecurityController extends AbstractController
 {
     private $em;
+    private $password;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->em = $em;
+        $this->password = $passwordEncoder;
     }
     /**
      * @Route("/login", name="app_login")
@@ -34,7 +36,7 @@ class SecurityController extends AbstractController
             return $this->redirectToRoute('admin_default_index');
         } elseif ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))){
             return $this->redirectToRoute('profile_register');
-        } elseif($this->getUser()){
+        } elseif($this->getUser() && (!in_array('ROLE_ADH',$this->getUser()->getRoles()) || !in_array('ROLE_ASSOC',$this->getUser()->getRoles()))){
             return $this->redirectToRoute('default_connect');
         }
 
@@ -115,7 +117,7 @@ class SecurityController extends AbstractController
     /**
      * @Route("/reintialisation-mot-de-passe/{token}", name="resetpwd")
      */
-    public function resetPassword(Request $request, string $token, UserPasswordEncoderInterface $passwordEncoder)
+    public function resetPassword(Request $request, string $token)
     {
         // On cherche un utilisateur avec le token donné
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy(['reset_token' => $token]);
@@ -134,15 +136,9 @@ class SecurityController extends AbstractController
             $donnees = $form->getData();
             // On supprime le token
             $user->setResetToken(null);
-
-            // On chiffre le mot de passe
-            $passwordEncoder = $passwordEncoder->encodePassword($user,$donnees->getPassword());
-            $user->setPassword($passwordEncoder);
-
+            $user->setPassword($this->password->encodePassword($user,$donnees->getPassword()));
             $this->em->flush();
-
             $this->addFlash('success', 'Mot de passe mis à jour');
-
             return $this->redirectToRoute('app_login');
         }else {
             // Si on n'a pas reçu les données, on affiche le formulaire

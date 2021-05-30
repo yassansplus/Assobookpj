@@ -21,9 +21,10 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
-        if($this->getUser()){
+        if($this->getUser() && (in_array('ROLE_ADH_CONFIRME',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC_CONFIRME',$this->getUser()->getRoles()))){
             return $this->redirectToRoute("default_connect");
         }
+
         $form = $this->createForm(ContactType::class); // Formulaire de contact
         return $this->render('front/default/index.html.twig', [
             'form' => $form->createView(),

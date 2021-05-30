@@ -6,6 +6,7 @@ use App\Repository\AssociationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssociationRepository::class)
@@ -21,11 +22,13 @@ class Association
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Le nom de l'association ne peut pas être vide")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull(message="La description de l'association ne peut pas être vide")
      */
     private $description;
 
@@ -77,7 +80,7 @@ class Association
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -89,7 +92,7 @@ class Association
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 

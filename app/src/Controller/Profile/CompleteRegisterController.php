@@ -6,11 +6,13 @@ use App\Entity\Adherent;
 use App\Entity\Association;
 use App\Form\AdherentType;
 use App\Form\AssociationType;
+use App\Security\AppCustomAuthenticator;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class CompleteRegisterController extends AbstractController
 {
@@ -24,7 +26,7 @@ class CompleteRegisterController extends AbstractController
     /**
      * @Route("/profil/complete-inscription", name="register")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, AppCustomAuthenticator $login, GuardAuthenticatorHandler $guard): Response
     {
         $user = $this->getUser();
         $hasRole = $this->isGranted('ROLE_ADH');
@@ -45,8 +47,7 @@ class CompleteRegisterController extends AbstractController
             $user->setRoles([$hasRole ? 'ROLE_ADH_CONFIRME' : 'ROLE_ASSOC_CONFIRME']);
             $this->em->persist($typeUser);
             $this->em->flush();
-
-            return $this->redirectToRoute('default_index');
+            return $guard->authenticateUserAndHandleSuccess($user, $request, $login,'main');
         }
         return $this->render('profile/index.html.twig',[
             'form' => $form->createView()

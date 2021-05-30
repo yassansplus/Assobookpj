@@ -15,15 +15,17 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class RegisterController extends AbstractController
 {
     private $em;
+    private $password;
 
-    public function __construct(EntityManagerInterface $em){
+    public function __construct(EntityManagerInterface $em,UserPasswordEncoderInterface $passwordEncoder){
         $this->em = $em;
+        $this->password = $passwordEncoder;
     }
 
     /**
      * @Route("/s-inscrire", name="register")
      */
-    public function index(Request $request, UserPasswordEncoderInterface $passwordEncoder, EmailService $emailService)
+    public function index(Request $request, EmailService $emailService)
     {
         if ($this->getUser() && (in_array('ROLE_ADH',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC',$this->getUser()->getRoles()))) {
             return $this->redirectToRoute('profile_register');
@@ -45,9 +47,8 @@ class RegisterController extends AbstractController
                     throw new \Exception("L'email est déjà prise",500);
                 }
                 $user->setEmail($email);
-                $passwordEncoder = $passwordEncoder->encodePassword($user,$user->getPassword());
-                $user->setPassword($passwordEncoder);
                 $user->setToken(md5(uniqid()));
+                $user->setPassword($this->password->encodePassword($user,$user->getPassword()));
                 $this->em->persist($user);
                 $this->em->flush();
 
@@ -73,18 +74,15 @@ class RegisterController extends AbstractController
     public function activation($token, UserRepository $users)
     {
         $user = $users->findOneBy(['token' => $token]);
-
         if(!$user){
             throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
         }
-
         // On supprime le token
         $user->setToken(null);
         // On met le champs confirm a False
         $this->em->flush();
 
         $this->addFlash('success', 'Votre compte a été activé avec succès');
-
         return $this->redirectToRoute('app_login');
     }
 }

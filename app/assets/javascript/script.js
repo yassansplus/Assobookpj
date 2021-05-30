@@ -6,6 +6,10 @@ window.iziToast = require('izitoast');
 require('bootstrap');
 require('popper.js');
 
+if(window.location.pathname === '/profil' && localStorage.getItem('update')){
+    localStorage.removeItem('update');
+}
+
 const animateScroll = (value,bool) => {
     const scroll = (bool ? $(value).offset().top - 80 : value);
     $('html, body').animate({
@@ -24,29 +28,30 @@ const topFunction = () => {
 }
 
 const mybutton = document.getElementById("scroll-to-up");
-mybutton.addEventListener('click',topFunction);
+if(mybutton !== null){
+    mybutton.addEventListener('click',topFunction);
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = () => scrollFunction();
 
-// When the user scrolls down 20px from the top of the document, show the button
-window.onscroll = () => scrollFunction();
-
-const scrollFunction = () => {
-    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-        mybutton.style.display = "block";
-    } else {
-        mybutton.style.display = "none";
+    const scrollFunction = () => {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
     }
-}
 
-window.setTimeout(function () {
-    $(".alert").fadeTo(1000, 0).slideUp(500, function () {
-        $(this).remove();
+    window.setTimeout(function () {
+        $(".alert").fadeTo(1000, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 2000);
+
+    $(window).scroll(function() {
+        const distanceScrolled = $(this).scrollTop();
+        $('.banner-photo div:first-child').css('-webkit-filter', 'blur('+distanceScrolled/40+'px)');
     });
-}, 2000);
-
-$(window).scroll(function(e) {
-    const distanceScrolled = $(this).scrollTop();
-    $('.banner-photo div:first-child').css('-webkit-filter', 'blur('+distanceScrolled/40+'px)');
-});
+}
 
 var getId = '';
 const addInput = function(){

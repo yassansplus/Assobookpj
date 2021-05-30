@@ -6,15 +6,64 @@
     {{ parent() }}
 {% endblock %}
 
-{% block body %}
-    <div class="container mt-5">
-        <h3>Modifier mon profil</h3>
-        {{ form_start(form) }}
+{% block scripts %}
+    {# Allez sur google cloud plateform pour récupérer l'api créer #}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
+{% endblock %}
 
+{% block body %}
+    <div class="container mt-3">
+        <div class="d-flex justify-content-center mb-2 form-btn">
+            <div class="mr-2"><button id="{{ app.user.adherent ? 'update_adherent' : 'update_assoc' }}" class="btn btn-form btn-form-blue">{{ app.user.adherent ? 'Adhérent' : 'Association' }}</button></div>
+            <div class="mr-2"><button id="update_user" class="btn btn-form btn-form-blue">Utilisateur</button></div>
+            {{ app.user.association ? '<div><button id="address"class="btn btn-form btn-form-blue">Adresse</button></div>' : '' }}
+        </div>
+
+        <h3>Modifier mon profil</h3>
+        {# Formulaire adherent ou association (en fonction de l'utilisateur connecté #}
+        {{ form_start(form) }}
+            {% if app.user.association %}
+                <div class="row">
+                    <div class="col-sm-6">{{ form_row(form.name) }}</div>
+                    <div class="col-sm-6">{{ form_row(form.website) }}</div>
+                    <div class="col-sm-12">{{ form_row(form.description) }}</div>
+                </div>
+            {% else %}
+                <div class="row">
+                    <div class="col-sm-6">{{ form_row(form.firstname) }}</div>
+                    <div class="col-sm-6">{{ form_row(form.lastname) }}</div>
+                    <div class="col-sm-6 col-12">{{ form_row(form.birthday) }}</div>
+                </div>
+            {% endif %}
         {{ form_end(form) }}
+
+        {# Formulaire utilisateur #}
+        {{ form_start(formUser) }}
+            <div class="row">
+                <div class="col-sm-12">{{ form_row(formUser.old_password) }}</div>
+                <div class="col-sm-6">{{ form_row(formUser.new_password.first) }}</div>
+                <div class="col-sm-6">{{ form_row(formUser.new_password.second) }}</div>
+            </div>
+        {{ form_end(formUser) }}
+
+        {# Formulaire adresse #}
+        {% if app.user.association %}
+            {{ form_start(formAddress) }}
+                <div class="row">
+                    <div class="col-sm-12">{{ form_row(formAddress.street) }}</div>
+                    <div class="col-sm-6">{{ form_row(formAddress.city, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-sm-6">{{ form_row(formAddress.postalCode, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-sm-6">{{ form_row(formAddress.region, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-sm-6">{{ form_row(formAddress.country, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-sm-12"><button type="submit" class="btn btn-block btn-primary">Modifier</button></div>
+                </div>
+            {{ form_end(formAddress) }}
+        {% endif %}
     </div>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    {{ encore_entry_script_tags("profilejs") }}
+    {{ encore_entry_script_tags("autocomplete") }}
 {% endblock %}

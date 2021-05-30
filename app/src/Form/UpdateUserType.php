@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 
-class UpdatePwdType extends AbstractType
+class UpdateUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -19,15 +19,16 @@ class UpdatePwdType extends AbstractType
             ->add('old_password', PasswordType::class,[
                 'invalid_message' => 'Le mot de passe ne correspond pas à l\'ancien',
                 'mapped' => false,
-                'label' => false,
-                'required' => true,
+                'label' => 'Votre ancien mot de passe',
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Ancien mot de passe',
-                    'class' => 'form-control'
+                    'class' => 'form-control mb-2'
                 ]
             ])
             ->add('new_password', RepeatedType::class, [
                 'type' => PasswordType::class,
+                'mapped' => false,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
                 'required' => true,
                 'constraints' => new Length([
@@ -35,17 +36,17 @@ class UpdatePwdType extends AbstractType
                     'max' => 16,
                 ]),
                 'first_options' => [
-                    'label' => false,
+                    'label' => 'Votre nouveau mot de passe',
                     'attr' => [
                         'placeholder' => 'Nouveau mot de passe',
-                        'class' => 'form-control'
+                        'class' => 'form-control mb-2'
                     ]
                 ],
                 'second_options' => [
-                    'label' => false,
+                    'label' => 'Confirmez votre mot de passe',
                     'attr' => [
                         'placeholder' => 'Confirmez votre mot de passe',
-                        'class' => 'form-control'
+                        'class' => 'form-control mb-2'
                     ]
                 ],
             ])

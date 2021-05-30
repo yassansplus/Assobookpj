@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AddressesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AddressesRepository::class)
@@ -29,6 +30,7 @@ class Address
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotNull(message="L'adresse ne peut pas être vide")
      */
     private $street;
 
@@ -96,7 +98,7 @@ class Address
         return $this->street;
     }
 
-    public function setStreet(string $street): self
+    public function setStreet(?string $street): self
     {
         $this->street = $street;
 

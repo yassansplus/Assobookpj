@@ -4,7 +4,10 @@ namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
 use App\Entity\Association;
-use App\Form\AssociationType;
+use App\Form\AddressType;
+use App\Form\UpdateAdherentType;
+use App\Form\UpdateAssocType;
+use App\Form\UpdateUserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,15 +17,20 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+/**
+ * Class ProfileController
+ * @package App\Controller\Profile
+ * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+ */
 class ProfileController extends AbstractController
 {
     private $em;
-    private $passwordEncoder;
+    private $password;
 
     public function __construct(EntityManagerInterface $em, UserPasswordEncoderInterface $passwordEncoder)
     {
         $this->em = $em;
-        $this->passwordEncoder = $passwordEncoder;
+        $this->password = $passwordEncoder;
     }
 
     protected function getArrayMessage($title, $typeUser, $data = null)
@@ -39,7 +47,6 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/profil", name="account")
-     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function profile(): Response
     {
@@ -56,7 +63,6 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/association/{id}", name="show")
-     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function showAssociation($id): Response
     {
@@ -66,27 +72,62 @@ class ProfileController extends AbstractController
         ]);
     }
 
+    private function updatePwd($pwdOld,$data){
+        if(!is_null($pwdOld)){
+            if (!$this->password->isPasswordValid($this->getUser(), $pwdOld)) {
+                $this->addFlash('danger','Le mot de passe ne correspond pas à l\'ancien');
+            }else{
+                $data->getData()->setPassword($this->password->encodePassword($data->getData(),$data->get('new_password')->getData()));
+                $this->em->flush();
+                $this->addFlash('success','Modification réussie');
+            }
+        }else{
+            $this->addFlash('danger','L\'ancien mot de passe n\'est pas rempli');
+        }
+    }
+
+    private function form(array $arrayForm, $request){
+        foreach($arrayForm as $key => $form){
+            if(!empty($form)){
+                $form->handleRequest($request);
+                if($form->isSubmitted() && $form->isValid()){
+                    $data = $form;
+                    if($key === 'user'){
+                        $pwdOld = $form->get('old_password')->getData();
+                        $this->updatePwd($pwdOld,$data);
+                    }else{
+                        $this->em->flush();
+                        $this->addFlash('success','Modification réussie');
+                    }
+                }
+            }
+        }
+    }
+
     /**
-     * @Route("/modifier-profil",name="update")
-     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+     * @Route("/modifier-profil", name="update")
      */
-    public function updateProfile(Request $request): Response {
+    public function edit(Request $request): Response {
         $currentUser = $this->getUser();
-        $conditionUser = $this->isGranted('ROLE_ADH');
+        $conditionUser = $this->isGranted('ROLE_ADH_CONFIRME');
         $typeClass = $conditionUser ? Adherent::class : Association::class;
 
         $typeUser = $this->em->getRepository($typeClass)->find($conditionUser ? $currentUser->getAdherent() : $currentUser->getAssociation());
-        $form = $this->createForm(AssociationType::class, $typeUser);
-
-        $form->handleRequest($request);
-
-        if($form->isSubmitted() && $form->isValid()){
-            $this->em->flush();
-            return $this->redirectToRoute('account_address');
+        $form = $this->createForm($conditionUser ? UpdateAdherentType::class : UpdateAssocType::class, $typeUser);
+        $formUser = $this->createForm(UpdateUserType::class,$currentUser);
+        $formAddress = '';
+        if(!$conditionUser){
+            $formAddress = $this->createForm(AddressType::class,$currentUser->getAssociation()->getAddress());
+            $formAdd = ["formAddress" => $formAddress->createView()];
         }
 
+        $arrayForm = ["form" => $form, "user" => $formUser, "address" => !empty($formAddress) ? $formAddress : ''];
+        $this->form($arrayForm,$request);
+
         return $this->render('profile/update_profile.html.twig',[
-            "form" => $form->createView()
+            "form" => $form->createView(),
+            "formUser" => $formUser->createView(),
+            !$conditionUser ? $formAdd : '',
         ]);
     }
 
@@ -153,7 +194,6 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/follow", name="follow")
-     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function follow(Request $request): Response
     {
@@ -174,7 +214,6 @@ class ProfileController extends AbstractController
 
     /**
      * @Route("/mes-follower", name="followers")
-     * @Security("is_granted('ROLE_ADH_CONFIME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function myfollowers(): Response
     {
@@ -186,6 +225,5 @@ class ProfileController extends AbstractController
         return $this->render('profile/follower.html.twig', [
             'followers'=> $followers
         ]);
-
     }
 }
