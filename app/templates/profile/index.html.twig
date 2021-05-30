@@ -8,7 +8,8 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
+    {# Allez sur google cloud plateform pour récupérer l'api créer #}
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_API_KEY"></script>
 {% endblock %}
 
 {% block body %}
@@ -24,13 +25,15 @@
                 {{ form_row(form.birthday) }}
             {% elseif is_granted('ROLE_ASSOC') %}
                 <div class="row">
-                    <div class="col-lg-12">{{ form_row(form.name) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.name) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.theme) }}</div>
                     <div class="col-lg-12">{{ form_row(form.description) }}</div>
+                    <div class="col-lg-12">{{ form_row(form.website) }}</div>
                     <div class="col-lg-12">{{ form_row(form.adress.street) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.city) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.postalCode) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.region) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.country) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.adress.city, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.adress.postalCode, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.adress.region, {'attr': {'readonly': true}}) }}</div>
+                    <div class="col-lg-6">{{ form_row(form.adress.country, {'attr': {'readonly': true}}) }}</div>
                 </div>
             {% endif %}
         {{ form_end(form) }}

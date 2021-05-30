@@ -49,6 +49,11 @@ class Adherent
      */
     private $associations;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $bio;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
@@ -150,6 +155,18 @@ class Adherent
     public function removeAssociation(Association $association): self
     {
         $this->associations->removeElement($association);
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
 
         return $this;
     }

@@ -1,0 +1,20 @@
+{% extends 'base_connected.html.twig' %}
+
+{% block title %} Modifier mon profil - AssoBook{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h3>Modifier mon profil</h3>
+        {{ form_start(form) }}
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

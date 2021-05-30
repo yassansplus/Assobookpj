@@ -4,6 +4,7 @@ namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
 use App\Entity\Association;
+use App\Form\AssociationType;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,9 +41,53 @@ class ProfileController extends AbstractController
      * @Route("/profil", name="account")
      * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
-    public function index(): Response
+    public function profile(): Response
     {
-        return $this->render('profile/account.html.twig');
+        $association = '';
+        if($this->getUser()->getAdherent()){
+            $association = $this->em->getRepository(Association::class)->findAll();
+            shuffle($association);
+        }
+
+        return $this->render('profile/account.html.twig',[
+            'allAssoc' => $association
+        ]);
+    }
+
+    /**
+     * @Route("/association/{id}", name="show")
+     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+     */
+    public function showAssociation($id): Response
+    {
+        $association = $this->em->getRepository(Association::class)->find($id);
+        return $this->render('profile/account.html.twig',[
+            'association' => $association
+        ]);
+    }
+
+    /**
+     * @Route("/modifier-profil",name="update")
+     * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+     */
+    public function updateProfile(Request $request): Response {
+        $currentUser = $this->getUser();
+        $conditionUser = $this->isGranted('ROLE_ADH');
+        $typeClass = $conditionUser ? Adherent::class : Association::class;
+
+        $typeUser = $this->em->getRepository($typeClass)->find($conditionUser ? $currentUser->getAdherent() : $currentUser->getAssociation());
+        $form = $this->createForm(AssociationType::class, $typeUser);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->flush();
+            return $this->redirectToRoute('account_address');
+        }
+
+        return $this->render('profile/update_profile.html.twig',[
+            "form" => $form->createView()
+        ]);
     }
 
     /**

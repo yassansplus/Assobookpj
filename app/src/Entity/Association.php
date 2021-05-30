@@ -49,6 +49,17 @@ class Association
      */
     private $address;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=ThemeAssoc::class, inversedBy="associations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $theme;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $website;
+
 
     public function __construct()
     {
@@ -170,6 +181,30 @@ class Association
     public function setAddress(Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getTheme(): ?ThemeAssoc
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?ThemeAssoc $theme): self
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
 
         return $this;
     }

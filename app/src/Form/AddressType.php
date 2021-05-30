@@ -72,7 +72,7 @@ class AddressType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => Address::class,
+            'data_class' => Address::class
         ]);
     }
 }

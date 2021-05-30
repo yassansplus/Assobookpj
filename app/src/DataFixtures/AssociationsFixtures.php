@@ -2,7 +2,9 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Address;
 use App\Entity\Association;
+use App\Entity\ThemeAssoc;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -35,13 +37,29 @@ class AssociationsFixtures extends Fixture implements DependentFixtureInterface
             array_push($fakeCompagnies[1], $fakeName . "@gmail.com");
         }
 
+        //Je mélange mon tableau de theme pour associer à une association un theme aleatoire
+        $themeAssocs = $manager->getRepository(ThemeAssoc::class)->findAll();
+        $arrayThemeAssoc = [];
+        foreach($themeAssocs as $themeAssoc){
+            array_push($arrayThemeAssoc,$themeAssoc);
+        }
+
+        //Melange mon tableau d'adresse pour l'associer à une association
+        $addresses = $manager->getRepository(Address::class)->findAll();
+        $arrayAddress = [];
+        foreach($addresses as $address){
+            array_push($arrayAddress,$address);
+        }
         //Ici je crée une association et un user que je joins ensemble.
         for ($i = 0; $i < count($fakeCompagnies[0]); $i++) {
             dump("veuillez patienter... il reste " . (count($fakeCompagnies[0]) - $i) . " entrées à traité");
             $assocation = new Association();
+            shuffle($arrayThemeAssoc);
+            $rand_keys_theme = array_rand($arrayThemeAssoc,1);
             $assocation->setName($fakeCompagnies[0][$i])
-                ->setDescription($this->faker->text(140));
-
+                ->setDescription($this->faker->text(140))
+                ->setTheme($arrayThemeAssoc[$rand_keys_theme])
+                ->setAddress($arrayAddress[$i]);
 
             $user = new User();
             $user->setEmail($fakeCompagnies[1][$i])
@@ -60,6 +78,7 @@ class AssociationsFixtures extends Fixture implements DependentFixtureInterface
     {
         return array(
             TagsFixtures::class,
+            ThemeAssocFixtures::class,
         );
     }
 }
