@@ -32,3 +32,16 @@ html,body {
   padding: 15px;
   border-radius: 10px;
 }
+
+.couverture-file .vich-image img, .photo-file .vich-image img {
+  object-fit: cover;
+  height: 130px;
+}
+
+.couverture-file .vich-image img {
+  width: 100%;
+}
+
+.photo-file .vich-image img {
+  width: 130px;
+}

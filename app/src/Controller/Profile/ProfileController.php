@@ -76,14 +76,18 @@ class ProfileController extends AbstractController
         if(!is_null($pwdOld)){
             if (!$this->password->isPasswordValid($this->getUser(), $pwdOld)) {
                 $this->addFlash('danger','Le mot de passe ne correspond pas à l\'ancien');
-            }else{
+                return false;
+            }elseif(!is_null($data->get('new_password')->getData())){
                 $data->getData()->setPassword($this->password->encodePassword($data->getData(),$data->get('new_password')->getData()));
-                $this->em->flush();
-                $this->addFlash('success','Modification réussie');
+            }else{
+                $this->addFlash('danger','Le nouveau mot de passe n\'est pas rempli');
+                return false;
             }
-        }else{
+        }else if(is_null($pwdOld) && !is_null($data->get('new_password')->getData())){
             $this->addFlash('danger','L\'ancien mot de passe n\'est pas rempli');
+            return false;
         }
+        return true;
     }
 
     private function form(array $arrayForm, $request){
@@ -94,11 +98,12 @@ class ProfileController extends AbstractController
                     $data = $form;
                     if($key === 'user'){
                         $pwdOld = $form->get('old_password')->getData();
-                        $this->updatePwd($pwdOld,$data);
-                    }else{
-                        $this->em->flush();
-                        $this->addFlash('success','Modification réussie');
+                        if($this->updatePwd($pwdOld,$data) === false){
+                            return false;
+                        };
                     }
+                    $this->em->flush();
+                    $this->addFlash('success','Modification réussie');
                 }
             }
         }
@@ -115,7 +120,6 @@ class ProfileController extends AbstractController
         $typeUser = $this->em->getRepository($typeClass)->find($conditionUser ? $currentUser->getAdherent() : $currentUser->getAssociation());
         $form = $this->createForm($conditionUser ? UpdateAdherentType::class : UpdateAssocType::class, $typeUser);
         $formUser = $this->createForm(UpdateUserType::class,$currentUser);
-        $formAddress = '';
         if(!$conditionUser){
             $formAddress = $this->createForm(AddressType::class,$currentUser->getAssociation()->getAddress());
             $formAdd = ["formAddress" => $formAddress->createView()];
@@ -127,7 +131,7 @@ class ProfileController extends AbstractController
         return $this->render('profile/update_profile.html.twig',[
             "form" => $form->createView(),
             "formUser" => $formUser->createView(),
-            !$conditionUser ? $formAdd : '',
+            "address" => !$conditionUser ? $formAdd : '',
         ]);
     }
 

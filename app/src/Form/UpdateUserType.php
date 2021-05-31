@@ -10,12 +10,33 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class UpdateUserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('photoFile',VichImageType::class,[
+                'label' => 'Photo de profil',
+                'required' => false,
+                'allow_delete' => true,
+                'image_uri' => true,
+                'download_uri' => false,
+                'attr' => [
+                    "class" => 'form-control mb-2'
+                ]
+            ])
+            ->add('couvertureFile',VichImageType::class,[
+                'label' => 'Photo de couverture',
+                'required' => false,
+                'allow_delete' => true,
+                'image_uri' => true,
+                'download_uri' => false,
+                'attr' => [
+                    "class" => 'form-control mb-2'
+                ]
+            ])
             ->add('old_password', PasswordType::class,[
                 'invalid_message' => 'Le mot de passe ne correspond pas à l\'ancien',
                 'mapped' => false,
@@ -30,7 +51,7 @@ class UpdateUserType extends AbstractType
                 'type' => PasswordType::class,
                 'mapped' => false,
                 'invalid_message' => 'Le mot de passe et la confirmation doivent être identique.',
-                'required' => true,
+                'required' => false,
                 'constraints' => new Length([
                     'min' => 8,
                     'max' => 16,
@@ -53,7 +74,7 @@ class UpdateUserType extends AbstractType
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',
                 'attr' => [
-                    'class' => 'btn btn-primary btn-block',
+                    'class' => 'btn btn-primary btn-block mb-5',
                 ]
             ])
         ;

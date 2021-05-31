@@ -8,7 +8,7 @@
 
 {% block scripts %}
     {# Allez sur google cloud plateform pour récupérer l'api créer #}
-    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=YOUR_KEY_API"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&key=AIzaSyByJ7_tyjgaoFR6D1AUqu016aVcQHc-ntI"></script>
 {% endblock %}
 
 {% block body %}
@@ -40,6 +40,8 @@
         {# Formulaire utilisateur #}
         {{ form_start(formUser) }}
             <div class="row">
+                <div class="col-sm-12 text-center photo-file">{{ form_row(formUser.photoFile) }}</div>
+                <div class="col-sm-12 text-center couverture-file">{{ form_row(formUser.couvertureFile) }}</div>
                 <div class="col-sm-12">{{ form_row(formUser.old_password) }}</div>
                 <div class="col-sm-6">{{ form_row(formUser.new_password.first) }}</div>
                 <div class="col-sm-6">{{ form_row(formUser.new_password.second) }}</div>
@@ -48,16 +50,16 @@
 
         {# Formulaire adresse #}
         {% if app.user.association %}
-            {{ form_start(formAddress) }}
-                <div class="row">
-                    <div class="col-sm-12">{{ form_row(formAddress.street) }}</div>
-                    <div class="col-sm-6">{{ form_row(formAddress.city, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-sm-6">{{ form_row(formAddress.postalCode, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-sm-6">{{ form_row(formAddress.region, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-sm-6">{{ form_row(formAddress.country, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-sm-12"><button type="submit" class="btn btn-block btn-primary">Modifier</button></div>
-                </div>
-            {{ form_end(formAddress) }}
+            {{ form_start(address.formAddress) }}
+            <div class="row">
+                <div class="col-sm-12">{{ form_row(address.formAddress.street) }}</div>
+                <div class="col-sm-6">{{ form_row(address.formAddress.city, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-sm-6">{{ form_row(address.formAddress.postalCode, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-sm-6">{{ form_row(address.formAddress.region, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-sm-6">{{ form_row(address.formAddress.country, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-sm-12"><button type="submit" class="btn btn-block btn-primary">Modifier</button></div>
+            </div>
+            {{ form_end(address.formAddress) }}
         {% endif %}
     </div>
 {% endblock %}

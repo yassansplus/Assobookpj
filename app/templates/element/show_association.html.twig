@@ -3,8 +3,9 @@
     {% set hasAssoc = allAssoc is not empty ? allAssoc : account.theme.associations %}
     <p class="text-sm-center">D'autres associations à découvrir </p>
     {% for assoc in hasAssoc|slice(0,5) %}
+        {% set pathPhoto = assoc.UserAccount.couverture ? "assets/images/profile/uploads/couverture/"~assoc.UserAccount.photo~"" : "assets/images/logo/default-avatar.jpeg" %}
         <div class="row align-items-center mb-3">
-            <div class="col-lg-2 col-md-12 text-lg-left text-md-center"><img src="{{ asset("assets/images/logo/insta.png") }}" alt="" width="40" height="40"></div>
+            <div class="col-lg-2 col-md-12 text-lg-left text-md-center"><img src="{{ asset(pathPhoto) }}" alt="" width="40" height="40"></div>
             <div class="col-lg-7 col-md-12 text-lg-left text-md-center">
                 <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
                 <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }} - {{ assoc.adherents|length }} followers</p>

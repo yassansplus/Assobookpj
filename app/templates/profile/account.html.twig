@@ -13,13 +13,14 @@
             <div class="d-flex">
                 <div class="col-lg-8 col-12 info-account p-0">
                     <div class="banner-img">
-                        <img src="{{ asset("assets/images/front/event.jpg") }}" alt="">
+                        {% set userConnect = account ? account.UserAccount : app.user.adherent.UserAccount %}
+                        {% set pathBanner = userConnect.couverture ? "assets/images/profile/uploads/couverture/"~userConnect.couverture~"" : "assets/images/logo/banner-default.jpg" %}
+                        <img src="{{ asset(pathBanner) }}" alt="">
                     </div>
                     <div class="detail-account">
                         <div class="photo-profile shadow-sm bg-white mx-sm-0 mx-auto rounded mb-4">
-                            {% set categ = account ? 'association' : 'adherent' %}
-                            {% set img = account ? 'dollar.jpg' : 'user.jpg' %}
-                            <img class="rounded" src="{{ asset("assets/images/profile/"~categ~"/"~img~"") }}" alt="">
+                            {% set pathAvatar = userConnect.photo ? "assets/images/profile/uploads/user/"~userConnect.photo~"" : "assets/images/logo/default-avatar.jpeg" %}
+                            <img class="rounded" src="{{ asset(pathAvatar) }}" alt="">
                         </div>
                         <div>
                             <h2>
