@@ -45,6 +45,7 @@ Encore
   .addEntry("suggestions", "./assets/javascript/suggestions.js")
     .addEntry('autocomplete', './assets/javascript/autocomplete.js')
     .addEntry('profilejs', './assets/javascript/profile.js')
+    .addEntry('readmore', './assets/javascript/readmore.js')
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

@@ -1,6 +1,7 @@
 <div class="info-other-association ml-md-4 mt-md-0 mt-4 px-3 py-4 shadow-sm bg-white">
     {% set allAssoc = allAssoc is defined ? allAssoc : '' %}
-    {% set hasAssoc = allAssoc is not empty ? allAssoc : account.theme.associations %}
+    {% set isAssoc = association is defined ? association.theme.associations : (app.user.association ? app.user.association.theme.associations : '') %}
+    {% set hasAssoc = allAssoc is not empty ? allAssoc : isAssoc %}
     <p class="text-sm-center">D'autres associations à découvrir </p>
     {% for assoc in hasAssoc|slice(0,5) %}
         {% set pathPhoto = assoc.UserAccount.couverture ? "assets/images/profile/uploads/couverture/"~assoc.UserAccount.photo~"" : "assets/images/logo/default-avatar.jpeg" %}

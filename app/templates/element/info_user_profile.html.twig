@@ -1,0 +1,158 @@
+{% set arrayForm = '' %}
+{% set getTheme = [] %}
+{% set repeated = [] %}
+{% set difference = date((getAdh ? getAdh : getAssoc).userAccount.registerDate|date('Y/m/d')).diff(date('now'|date('Y/m/d'))) %}
+{% set leftDays = difference.days %}
+
+{% set arrayAssoc = {
+    'propos': {
+        'id': 'a-propos',
+        'title': 'À propos'
+    },
+    'abo': {
+        'id': 'mes-abonnes',
+        'title': 'Mes abonnés'
+    },
+    'events': {
+        'id': 'mes-evenements',
+        'title': 'Mes événéments'
+    },
+    'publi': {
+        'id': 'mes-publications',
+        'title': 'Mes publications'
+    }
+} %}
+
+{% set arrayAdh = {
+    'propos': {
+        'id': 'a-propos',
+        'title': 'À propos',
+    },
+    'abo': {
+        'id': 'mes-abonnements',
+        'title': 'Mes abonnements',
+    },
+    'interets': {
+        'id': 'mes-centres-d-interets',
+        'title': 'Mes centres d\'intérêt',
+    },
+    'event': {
+        'id': 'mes-events',
+        'title': 'Mes événements',
+    }
+} %}
+
+{% if getAdh %}
+    {% set arrayForm = arrayAdh %}
+{% else %}
+    {% set arrayForm = arrayAssoc %}
+{% endif %}
+
+{#
+Adherent ->
+    Mes abonnements,
+    a propos (nombre d’asso suivi, jour d’inscription (+ temps dans le site), theme association le plus suivi),
+    centre d’intérêt,
+    évènement dernier participer
+
+Association ->
+    a propos (nombre d’abonnée, jour d’inscription, nombre de publication et nombre d’évènement),
+    Les abonnés,
+    dernier évènement crée,
+    mes publications dernier crée
+
+Pour event, public, abonnée et abonnement rajouter un lien «voir plus »
+#}
+
+<div class="d-flex p-0 my-3 d-flex align-items-center menuAncrage flex-wrap flex-md-nowrap justify-content-center justify-content-md-start">
+    {% for user in arrayForm %}
+        <div class="content">
+            <a href="#{{ user.id }}">{{ user.title }}</a>
+        </div>
+        {% if arrayForm|last is not same as user %}
+            <div class="pipe p-0 d-none d-sm-block">|</div>
+        {% endif %}
+    {% endfor %}
+</div>
+<div>
+    {% for user in arrayForm %}
+        <section id="{{ user.id }}" class="menuAncrage p-3 mb-3">
+            <p class="font-weight-bold">{{ user.title }}</p>
+            {% if getAdh %}
+                {% if user.id is same as 'a-propos' %}
+                    <div class="p-0" style="font-size:14px;">
+                        <p class="m-0">{{ getAdh.firstname }} suit {{ getAdh.associations|length  }} association{{ getAdh.associations|length > 1 ? 's' : '' }}.</p>
+                        <p class="m-0">Il est inscrit depuis le {{ getAdh.userAccount.registerDate|date('d/m/Y') }} ({{leftDays}} jours)</p>
+                        {% if getAdh.associations|length > 0 %}
+                            <p>Le thème le plus suivi est <i>{{ count.theme }}</i></p>
+                        {% endif %}
+                    </div>
+                {% elseif user.id is same as 'mes-abonnements'%}
+                    {% for assoc in getAdh.associations|slice(0,2) %}
+                        {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~ assoc.userAccount.photo ~ "" : "assets/images/logo/default-avatar.jpeg"  %}
+                        <div class="row align-items-center p-0">
+                            <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
+                            <div class="col-md-4 col-6">
+                                <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
+                                <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.adherents|length }} followers</p>
+                            </div>
+                            <div class="col-md-3 col-3">
+                                <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                {% elseif user.id is same as 'mes-centres-d-interets'%}
+                {% elseif user.id is same as 'mes-events'%}
+
+                {% endif %}
+            {% else %}
+                {% if user.id is same as 'a-propos' %}
+                    <div class="p-0" style="font-size:14px;">
+                        <p class="m-0">{{ getAssoc.name }} est suivi par {{ getAssoc.adherents|length  }} adherent{{ getAssoc.adherents|length > 1 ? 's' : '' }}.</p>
+                        <p class="m-0">L'association est inscrite depuis le {{ getAssoc.userAccount.registerDate|date('d/m/Y') }} ({{leftDays}} jours)</p>
+
+                    </div>
+                {% elseif user.id is same as 'mes-abonnes'%}
+                    {% if getAssoc.adherents|length > 0 %}
+                        {% for assoc in getAssoc.adherents|slice(0,2) %}
+                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~assoc.userAccount.photo ~"" : "assets/images/logo/default-avatar.jpeg"  %}
+                            <div class="row align-items-center p-0">
+                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
+                                <div class="col-md-4 col-6">
+                                    <p class="m-0" style="font-size:13px;">{{ assoc.firstname ~ ' ' ~ assoc.lastname }}</p>
+                                    <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.associations|length }} suivis</p>
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <a href="{{ path('profile_show_adherent', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                    {% else %}
+                        <p style="font-size:14px;">L'association n'a pas encore de follower.</p>
+                    {% endif %}
+                {% elseif user.id is same as 'mes-evenements'%}
+                {% elseif user.id is same as 'mes-publications'%}
+                    <div class="p-0" style="font-size:14px;">
+                        <p class="m-0">Dernière publication : </p>
+                        {% for publi in getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse|slice(0,1) %}
+                            <div class="row">
+                                <div class="col-sm-6 col-6 text-justify">
+                                    <p class="m-0 read-more">{{ publi.description }}</p>
+                                </div>
+                                <div class="col-sm-3 d-flex d-sm-block align-items-center col-6 text-center">
+                                    <p>Crée le {{ publi.datePublication|date('d/m/Y') }} à {{ publi.datePublication|date('H:i') }}</p>
+                                </div>
+                                <div class="col-sm-3 col-12 text-center">
+                                    <a href="#"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                </div>
+                            </div>
+                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endif %}
+        </section>
+    {% endfor %}
+</div>

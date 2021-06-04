@@ -51,13 +51,15 @@ class ProfileController extends AbstractController
     public function profile(): Response
     {
         $association = '';
+        $count = '';
         if($this->getUser()->getAdherent()){
             $association = $this->em->getRepository(Association::class)->findAll();
+            $count = $this->countBestTheme($this->getUser()->getAdherent()->getAssociations());
             shuffle($association);
         }
-
         return $this->render('profile/account.html.twig',[
-            'allAssoc' => $association
+            'allAssoc' => $association,
+            'count' => $count,
         ]);
     }
 
@@ -70,6 +72,39 @@ class ProfileController extends AbstractController
         return $this->render('profile/account.html.twig',[
             'association' => $association
         ]);
+    }
+
+    /**
+     * @Route("/adherent/{id}", name="show_adherent")
+     */
+    public function showAdherent($id): Response
+    {
+        $adherent = $this->em->getRepository(Adherent::class)->find($id);
+        $count = $this->countBestTheme($adherent->getAssociations());
+        $allAssoc = $this->em->getRepository(Association::class)->findAll();
+        shuffle($allAssoc);
+        return $this->render('profile/account.html.twig',[
+            'adherent' => $adherent,
+            'allAssoc' => $allAssoc,
+            'count' => $count
+        ]);
+    }
+
+    private function countBestTheme($entityAdh){
+        $count = 0;
+        $getTheme = [];
+        $newTheme = '';
+        foreach($entityAdh as $assoc){
+            $getTheme[] = $assoc->getTheme()->getName();
+        }
+        $countTheme = array_count_values($getTheme);
+        foreach($countTheme as $key => $theme){
+            if($count < $theme){
+                $count = $theme;
+                $newTheme = $key;
+            }
+        }
+        return ["theme" => $newTheme, "number" => $count];
     }
 
     private function updatePwd($pwdOld,$data){

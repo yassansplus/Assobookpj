@@ -1,4 +1,3 @@
-
 const $ = require('jquery');
 window.iziToast = require('izitoast');
 // this "modifies" the jquery module: adding behavior to it
