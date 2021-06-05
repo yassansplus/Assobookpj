@@ -9,7 +9,7 @@
             <div class="col-lg-2 col-md-12 text-lg-left text-md-center"><img src="{{ asset(pathPhoto) }}" alt="" width="40" height="40"></div>
             <div class="col-lg-7 col-md-12 text-lg-left text-md-center">
                 <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
-                <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }} - {{ assoc.adherents|length }} followers</p>
+                <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }} - {{ assoc.adherents|length }} follower{{ assoc.adherents|length > 1 ? 's' : '' }}</p>
             </div>
             <div class="col-lg-3 col-md-12 text-center">
                 <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye"></i></a>

@@ -39,14 +39,14 @@
                         </h2>
                         <p class="mb-2 text-center text-sm-left">{{ getAssoc ? getAssoc.description : getAdh.bio }}</p>
                         <div class="d-flex info-details-account align-items-center justify-content-center justify-content-sm-start flex-wrap">
-                            {{ getAssoc ? getAssoc.theme.name|capitalize : (getAdh.gender ? 'Masculin' : 'Féminin') }}
+                            <p class="m-0">{{ getAssoc ? getAssoc.theme.name|capitalize : (getAdh.gender ? 'Masculin' : 'Féminin') }}</p>
                             <i class="fas fa-circle px-2"></i>
                             {% if getAssoc %}
-                                {{ getAssoc.address.city ~ ', ' ~ getAssoc.address.region }}
+                                <p class="m-0">{{ getAssoc.address.city ~ ', ' ~ getAssoc.address.region }}</p>
                                 <i class="fas fa-circle px-2"></i>
-                                {{ getAssoc.adherents|length}} followers
+                                <p class="m-0">{{ getAssoc.adherents|length}} follower {{ getAssoc.adherents|length > 1 ? 's' : ''}}</p>
                             {% else %}
-                                {{ getAdh.associations|length }} Suivi(s)
+                                <p class="m-0">{{ getAdh.associations|length }} Suivi(s)</p>
                             {% endif %}
                         </div>
                         {% if getAssoc %}
@@ -59,9 +59,11 @@
 
                             <div class="col-sm-5 col-12 p-1">
                                 {% if app.user.adherent and conditionAssociation %}
-                                    <form action="" method="post">
-                                        <button class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-plus-circle"></i> Follow</button>
-                                    </form>
+                                    {% if getAssoc in app.user.adherent.associations %}
+                                        <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-outline-blue w-100 follow"><i class="fas fa-minus-circle" style="font-size:13px !important;"></i> Ne plus suivre</button>
+                                    {% else %}
+                                        <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-blue w-100 follow" style="color:white !important;"><i class="fas fa-plus-circle"></i> Follow</button>
+                                    {% endif %}
                                 {% elseif getAdh  %}
                                     {% if getAdh is same as app.user.adherent %}<a href="{{ path('profile_update') }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-pencil-alt" style="font-size:13px !important;"></i> Modifier</a>
                                     {% else %}<a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
@@ -105,4 +107,5 @@
 {% block javascripts %}
     {{ parent() }}
     {{ encore_entry_script_tags("readmore") }}
+    {{ encore_entry_script_tags("suggestions") }}
 {% endblock %}

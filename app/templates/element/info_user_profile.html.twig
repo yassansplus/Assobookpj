@@ -48,22 +48,6 @@
     {% set arrayForm = arrayAssoc %}
 {% endif %}
 
-{#
-Adherent ->
-    Mes abonnements,
-    a propos (nombre d’asso suivi, jour d’inscription (+ temps dans le site), theme association le plus suivi),
-    centre d’intérêt,
-    évènement dernier participer
-
-Association ->
-    a propos (nombre d’abonnée, jour d’inscription, nombre de publication et nombre d’évènement),
-    Les abonnés,
-    dernier évènement crée,
-    mes publications dernier crée
-
-Pour event, public, abonnée et abonnement rajouter un lien «voir plus »
-#}
-
 <div class="d-flex p-0 my-3 d-flex align-items-center menuAncrage flex-wrap flex-md-nowrap justify-content-center justify-content-md-start">
     {% for user in arrayForm %}
         <div class="content">
@@ -88,20 +72,26 @@ Pour event, public, abonnée et abonnement rajouter un lien «voir plus »
                         {% endif %}
                     </div>
                 {% elseif user.id is same as 'mes-abonnements'%}
-                    {% for assoc in getAdh.associations|slice(0,2) %}
-                        {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~ assoc.userAccount.photo ~ "" : "assets/images/logo/default-avatar.jpeg"  %}
-                        <div class="row align-items-center p-0">
-                            <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
-                            <div class="col-md-4 col-6">
-                                <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
-                                <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.adherents|length }} followers</p>
+                    {% if  getAdh.associations is not empty %}
+                        {% for assoc in getAdh.associations|slice(0,2) %}
+                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~ assoc.userAccount.photo ~ "" : "assets/images/logo/default-avatar.jpeg"  %}
+                            <div class="row align-items-center p-0">
+                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
+                                <div class="col-md-4 col-6">
+                                    <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
+                                    <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }} - {{ assoc.adherents|length }} follower{{ assoc.adherents|length > 1 ? 's' : ''}}</p>
+                                </div>
+                                <div class="col-md-3 col-3">
+                                    <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                </div>
                             </div>
-                            <div class="col-md-3 col-3">
-                                <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
-                            </div>
+                        {% endfor %}
+                        <div class="d-flex justify-content-end p-0">
+                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
                         </div>
-                    {% endfor %}
-                    <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                    {% else %}
+                        <p style="font-size:14px;">Aucune associations suivi pour l'instant</p>
+                    {% endif %}
                 {% elseif user.id is same as 'mes-centres-d-interets'%}
                 {% elseif user.id is same as 'mes-events'%}
 
@@ -128,7 +118,9 @@ Pour event, public, abonnée et abonnement rajouter un lien «voir plus »
                                 </div>
                             </div>
                         {% endfor %}
-                        <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                        <div class="d-flex justify-content-end p-0">
+                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                        </div>
                     {% else %}
                         <p style="font-size:14px;">L'association n'a pas encore de follower.</p>
                     {% endif %}
@@ -136,20 +128,26 @@ Pour event, public, abonnée et abonnement rajouter un lien «voir plus »
                 {% elseif user.id is same as 'mes-publications'%}
                     <div class="p-0" style="font-size:14px;">
                         <p class="m-0">Dernière publication : </p>
-                        {% for publi in getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse|slice(0,1) %}
-                            <div class="row">
-                                <div class="col-sm-6 col-6 text-justify">
-                                    <p class="m-0 read-more">{{ publi.description }}</p>
+                        {% if getAssoc.publications is not empty %}
+                            {% for publi in getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse|slice(0,1) %}
+                                <div class="row">
+                                    <div class="col-sm-6 col-6 text-justify">
+                                        <p class="m-0 read-more">{{ publi.description }}</p>
+                                    </div>
+                                    <div class="col-sm-3 d-flex d-sm-block align-items-center col-6 text-center">
+                                        <p>Crée le {{ publi.datePublication|date('d/m/Y') }} à {{ publi.datePublication|date('H:i') }}</p>
+                                    </div>
+                                    <div class="col-sm-3 col-12 text-center">
+                                        <a href="#"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                    </div>
                                 </div>
-                                <div class="col-sm-3 d-flex d-sm-block align-items-center col-6 text-center">
-                                    <p>Crée le {{ publi.datePublication|date('d/m/Y') }} à {{ publi.datePublication|date('H:i') }}</p>
-                                </div>
-                                <div class="col-sm-3 col-12 text-center">
-                                    <a href="#"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
-                                </div>
+                            {% endfor %}
+                            <div class="d-flex justify-content-end p-0">
+                                <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
                             </div>
-                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
-                        {% endfor %}
+                        {% else %}
+                            <p style="font-size:14px;">Pas encore de publication</p>
+                        {% endif %}
                     </div>
                 {% endif %}
             {% endif %}

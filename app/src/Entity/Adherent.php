@@ -22,11 +22,13 @@ class Adherent
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Votre prénom ne peut pas être vide")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Votre nom ne peut pas être vide")
      */
     private $lastname;
 
@@ -37,7 +39,7 @@ class Adherent
 
     /**
      * @ORM\Column(type="date")
-     * @Assert\NotNull(message="Birthday est requis.")
+     * @Assert\NotNull(message="Votre date de naissance est requise.")
      */
     private $birthday;
 

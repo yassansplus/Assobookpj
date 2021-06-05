@@ -6,6 +6,7 @@ use App\Entity\Adherent;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -18,7 +19,7 @@ class UpdateAdherentType extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Votre prénom',
-                'required' => true,
+                'required' => false,
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 30
@@ -30,7 +31,7 @@ class UpdateAdherentType extends AbstractType
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Votre nom',
-                'required' => true,
+                'required' => false,
                 'constraints' => new Length([
                     'min' => 2,
                     'max' => 60
@@ -46,6 +47,18 @@ class UpdateAdherentType extends AbstractType
                 'attr' => [
                     'class' => 'form-control mt-2',
                 ],
+            ])
+            ->add('bio',TextareaType::class,[
+                'label' => 'Bio',
+                'required' => false,
+                'constraints' => new Length([
+                    'min' => 5,
+                    'max' => 140
+                ]),
+                'attr' => [
+                    'placeholder' => 'J\'aime ...',
+                    'class' => 'form-control',
+                ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Modifier',

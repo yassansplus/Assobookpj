@@ -9,6 +9,7 @@ use App\Form\UpdateAdherentType;
 use App\Form\UpdateAssocType;
 use App\Form\UpdateUserType;
 use Doctrine\ORM\EntityManagerInterface;
+use PhpParser\Error;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -232,9 +233,9 @@ class ProfileController extends AbstractController
 
 
     /**
-     * @Route("/follow", name="follow")
+     * @Route("/followYass", name="followYass")
      */
-    public function follow(Request $request): Response
+    public function followYass(Request $request): Response
     {
         $association = $request->get('association');
         $em = $this->getDoctrine()->getManager();
@@ -248,6 +249,32 @@ class ProfileController extends AbstractController
             $association->removeAdherent($adherent);
             $em->flush();
             return new JsonResponse(['title' => 'ET BOOM!💥', 'message' => 'Vous ne suivez plus ' . $association->getName()]);
+        }
+    }
+
+    /**
+     * @Route("/follow", name="follow")
+     */
+    public function follow(Request $request): Response
+    {
+        header('Content-Type: application/json');
+        try {
+            $json_str = file_get_contents('php://input');
+            $json_obj = json_decode($json_str);
+            $association = $this->em->getRepository(Association::class)->find($json_obj);
+            $adherent = $this->getUser()->getAdherent();
+            if (!in_array($this->getUser()->getAdherent(), $association->getAdherents()->toArray())) {
+                $association->addAdherent($adherent);
+                $this->em->flush();
+                return new JsonResponse(['title' => 'ET BOOM!💥', 'message' => 'Vous suivez desormais ' . $association->getName(), 'value' => 'add']);
+            } else {
+                $association->removeAdherent($adherent);
+                $this->em->flush();
+                return new JsonResponse(['title' => 'ET BOOM!💥', 'message' => 'Vous ne suivez plus ' . $association->getName(), 'value' => 'del']);
+            }
+        } catch (Error $e) {
+            http_response_code(500);
+            return new JsonResponse(['error' => $e->getMessage()]);
         }
     }
 
