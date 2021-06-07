@@ -4,6 +4,31 @@
   margin-top: 100px;
 }
 
+.jumbotron {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  margin-bottom: 0;
+  background-color: $white;
+}
+@media (min-width: 768px) {
+  .jumbotron {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+  }
+}
+
+.jumbotron p:last-child {
+  margin-bottom: 0;
+}
+
+.jumbotron h1 {
+  font-weight: 300;
+}
+
+.jumbotron .container {
+  max-width: 60rem;
+}
+
 .title {
   text-align: center;
   color: $low-red;

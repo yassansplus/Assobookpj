@@ -2,171 +2,109 @@
 
 {% block title %}Accueil{% endblock %}
 {% block stylesheets %}
-    {{ parent() }}
-    {{ encore_entry_link_tags('index') }}
+{{ parent() }}
+{{ encore_entry_link_tags('index') }}
 {% endblock %}
 
 {% block body %}
 
-    {# section header #}
-    <div id="panel">
-        <div class="container">
-          <div class="d-flex flex-wrap pt-4">
-            
-              <div class="flex-column bd-highlight align-self-center pl-2 pr-2">
-                <img src="https://i.ibb.co/5xjd8Ln/99-Mailer.png" class="img-fluid animated slideInUp delay-1s">
-              </div>
-            
-              <div class="flex-column flex-grow-1 align-self-center p-2">
-               <h3 class="font-weight-light">Créer vos événements en 5 minutes</h3>
-                <h4 class="font-weight-light font-italic">ou inscrivez-vous pour participer.</h4>
-              </div>
-            
+{# section header #}
+<div id="panel">
+  <div class="container">
+    <div class="d-flex flex-wrap pt-4">
+
+      <div class="flex-column bd-highlight align-self-center pl-2 pr-2">
+        <img src="https://i.ibb.co/5xjd8Ln/99-Mailer.png" class="img-fluid animated slideInUp delay-1s">
+      </div>
+
+      <div class="flex-column flex-grow-1 align-self-center p-2">
+        <h3 class="font-weight-light">Créer vos événements en 5 minutes</h3>
+        <h4 class="font-weight-light font-italic">ou inscrivez-vous pour participer.</h4>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+<!-- <div id="open">Open</div> -->
+
+<div class="container">
+  <section>
+    <h1 class="headline display-1">
+      Assobook
+    </h1>
+    <p class="tagline lead">
+      La référence pour les associasions
+      <span class="punchline lead"><b>et les particuliers.</b></span>
+    </p>
+  </section>
+
+  <section>
+    <div class="how-section1">
+      <div class="row">
+        <div class="col-md-6 how-img">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Time_Trial.svg/1024px-Time_Trial.svg.png"
+            alt="" />
+        </div>
+        <div class="col-md-6">
+          <h4>Organiser un événement</h4>
+          <p class="text-muted">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, nam nihil! A
+            reprehenderit vitae veritatis laboriosam, totam nostrum dignissimos optio, praesentium ex molestiae sit
+            temporibus quidem amet tenetur cumque exercitationem.</p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <h4>Participer à un événement</h4>
+          <p class="text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro, quibusdam? Quod ut
+            placeat dolore, debitis aliquam fugit praesentium nam ipsum eos animi odio minima, officia non alias
+            blanditiis earum soluta!</p>
+        </div>
+        <div class="col-md-6 how-img">
+          <img
+            src="https://www.freeiconspng.com/thumbs/hd-tickets/download-ticket-ticket-free-entertainment-icon-orange-ticket-design-0.png"
+            alt="" />
+        </div>
+      </div>
+  </section>
+</div>
+
+{# section formulaire #}
+<section class="container">
+  <h2 class="text-center">Des questions? Contactez-nous!</h2>
+  <form name="contact" method="post" action="{{ path("default_contact-form") }}">
+    <div class="row">
+      <div class="col-8 offset-2">
+        <div class="row">
+          <div class="col-6">
+            {{ form_row(form.nom) }}
+          </div>
+          <div class="col-6">
+            {{ form_row(form.prenom) }}
           </div>
         </div>
-        
-      </div>
-      <!-- <div id="open">Open</div> -->
-
-      <div class="container">
-        <section>
-          <h1 class="headline display-1">
-            Assobook
-          </h1>
-          <p class="tagline lead">
-            La référence pour les associasions
-            <span class="punchline lead"><b>et les particuliers.</b></span>
-          </p>
-        </section>
-
-        <section>
-          <div class="how-section1">
-            <div class="row">
-                <div class="col-md-6 how-img">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Time_Trial.svg/1024px-Time_Trial.svg.png" alt=""/>
-                </div>
-                <div class="col-md-6">
-                    <h4>Organiser un événement</h4>
-                <p class="text-muted">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore, nam nihil! A reprehenderit vitae veritatis laboriosam, totam nostrum dignissimos optio, praesentium ex molestiae sit temporibus quidem amet tenetur cumque exercitationem.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-6">
-                    <h4>Participer à un événement</h4>
-                                <p class="text-muted">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Porro, quibusdam? Quod ut placeat dolore, debitis aliquam fugit praesentium nam ipsum eos animi odio minima, officia non alias blanditiis earum soluta!</p>
-                </div>
-                <div class="col-md-6 how-img">
-                    <img src="https://www.freeiconspng.com/thumbs/hd-tickets/download-ticket-ticket-free-entertainment-icon-orange-ticket-design-0.png" alt=""/>
-                </div>
-            </div>
-        </section>
-      </div>
-
-    {# section formulaire #}
-    <section class="container">
-        <h2 class="text-center">Des questions? Contactez-nous!</h2>
-        <form name="contact" method="post" action="{{ path("default_contact-form") }}">
-            <div class="row">
-                <div class="col-8 offset-2">
-                    <div class="row">
-                        <div class="col-6">
-                            {{ form_row(form.nom) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_row(form.prenom) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{ form_row(form.email) }}
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-12">
-                            {{ form_row(form.message) }}
-                            <input type="submit" class="btn float-right">
-                            {{ form_row(form._token) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </form>
-    </section>
-
-    <!-- Footer -->
-<footer class="bg-light text-center text-lg-start">
-    <!-- Grid container -->
-    <div class="container p-4">
-      <!--Grid row-->
-      <div class="row">
-        <!--Grid column-->
-        <div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Footer Content</h5>
-  
-          <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste atque ea quis
-            molestias. Fugiat pariatur maxime quis culpa corporis vitae repudiandae aliquam
-            voluptatem veniam, est atque cumque eum delectus sint!
-          </p>
+        <div class="row">
+          <div class="col-12">
+            {{ form_row(form.email) }}
+          </div>
         </div>
-        <!--Grid column-->
-  
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Links</h5>
-  
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="#!" class="text-dark">Link 1</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 2</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 3</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 4</a>
-            </li>
-          </ul>
+        <div class="row">
+          <div class="col-12">
+            {{ form_row(form.message) }}
+            <input type="submit" class="btn float-right">
+            {{ form_row(form._token) }}
+          </div>
         </div>
-        <!--Grid column-->
-  
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-0">Links</h5>
-  
-          <ul class="list-unstyled">
-            <li>
-              <a href="#!" class="text-dark">Link 1</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 2</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 3</a>
-            </li>
-            <li>
-              <a href="#!" class="text-dark">Link 4</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
       </div>
-      <!--Grid row-->
     </div>
-    <!-- Grid container -->
-  
-    <!-- Copyright -->
-    <div class="text-center p-3">
-      © 2021 Copyright - Assobook
-    </div>
-    <!-- Copyright -->
-  </footer>
+  </form>
+</section>
 
-  {% block javascripts %}
-    {{ encore_entry_script_tags("bannerjs") }}
-    {{ encore_entry_script_tags("scrlrvl") }}
-  {% endblock %}
+{{ include("element/footer.html.twig") }}
+
+{% block javascripts %}
+{{ encore_entry_script_tags("bannerjs") }}
+{{ encore_entry_script_tags("scrlrvl") }}
+{% endblock %}
 
 {% endblock %}

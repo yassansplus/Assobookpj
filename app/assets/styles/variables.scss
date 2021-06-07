@@ -5,24 +5,31 @@ medium -> moyen
 high -> foncé
  */
 
-//Bleu
-
-$low-blue : #59cfef;
-$high-blue : #0477a0;
-$medium-blue : rgb(69,122,178);
+//Blue
+$low-blue: #59cfef;
+$high-blue: #0477a0;
+$medium-blue: rgb(69, 122, 178);
 $ref-blue: #5987f9;
-//rouge
+$gr-1-low-blue: #a8acf9;
+$gr-1-high-blue: #5960f7;
+
+//Red
 $high-red: #b8111d;
 $low-red: #d4484f;
+$gr-1-low-red: #f1a4a4;
+$gr-1-high-red: #fc5555;
 
-//grey
-$low-grey : #a4a3a3;
-$high-grey : #b9bdc0;
-$medium-grey : rgba(217, 211, 211, 0.8);
+//Orange
+$gr-1-low-orange: #fcba74;
+$gr-1-high-orange: #f08513;
 
-//yellow
-$low-yellow : #e99e08;
+//Grey
+$low-grey: #a4a3a3;
+$high-grey: #b9bdc0;
+$medium-grey: rgba(217, 211, 211, 0.8);
+
+//Yellow
+$low-yellow: #e99e08;
 
 //Basic
-$white : #ffffff;
-
+$white: #ffffff;
