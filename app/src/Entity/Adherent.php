@@ -6,6 +6,7 @@ use App\Repository\AdherentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AdherentRepository::class)
@@ -21,11 +22,13 @@ class Adherent
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Votre prénom ne peut pas être vide")
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Votre nom ne peut pas être vide")
      */
     private $lastname;
 
@@ -36,6 +39,7 @@ class Adherent
 
     /**
      * @ORM\Column(type="date")
+     * @Assert\NotNull(message="Votre date de naissance est requise.")
      */
     private $birthday;
 
@@ -48,6 +52,11 @@ class Adherent
      * @ORM\ManyToMany(targetEntity=Association::class, inversedBy="adherents")
      */
     private $associations;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $bio;
 
     public function __construct()
     {
@@ -150,6 +159,18 @@ class Adherent
     public function removeAssociation(Association $association): self
     {
         $this->associations->removeElement($association);
+
+        return $this;
+    }
+
+    public function getBio(): ?string
+    {
+        return $this->bio;
+    }
+
+    public function setBio(?string $bio): self
+    {
+        $this->bio = $bio;
 
         return $this;
     }

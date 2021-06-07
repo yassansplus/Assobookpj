@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Association;
+use App\Entity\ThemeAssoc;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -40,19 +43,34 @@ class AssociationType extends AbstractType
                     'class' => 'form-control',
                 ]
             ])
-            ->add('location', TextType::class,[
-                'label'=> 'Où se situe votre association ?',
-                'required' => true,
+            ->add('theme', EntityType::class, [
+                'class' => ThemeAssoc::class,
+                'label' => 'Theme de votre association',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->orderBy('t.name', 'ASC');
+                },
+                'choice_label' => 'name',
                 'attr' => [
-                    'placeholder' => '10 rue de paris',
+                    'class' => 'form-control',
+                ]
+            ])
+            ->add('adress', AddressType::class, [
+                'mapped' => false,
+                'label' => false,
+            ])
+            ->add('website',TextType::class,[
+                'label' => 'Votre site internet (facultatif)',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'http://...',
                     'class' => 'form-control',
                 ]
             ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Valider mon association',
                 'attr' => [
-                    'class' => 'btn btn-block btn-primary',
-                    'style' => 'margin-top:10px;'
+                    'class' => 'btn btn-block btn-primary mt-2',
                 ]
             ])
         ;

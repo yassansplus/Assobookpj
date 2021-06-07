@@ -6,6 +6,10 @@ controllers_front:
     resource: ../../src/Controller/Front
     type: annotation
 
+controllers_connect:
+    resource: ../../src/Controller/Connect
+    type: annotation
+
 controllers_complete:
     resource: ../../src/Controller/Profile
     name_prefix: profile_

@@ -1,0 +1,87 @@
+@import "../variables";
+
+* {
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+nav {
+  position: fixed !important;
+  width: 100%;
+  z-index: 999999999;
+}
+
+%input-color {
+  background-color: $blue-linkedin-placeholder;
+  border: 1px solid $blue-linkedin-placeholder;
+  outline: none;
+}
+
+.w-70 {
+  width: 70% !important;
+}
+
+.w-30 {
+  width: 30% !important;
+}
+
+.px-60{
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.bg-blue{
+  background-color: $blue-linkedin !important;
+}
+
+.input-icon {
+  position: absolute;
+  z-index: 9999;
+  font-size: 18px;
+  left: 17px;
+  top: 5px;
+}
+
+.placeholder-search-navbar {
+  @extend %input-color;
+  color: $white !important;
+  padding: 0 50px;
+  &::placeholder{
+    color: $white;
+    font-size: 13px;
+  }
+  &:focus{
+    @extend %input-color;
+  }
+}
+
+.logo {
+  width: 40px !important;
+  border: none;
+  background-color: $white;
+  img {
+    width:30px;
+  }
+  i{
+    color: $black;
+  }
+}
+
+.dropdown-menu {
+  a {
+    color: $black !important;
+  }
+}
+
+a {
+  color: $white !important;
+  i {
+    font-size: 23px;
+  }
+}
+
+.nav-item {
+  span {
+    font-size: 18px;
+    margin-left: 10px;
+  }
+}

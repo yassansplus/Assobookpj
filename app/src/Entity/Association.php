@@ -6,6 +6,7 @@ use App\Repository\AssociationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AssociationRepository::class)
@@ -21,18 +22,15 @@ class Association
 
     /**
      * @ORM\Column(type="string", length=50)
+     * @Assert\NotNull(message="Le nom de l'association ne peut pas être vide")
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * @Assert\NotNull(message="La description de l'association ne peut pas être vide")
      */
     private $description;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $location;
 
     /**
      * @ORM\OneToOne(targetEntity=User::class, mappedBy="association", cascade={"persist", "remove"})
@@ -48,6 +46,22 @@ class Association
      * @ORM\ManyToMany(targetEntity=Adherent::class, mappedBy="associations")
      */
     private $adherents;
+
+    /**
+     * @ORM\OneToOne(targetEntity=Address::class, inversedBy="association", cascade={"persist", "remove"})
+     */
+    private $address;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=ThemeAssoc::class, inversedBy="associations")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $theme;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $website;
 
 
     public function __construct()
@@ -66,7 +80,7 @@ class Association
         return $this->name;
     }
 
-    public function setName(string $name): self
+    public function setName(?string $name): self
     {
         $this->name = $name;
 
@@ -78,21 +92,9 @@ class Association
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getLocation(): ?string
-    {
-        return $this->location;
-    }
-
-    public function setLocation(?string $location): self
-    {
-        $this->location = $location;
 
         return $this;
     }
@@ -170,6 +172,42 @@ class Association
         if ($this->adherents->removeElement($adherent)) {
             $adherent->removeAssociation($this);
         }
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    public function getTheme(): ?ThemeAssoc
+    {
+        return $this->theme;
+    }
+
+    public function setTheme(?ThemeAssoc $theme): self
+    {
+        $this->theme = $theme;
+
+        return $this;
+    }
+
+    public function getWebsite(): ?string
+    {
+        return $this->website;
+    }
+
+    public function setWebsite(?string $website): self
+    {
+        $this->website = $website;
 
         return $this;
     }

@@ -6,13 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use DateTime;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="user_account")
+ * @Vich\Uploadable
  */
-class User implements UserInterface
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id
@@ -23,6 +28,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Email(message = "L'email '{{ value }}' n'est pas valide.")
      */
     private $email;
 
@@ -42,11 +48,6 @@ class User implements UserInterface
      *
      */
     private $registerDate;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photo;
 
     /**
      * @ORM\ManyToMany(targetEntity=Tag::class, mappedBy="user_tag")
@@ -72,6 +73,57 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $reset_token;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $photo;
+
+    /**
+     *
+     * @Assert\File(
+     *     mimeTypes = {"image/jpeg","image/png","image/jpg"},
+     *     mimeTypesMessage = "Upload une image jpg,png ou jpeg"
+     * )
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="image_profile", fileNameProperty="photo")
+     *
+     * @var File
+     */
+    private $photoFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedPhotoAt;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $couverture;
+
+    /**
+     * @Assert\File(
+     *     mimeTypes = {"image/jpeg","image/png","image/jpg"},
+     *     mimeTypesMessage = "Upload une image jpg,png ou jpeg"
+     * )
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Vich\UploadableField(mapping="couverture_profile", fileNameProperty="couverture")
+     *
+     * @var File
+     */
+    private $couvertureFile;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     *
+     * @var \DateTime
+     */
+    private $updatedCouvertureAt;
 
     public function __construct()
     {
@@ -169,18 +221,6 @@ class User implements UserInterface
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(?string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-
     /**
      * @return Collection|Tag[]
      */
@@ -255,5 +295,79 @@ class User implements UserInterface
         $this->reset_token = $reset_token;
 
         return $this;
+    }
+
+    public function setPhotoFile(File $imagePhotoFile = null): User
+    {
+        $this->photoFile = $imagePhotoFile;
+
+        if ($this->photoFile instanceof UploadedFile) {
+            $this->updatedPhotoAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function getPhotoFile(): ?File
+    {
+        return $this->photoFile;
+    }
+
+    public function setCouvertureFile(File $imageCouvertureFile = null): User
+    {
+        $this->couvertureFile = $imageCouvertureFile;
+
+        if ($this->couvertureFile instanceof UploadedFile) {
+            $this->updatedCouvertureAt = new \DateTime('now');
+        }
+
+        return $this;
+    }
+
+    public function getCouvertureFile(): ?File
+    {
+        return $this->couvertureFile;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getCouverture(): ?string
+    {
+        return $this->couverture;
+    }
+
+    public function setCouverture(?string $couverture): self
+    {
+        $this->couverture = $couverture;
+
+        return $this;
+    }
+
+    public function serialize() {
+
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->password,
+        ));
+
+    }
+
+    public function unserialize($serialized) {
+        list (
+            $this->id,
+            $this->email,
+            $this->password,
+            ) = unserialize($serialized);
     }
 }

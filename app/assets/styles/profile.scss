@@ -1,0 +1,98 @@
+@import "variables";
+@import "form-design/media";
+
+%background-white {
+  background: $white;
+}
+
+%border-radius-10 {
+  border-radius: 10px;
+}
+
+
+.info-account {
+  position: relative;
+  a {
+    color: $blue-linkedin !important;
+    text-decoration: none;
+    &:hover {
+      color: $ref-blue !important;
+      transition: 0.3s;
+    }
+  }
+
+  .info-details-account, a {
+    font-size: 14px;
+  }
+
+  .info-details-account {
+    opacity: 0.5;
+    i {
+      font-size:5px !important;
+    }
+  }
+}
+
+.detail-account, .photo-profile, .info-other-association, .menuAncrage {
+  @extend %background-white;
+  @extend %border-radius-10;
+}
+
+.detail-account {
+  position: relative;
+  @extend %border-radius-10;
+  width: 100%;
+  padding: 20px;
+  margin-top: -15px;
+  p {
+    margin: 0;
+  }
+  .photo-profile {
+    height: 130px;
+    width: 130px;
+    margin-top: -85px;
+    img {
+      object-fit: cover;
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+.design-logo {
+  color: $blue-linkedin;
+  font-size:23px !important;
+}
+
+.banner-img {
+  height: 150px;
+    img {
+      border-radius: 10px 10px 0 0;
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+    }
+}
+
+.menuAncrage {
+  div {
+    padding: 20px;
+  }
+  a {
+    color: $black !important;
+    font-size:13px;
+    text-decoration: none;
+    &:hover {
+      color: $high-green !important;
+      transition: 0.3s;
+    }
+    &:active {
+      color: $high-green !important;
+    }
+  }
+}
+
+.pipe {
+  opacity: 0.1;
+  font-size: 20px;
+}

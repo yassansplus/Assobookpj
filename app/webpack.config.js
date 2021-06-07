@@ -23,7 +23,9 @@ Encore
   .addEntry("app", "./assets/app.js")
 
   .addStyleEntry("global", "./assets/styles/global.scss")
-  .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
+  .addStyleEntry('globalConnect', './assets/styles/globalConnect.scss')
+    .addStyleEntry('profile', './assets/styles/profile.scss')
+    .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
   .addStyleEntry("index", "./assets/styles/index.scss")
   .addStyleEntry("amsify.suggestags", "./assets/styles/amsify.suggestags.scss")
   .addStyleEntry("wawFront", "./assets/styles/wawFront.scss")
@@ -41,6 +43,9 @@ Encore
   .addEntry("scrlrvl", "./assets/javascript/scrollreveal.js")
   .addEntry("pwdreset", "./assets/javascript/pwdreset.js")
   .addEntry("suggestions", "./assets/javascript/suggestions.js")
+    .addEntry('autocomplete', './assets/javascript/autocomplete.js')
+    .addEntry('profilejs', './assets/javascript/profile.js')
+    .addEntry('readmore', './assets/javascript/readmore.js')
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
   .enableStimulusBridge("./assets/controllers.json")

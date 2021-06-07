@@ -21,6 +21,10 @@ class DefaultController extends AbstractController
      */
     public function index()
     {
+        if($this->getUser() && (in_array('ROLE_ADH_CONFIRME',$this->getUser()->getRoles()) || in_array('ROLE_ASSOC_CONFIRME',$this->getUser()->getRoles()))){
+            return $this->redirectToRoute("default_connect");
+        }
+
         $form = $this->createForm(ContactType::class); // Formulaire de contact
         return $this->render('front/default/index.html.twig', [
             'form' => $form->createView(),
@@ -33,6 +37,9 @@ class DefaultController extends AbstractController
      */
     public function custom()
     {
+        if($this->getUser()){
+            return $this->redirectToRoute("default_connect");
+        }
         return $this->render('front/default/index.html.twig');
     }
 
@@ -41,6 +48,9 @@ class DefaultController extends AbstractController
      */
     public function how_it_works()
     {
+        if($this->getUser()){
+            return $this->redirectToRoute("default_connect");
+        }
         return $this->render('front/default/how-it-works.html.twig');
     }
 
@@ -49,6 +59,9 @@ class DefaultController extends AbstractController
      */
     public function who_are_we()
     {
+        if($this->getUser()){
+            return $this->redirectToRoute("default_connect");
+        }
         return $this->render('front/default/who-are-we.html.twig');
     }
 
@@ -58,6 +71,9 @@ class DefaultController extends AbstractController
      * @Route("/contact-form", name="default_contact-form", methods={"POST"});
      */
     public function contact_form(Request $request, EmailService $emailService){
+        if($this->getUser()){
+            return $this->redirectToRoute("default_connect");
+        }
         $form = $this->createForm(ContactType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()){

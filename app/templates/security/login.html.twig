@@ -8,27 +8,29 @@
 {% endblock %}
 
 {% block body %}
-    <div class="box">
-        <div id="cercle"><a href="{{ path('default_index') }}"><i class="fas fa-times"></i></a></div>
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+    <div class="container">
+        <div class="box d-flex justify-content-center align-items-center">
+            <form method="post">
+                <div id="cercle"><a href="{{ path('default_index') }}"><i class="fas fa-times"></i></a></div>
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
 
-            <h1>Connexion</h1>
-            <input aria-label="email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
-                   placeholder="Email" required autofocus>
-            <input aria-label="mot de passe" type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
-                   required>
+                <h1>Connexion</h1>
+                <input aria-label="email" type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control"
+                       placeholder="Email" required autofocus>
+                <input aria-label="mot de passe" type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe"
+                       required>
 
-            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
-            <button class="btn btn-primary" type="submit">Connexion</button>
-            <div class="column_flex">
-                <a class="forgetmdp" href="{{ path('forgetpwd') }}">Mot de passe oublié ?</a>
-                <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous maintenant
-                        !</a></p>
-            </div>
-        </form>
+                <button class="btn btn-primary" type="submit">Connexion</button>
+                <div class="column_flex">
+                    <a class="forgetmdp" href="{{ path('forgetpwd') }}">Mot de passe oublié ?</a>
+                    <p>Pas encore inscrit ? <a class="forgetmdp" href="{{ path('register') }}">Inscrivez-vous maintenant
+                            !</a></p>
+                </div>
+            </form>
+        </div>
     </div>
 {% endblock %}
