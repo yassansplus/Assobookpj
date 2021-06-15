@@ -4,6 +4,7 @@ namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
 use App\Entity\Association;
+use App\Entity\ThemeAssoc;
 use App\Form\AddressType;
 use App\Form\UpdateAdherentType;
 use App\Form\UpdateAssocType;
@@ -88,6 +89,17 @@ class ProfileController extends AbstractController
             'adherent' => $adherent,
             'allAssoc' => $allAssoc,
             'count' => $count
+        ]);
+    }
+
+    /**
+     * @Route("/association/theme/{id}", name="list_association")
+     */
+    public function showAssociationByTheme($id){
+        $users = $this->em->getRepository(ThemeAssoc::class)->find($id);
+        return $this->render('profile/card_user.html.twig',[
+            'users' => $users->getAssociations(),
+            'theme' => $users->getName()
         ]);
     }
 
@@ -201,34 +213,6 @@ class ProfileController extends AbstractController
             return new JsonResponse($this->getArrayMessage('OK', $type, $dataCompare));
         }
         return new JsonResponse('Une erreur est survenue', 500);
-    }
-
-    /**
-     * @Route("/reset-password", name="reset_password")
-     */
-    public function resetPassword(Request $request)
-    {
-        if ($request->isXmlHttpRequest()) {
-            $form = $request->request->all();
-            $currentUser = $this->getUser();
-
-            if ((int)$form['input'] !== 3 || (int)$form['required'] !== 3) {
-                return new JsonResponse('Input');
-            }
-            if (!$this->passwordEncoder->isPasswordValid($currentUser, $form['oldpwd'])) {
-                return new JsonResponse('Pwd');
-            }
-            if ($form['newpwd'] !== $form['confirmpwd']) {
-                return new JsonResponse('Equals');
-            }
-            if (strlen($form['newpwd']) < 8 || strlen($form['newpwd']) > 16) {
-                return new JsonResponse('Size');
-            }
-            $currentUser->setPassword($this->passwordEncoder->encodePassword($currentUser, $form['newpwd']));
-            $this->em->flush();
-            return new JsonResponse('OK');
-        }
-        return new JsonResponse('Error', 500);
     }
 
 

@@ -96,3 +96,18 @@
   opacity: 0.1;
   font-size: 20px;
 }
+
+.img-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 80px;
+    object-fit: cover;
+}
+
+.position-relative {
+  .position-absolute {
+    top: 30px;
+    bottom: 0;
+    left: 30%;
+  }
+}
