@@ -9,6 +9,7 @@ use App\Form\AddressType;
 use App\Form\UpdateAdherentType;
 use App\Form\UpdateAssocType;
 use App\Form\UpdateUserType;
+use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Error;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -95,10 +96,17 @@ class ProfileController extends AbstractController
     /**
      * @Route("/association/theme/{id}", name="list_association")
      */
-    public function showAssociationByTheme($id){
+    public function showAssociationByTheme($id, PaginationService $paginationService, Request $request){
         $users = $this->em->getRepository(ThemeAssoc::class)->find($id);
+        foreach($users->getAssociations() as $user){
+            $arrayUser[] = $user;
+        }
+        $pagination = $paginationService->settingPagination($arrayUser,$request->query->getInt('page',1),6);
+        if($pagination === 'redirect'){
+            return $this->redirectToRoute('profile_list_association');
+        }
         return $this->render('profile/card_user.html.twig',[
-            'users' => $users->getAssociations(),
+            'users' => $pagination,
             'theme' => $users->getName()
         ]);
     }

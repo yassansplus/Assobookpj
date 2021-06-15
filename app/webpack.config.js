@@ -24,8 +24,8 @@ Encore
 
   .addStyleEntry("global", "./assets/styles/global.scss")
   .addStyleEntry('globalConnect', './assets/styles/globalConnect.scss')
-    .addStyleEntry('profile', './assets/styles/profile.scss')
-    .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
+  .addStyleEntry('profile', './assets/styles/profile.scss')
+  .addStyleEntry("formAuth", "./assets/styles/formAuth.scss")
   .addStyleEntry("index", "./assets/styles/index.scss")
   .addStyleEntry("amsify.suggestags", "./assets/styles/amsify.suggestags.scss")
   .addStyleEntry("wawFront", "./assets/styles/wawFront.scss")
@@ -34,6 +34,7 @@ Encore
   .addStyleEntry("banner", "./assets/styles/component/banner.scss")
   .addStyleEntry("sidebar", "./assets/styles/component/sidebar.scss")
   .addStyleEntry("follower", "./assets/styles/component/follower.scss")
+  .addStyleEntry("pagination", "./assets/styles/component/pagination.scss")
 
   //Add javascript
 

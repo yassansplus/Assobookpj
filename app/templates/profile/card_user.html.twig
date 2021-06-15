@@ -5,6 +5,7 @@
 {% block stylesheets %}
     {{ parent() }}
     {{ encore_entry_link_tags("profile") }}
+    {{ encore_entry_link_tags('pagination') }}
 {% endblock %}
 
 {% block body %}
@@ -14,7 +15,7 @@
             {% for user in users|sort %}
                 {% set pathBanner = user.userAccount.couverture ? "assets/images/profile/uploads/couverture/"~ user.userAccount.couverture~"" : "assets/images/logo/banner-default.jpg" %}
                 {% set pathAvatar = user.userAccount.photo ? "assets/images/profile/uploads/user/"~user.userAccount.photo~"" : "assets/images/logo/default-avatar.jpeg" %}
-                <div class="card m-3" style="width: 18rem;">
+                <div class="card m-3" style="width: 20rem;">
                     <div class="position-relative">
                         <img class="card-img-top" src="{{ asset(pathBanner) }}" alt="" width="260" height="180">
                         <div class="position-absolute">
@@ -32,6 +33,7 @@
                 </div>
             {% endfor %}
         </div>
+        {{ knp_pagination_render(users) }}
     </div>
 {% endblock %}
 
