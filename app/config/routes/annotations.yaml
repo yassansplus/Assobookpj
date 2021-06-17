@@ -23,6 +23,11 @@ controllers_comment:
     resource: ../../src/Controller/Comment
     type: annotation
 
+controllers_search:
+    resource: ../../src/Controller/Search
+    name_prefix: search_
+    type: annotation
+
 controllers_event:
     resource: ../../src/Controller/Event
     type: annotation

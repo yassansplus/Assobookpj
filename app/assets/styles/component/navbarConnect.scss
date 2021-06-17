@@ -13,7 +13,24 @@ nav {
 %input-color {
   background-color: $blue-linkedin-placeholder;
   border: 1px solid $blue-linkedin-placeholder;
+  border-radius: 10px !important;
   outline: none;
+}
+
+.autoComplete_wrapper {
+  color: $black !important;
+  width: 100%;
+  & > input {color: $white !important;background-image: url("../../../public/assets/images/icons/chercher.svg") !important;}
+  & > input::placeholder{color: $white !important;}
+  & > input:hover::placeholder{color: $white !important;}
+  & > ul >li mark {color: $blue-linkedin !important;}
+  & > ul > li:hover {background-color: $blue-linkedin-opacity !important;}
+  & > ul > li[aria-selected=true] {background-color: $blue-linkedin-opacity !important;}
+}
+
+#autoComplete {
+  @extend %input-color;
+  color: $white;
 }
 
 .w-70 {

@@ -1,5 +1,6 @@
 const $ = require('jquery');
 window.iziToast = require('izitoast');
+const autoComplete = require("@tarekraafat/autocomplete.js");
 // this "modifies" the jquery module: adding behavior to it
 // the bootstrap module doesn't export/return anything
 require('bootstrap');
@@ -73,42 +74,56 @@ const getIziToast = function(title,message,icon,color){
     });
 }
 
-$(document).click(function(event) {
-    if(getId.length > 0){
-        const target = $(`p[data-elem=${getId}]`);
-        if(target.attr('style') !== undefined){
-            //Closest permet de récuperer le premier ancestre de l'element passer
-            // return proche de l'element courant ou l'élement courant.
-            if(!$(event.target).closest(target).length){
-                target.removeAttr('style');
-                const newName = target.text();
-                $.ajax({
-                    url: '/edit-nom',
-                    type: 'POST',
-                    data: {name: newName,type: getId},
-                    success: function(data) {
-                        const typeUser = data['type'] === 0 ? 'adh-firstname' : 'assos';
-                        if(data['title'] === 'OK'){
-                            getIziToast('OK','Modification réussie !','fas fa-check','green');
-                            if(getId !== 'adh-lastname'){
-                                $('.nav-item:last-child .nav-link').html(`<i class="bi bi-house-door" style="margin-right: 0.5em"></i> ${data['data']}`);
-                                $(`p[data-elem=${typeUser}]`).text(data['data']);
-                                $('p[data-elem=banner]').text(data['data']);
-                            }
-                        }else if(data['title'] === 'Warning'){
-                            getIziToast('Attention','Aucune modification établie car l\'element est le même !','fas fa-exclamation-triangle','orange');
-                        }else if(data['title'] === 'Error'){
-                            getIziToast('Erreur','L\'élément ne peut pas être vide','fas fa-ban','red');
-                            target.text(data['data']);
-                        }
-                        getId = '';
-                    },
-                    error: function(data){
-                        getIziToast('Erreur','Une erreur est survenue','fas fa-ban','red');
-                        getId = '';
-                    }
-                });
+fetch('/lists',{
+    method: "GET",
+    headers: {
+        'Content-Type': 'application/json'
+    }
+})
+    .then((res) => res.json())
+    .then((data) => autoCompleteWithLists(data));
+
+
+const autoCompleteWithLists = (lists) => {
+    const autoCompleteJS = new autoComplete({
+        selector: "#autoComplete",
+        placeHolder: "Recherche...",
+        data: {
+            src: lists,
+            cache: true,
+        },
+        resultsList: {
+            element: (list, data) => {
+                if (!data.results.length) {
+                    // Create "No Results" message element
+                    const message = document.createElement("div");
+                    // Add class to the created element
+                    message.setAttribute("class", "no_result");
+                    message.setAttribute("class", "p-3");
+                    // Add message text content
+                    message.innerHTML = `<span>Aucun résultat pour "${data.query}"</span>`;
+                    // Append message element to the results list
+                    list.prepend(message);
+                }
+            },
+            noResults: true,
+        },
+        resultItem: {
+            highlight: true
+        },
+        events: {
+            input: {
+                selection: (event) => {
+                    const selection = event.detail.selection.value;
+                    autoCompleteJS.input.value = selection;
+                }
             }
         }
+    });
+}
+
+document.querySelector('#autoComplete').addEventListener('keyup', function (e) {
+    if (e.key === 'Enter') {
+        this.parentNode.parentNode.parentNode.submit();
     }
 });

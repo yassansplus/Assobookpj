@@ -10,7 +10,7 @@
 
 {% block body %}
     <div id="apercu" class="flex-wrap mt-4 mx-3 mx-sm-5">
-        <h1 class="text-center">Liste des associations par thème : <i>{{ theme }}</i></h1>
+        <h1 class="text-center">{{ theme is not defined ? "Recherche : " ~ search ~ "" : 'Liste des associations par thème : '~theme~'' }}</h1>
         <div class="d-flex flex-wrap justify-content-center">
             {% for user in users|sort %}
                 {% set pathBanner = user.userAccount.couverture ? "assets/images/profile/uploads/couverture/"~ user.userAccount.couverture~"" : "assets/images/logo/banner-default.jpg" %}
@@ -23,12 +23,13 @@
                         </div>
                     </div>
                     <div class="card-body d-flex flex-wrap align-content-between justify-content-center">
-                        <h5 class="card-title text-center">{{ user.name }}</h5>
-                        <div class="card-text text-center row">
-                            <i class="m-0 col-12">{{ user.address.city ~ ', ' ~ user.address.region }}</i>
-                            <i class="mb-3 col-12">{{ user.adherents|length}} follower {{ user.adherents|length > 1 ? 's' : ''}}</i>
+                        <h5 class="card-title text-center col-12">{{ user.name ?? (user.firstname ~ ' ' ~ user.lastname) }}</h5>
+                        <div class="card-text text-center row col-12">
+                            <i class="m-0 col-12">{{ user.name is defined ? (user.address.city ~ ', ' ~ user.address.region) : (user.gender ? 'Masculin' : 'Féminin') }}</i>
+                            <i class="mb-3 col-12">{{ user.adherents is defined ? user.adherents|length ~ ' follower' ~ (user.adherents|length > 1 ? 's' : '') : user.associations|length ~ ' suivi' ~ (user.associations|length > 1 ? 's' : '')}} </i>
+
                         </div>
-                        <a href="{{ path('profile_show', {"id":user.id}) }}" class="btn btn-primary">Voir association</a>
+                        <a href="{{ path(user.name is defined ? 'profile_show' : 'profile_show_adherent', {"id":user.id}) }}" class="btn btn-primary">{{ user.name is defined ? 'Voir association' : 'Voir adhérent' }}</a>
                     </div>
                 </div>
             {% endfor %}

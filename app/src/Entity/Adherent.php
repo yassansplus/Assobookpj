@@ -58,6 +58,11 @@ class Adherent
      */
     private $bio;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $search;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
@@ -171,6 +176,18 @@ class Adherent
     public function setBio(?string $bio): self
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    public function getSearch(): ?string
+    {
+        return $this->search;
+    }
+
+    public function setSearch(string $search): self
+    {
+        $this->search = $search;
 
         return $this;
     }

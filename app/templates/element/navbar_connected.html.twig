@@ -7,14 +7,9 @@
     </button>
 
     <div class="collapse navbar-collapse text-white" id="navbarSupportedContent">
-        <form class="form-inline my-0 mt-2 mt-md-0 w-70 px-md-3">
-            <div class="input-group w-100">
-                <div class="input-icon">
-                    <i class="fas fa-search"></i>
-                </div>
-                <div class="w-100">
-                    <input type="text" class="form-control placeholder-search-navbar w-100" placeholder="Rechercher..." aria-label="" aria-describedby="basic-addon1">
-                </div>
+        <form class="form-inline my-0 mt-2 mt-md-0 w-70 px-md-3" action="{{ path("search_search") }}" method="GET">
+            <div class="w-100">
+                <input id="autoComplete" name="search" type="search" dir="ltr" spellcheck=false autocorrect="off" autocomplete="off" autocapitalize="off" class="w-100">
             </div>
         </form>
         <ul class="navbar-nav mr-auto w-30 d-flex justify-content-around">
