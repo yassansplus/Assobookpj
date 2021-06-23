@@ -93,7 +93,7 @@
                                         <div class="timeline-body">
                                             <div class="timeline-header">
                                                 <span class="userimage"><img src="https://i.pinimg.com/236x/68/f9/d1/68f9d15127383eec950c3359e74b72d4.jpg" alt=""></span>
-                                                <span class="username">Sean Ngu <small></small></span>
+                                                <span class="username"><small>{{ publication.association.name }}</small></span>
                                                 <span class="pull-right badge badge-pill badge-light">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
                                             </div>
                                             <div class="timeline-content">
@@ -111,16 +111,6 @@
                 {% endfor %}
             </div>
         </div>
-
-        <!-- <ul>
-            {% for publication in publications %}
-            <li>{{ publication.description }}</li>
-            {% endfor %}
-        </ul>
-
-        <p>Total : {{ count }}</p>
-
-        -->
     </div>
 
 
