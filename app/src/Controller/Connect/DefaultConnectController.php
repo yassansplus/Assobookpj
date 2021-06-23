@@ -8,6 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Adherent;
 
 class DefaultConnectController extends AbstractController
 {
@@ -25,29 +26,20 @@ class DefaultConnectController extends AbstractController
      */
     public function index(): Response
     {
-        $publications = $this->em->getRepository(Publication::class)->findAll();
+        $publications = [];
+        if($this->isGranted('ROLE_ADH_CONFIRME')){
+            $data = $this->getUser()->getAdherent()->getAssociations();
+            foreach ($data as $assoc){
+                foreach($assoc->getPublications() as $publication )
+                {
+                    $publications[] = $publication;
+                }
+            }
+        }
         //$count = count($publications);
         return $this->render('front/connected/index.html.twig',
             [
                 'publications' => $publications,
-                //'count' => $count,
             ]);
     }
-
-    /**
-      @Route("/publication", name="create_publication")
-
-    public function createPublication(): Response
-    {
-        $entityManager = $this->getDoctrine()->getManager();
-        $publication = new Publication();
-        $publication->setDescription('Ergonomic and stylish!');
-        $publication->setDatePublication();
-        $entityManager->persist($publication);
-        $entityManager->flush();
-        return new Response('Saved new product with id '.$publication->getId());
-    }
-     * */
-
-
 }
