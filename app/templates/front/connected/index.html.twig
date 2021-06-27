@@ -83,7 +83,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                {% for publication in publications %}
+                {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
                 <div id="content" class="content content-full-width">
                     <div class="profile-content">
                         <div class="tab-content p-0">
