@@ -183,6 +183,11 @@ class ProfileController extends AbstractController
 
         $arrayForm = ["form" => $form, "user" => $formUser, "address" => !empty($formAddress) ? $formAddress : ''];
         $this->form($arrayForm,$request);
+        if(($form->isSubmitted() && $form->isValid()) ||
+            ($formUser->isSubmitted() && $formUser->isValid()) ||
+            (!empty($formAddress) && $formAddress->isSubmitted() && $formAddress->isValid())){
+            return $this->redirectToRoute("profile_update");
+        }
 
         return $this->render('profile/update_profile.html.twig',[
             "form" => $form->createView(),

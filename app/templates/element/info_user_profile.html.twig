@@ -125,10 +125,26 @@
                         <p style="font-size:14px;">L'association n'a pas encore de follower.</p>
                     {% endif %}
                 {% elseif user.id is same as 'mes-evenements'%}
+                    <div class="p-0" style="font-size:14px;">
+                        {% if getAssoc.publications is not empty %}
+                            <p class="">Dernière événements : </p>
+                            {% set break = false %}
+                            {% for publi in (getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse) and not break %}
+                                {% if publi.event %}
+                                    {% set break = true %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if break is same as false %}
+                                <p style="font-size:14px;">Les publications actuelles n'ont pas d'événements</p>
+                            {% endif %}
+                        {% else %}
+                            <p style="font-size:14px;">Pas encore d'événements</p>
+                        {% endif %}
+                    </div>
                 {% elseif user.id is same as 'mes-publications'%}
                     <div class="p-0" style="font-size:14px;">
-                        <p class="m-0">Dernière publication : </p>
                         {% if getAssoc.publications is not empty %}
+                            <p class="m-0">Dernière publication : </p>
                             {% for publi in getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse|slice(0,1) %}
                                 <div class="row">
                                     <div class="col-sm-6 col-6 text-justify">

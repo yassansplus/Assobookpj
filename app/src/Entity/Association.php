@@ -60,6 +60,11 @@ class Association
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Regex(
+     *     pattern="%^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1})*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$%",
+     *     match=true,
+     *     message="Vous devez rentrer une URL"
+     * )
      */
     private $website;
 
