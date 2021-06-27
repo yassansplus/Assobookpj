@@ -40,8 +40,9 @@ class CompleteRegisterController extends AbstractController
                 $dataAddress = $form->get('adress')->getData();
                 $this->em->persist($dataAddress);
                 $this->em->flush();
+            }else{
+                $adherent->setSearch($form->get('firstname')->getData()." ".$form->get('lastname')->getData());
             }
-
             $adherent->setUserAccount($this->getUser());
             !$hasRole ? $adherent->setAddress($dataAddress) : '';
             $user->setRoles([$hasRole ? 'ROLE_ADH_CONFIRME' : 'ROLE_ASSOC_CONFIRME']);
