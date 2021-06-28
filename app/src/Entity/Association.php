@@ -68,11 +68,23 @@ class Association
      */
     private $website;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cagnotte::class, mappedBy="association")
+     */
+    private $cagnottes;
+
+    /**
+     * @ORM\Column(type="boolean",options={"default" : false})
+     */
+    private $haveCagnotte;
+
 
     public function __construct()
     {
         $this->publications = new ArrayCollection();
         $this->adherents = new ArrayCollection();
+        $this->cagnottes = new ArrayCollection();
+        $this->haveCagnotte = false;
     }
 
     public function getId(): ?int
@@ -213,6 +225,48 @@ class Association
     public function setWebsite(?string $website): self
     {
         $this->website = $website;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cagnotte[]
+     */
+    public function getCagnottes(): Collection
+    {
+        return $this->cagnottes;
+    }
+
+    public function addCagnotte(Cagnotte $cagnotte): self
+    {
+        if (!$this->cagnottes->contains($cagnotte)) {
+            $this->cagnottes[] = $cagnotte;
+            $cagnotte->setAssociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCagnotte(Cagnotte $cagnotte): self
+    {
+        if ($this->cagnottes->removeElement($cagnotte)) {
+            // set the owning side to null (unless already changed)
+            if ($cagnotte->getAssociation() === $this) {
+                $cagnotte->setAssociation(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHaveCagnotte(): ?bool
+    {
+        return $this->haveCagnotte;
+    }
+
+    public function setHaveCagnotte(bool $haveCagnotte): self
+    {
+        $this->haveCagnotte = $haveCagnotte;
 
         return $this;
     }

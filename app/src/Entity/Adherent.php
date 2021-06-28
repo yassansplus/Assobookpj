@@ -63,9 +63,15 @@ class Adherent
      */
     private $search;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Cagnotte::class, mappedBy="donateur")
+     */
+    private $cagnottes;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
+        $this->cagnottes = new ArrayCollection();
     }
 
 
@@ -188,6 +194,36 @@ class Adherent
     public function setSearch(string $search): self
     {
         $this->search = $search;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Cagnotte[]
+     */
+    public function getCagnottes(): Collection
+    {
+        return $this->cagnottes;
+    }
+
+    public function addCagnotte(Cagnotte $cagnotte): self
+    {
+        if (!$this->cagnottes->contains($cagnotte)) {
+            $this->cagnottes[] = $cagnotte;
+            $cagnotte->setDonateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCagnotte(Cagnotte $cagnotte): self
+    {
+        if ($this->cagnottes->removeElement($cagnotte)) {
+            // set the owning side to null (unless already changed)
+            if ($cagnotte->getDonateur() === $this) {
+                $cagnotte->setDonateur(null);
+            }
+        }
 
         return $this;
     }
