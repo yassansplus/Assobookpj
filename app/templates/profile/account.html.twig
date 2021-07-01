@@ -80,7 +80,7 @@
                             {% endif %}
                             {% if (getAssoc and getAssoc is not same as app.user.association and getAssoc.haveCagnotte and app.user.adherent is not null) %}
                                 <div class="col-sm-4 col-12 p-1">
-                                    <a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-hand-holding-usd" style="font-size:17px !important;"></i> Faire un don</a>
+                                    <a href="{{ path('cagnotte_payment',{"id": getAssoc.id}) }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-hand-holding-usd" style="font-size:17px !important;"></i> Faire un don</a>
                                 </div>
                             {% endif %}
                             <div class="col-sm-2 col-12 p-1">
