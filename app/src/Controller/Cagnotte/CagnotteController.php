@@ -5,6 +5,7 @@ namespace App\Controller\Cagnotte;
 use App\Entity\Association;
 use App\Entity\Cagnotte;
 use App\Form\CagnotteType;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Error;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -22,11 +23,22 @@ class CagnotteController extends AbstractController
 {
     private $em;
     private $requestStack;
+    private $emailService;
 
-    public function __construct(EntityManagerInterface $em, RequestStack $requestStack)
+    public function __construct(EntityManagerInterface $em, RequestStack $requestStack,EmailService $emailService)
     {
         $this->em = $em;
         $this->requestStack = $requestStack;
+        $this->emailService = $emailService;
+    }
+
+    protected function getSessionForm($key){
+        $session = new Session();
+        if($session->get($key)){
+            $session->remove($key);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -35,6 +47,11 @@ class CagnotteController extends AbstractController
      */
     public function cagnotte(Association $association): Response
     {
+        if(!$association->getHaveCagnotte()){
+            return $this->redirectToRoute('profile_account');
+        }
+        $sessionForm = $this->getSessionForm('form');
+        if($sessionForm) return $this->redirectToRoute("default_connect");
         $form = $this->createForm(CagnotteType::class);
         return $this->render('cagnotte/index.html.twig',[
             "form" => $form->createView(),
@@ -51,10 +68,8 @@ class CagnotteController extends AbstractController
         //$session = $this->requestStack->getSession();
 
         $session = new Session();
-        if($session->get('form')){
-            $session->remove('form');
-            return $this->redirectToRoute('default_connect');
-        }
+        $sessionForm = $this->getSessionForm('form');
+        if($sessionForm) return $this->redirectToRoute("default_connect");
 
         $data = $request->request->all();
         $cagnotte = new Cagnotte();
@@ -67,6 +82,11 @@ class CagnotteController extends AbstractController
             $this->em->persist($cagnotte);
             $this->em->flush();
             $session->set('form', 'true');
+            $email = $cagnotte->getAssociation()->getUserAccount()->getEmail();
+            $nameAssoc = $cagnotte->getAssociation()->getName();
+            $this->emailService->sendMail("Don : Confirmation de don pour $nameAssoc",$email,[$this->renderView(
+                'emails/don-facture.html.twig', ['cagnotte' => $cagnotte]
+            ),'text/html']);
         }
 
         return $this->render('cagnotte/merci.html.twig',[

@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="shadow p-3 m-5 bg-white rounded">
+        <div class="d-flex justify-content-center align-items-center">
+            <i class="fas fa-check-circle mr-3"></i>
+            <h1 class="text-center mt-4 mb-4">Merci pour votre don</h1>
+        </div>
+        <div class="info-client row justify-content-center">
+            <p><strong>Information client : </strong></p>
+            <div class="col-12 text-center"><strong>Nom :</strong> {{ cagnotte.donateur.lastname|upper }}</div>
+            <div class="col-12 text-center"><strong>Prénom :</strong> {{ cagnotte.donateur.firstname|capitalize }}</div>
+            <div class="col-12 text-center"><strong>Email :</strong> {{ cagnotte.donateur.userAccount.email }}</div>
+        </div>
+        <div class="info-association row justify-content-center mt-4">
+            <p><strong>Pour l'association : </strong></p>
+            <div class="col-12 text-center"><strong>Nom :</strong> {{ cagnotte.association.name|capitalize }}</div>
+            <div class="col-12 text-center"><strong>Email :</strong> {{ cagnotte.association.userAccount.email }}</div>
+        </div>
+        <div class="form-paiement mt-3">
+            <div class="shadow p-3 mx-5 bg-white rounded row">
+                <div class="col-lg-4 text-center my-auto">Don : {{ cagnotte.montant}} €</div>
+            </div>
+        </div>
+    </div>
+</div>
