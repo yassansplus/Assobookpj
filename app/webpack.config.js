@@ -34,6 +34,7 @@ Encore
   .addStyleEntry("banner", "./assets/styles/component/banner.scss")
   .addStyleEntry("sidebar", "./assets/styles/component/sidebar.scss")
   .addStyleEntry("follower", "./assets/styles/component/follower.scss")
+    .addStyleEntry("homePublication", "./assets/styles/homePublication.scss")
 
   //Add javascript
 
