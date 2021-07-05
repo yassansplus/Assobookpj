@@ -4,110 +4,42 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {{ encore_entry_link_tags('homePublication') }}
 {% endblock %}
 
 {% block body %}
 
-    <style>
-
-        .timeline {
-            list-style-type: none;
-            margin: 0;
-            padding: 0;
-            position: relative
-        }
-
-        .timeline .timeline-body {
-            margin-left: 23%;
-            margin-right: 17%;
-            background: #fff;
-            position: relative;
-            padding: 20px 25px;
-            margin-top: 15px;
-            border-radius: 6px
-        }
-
-
-        .timeline .timeline-body>div+div {
-            margin-top: 15px
-        }
-
-        .timeline .timeline-body>div+div:last-child {
-            margin-bottom: -20px;
-            padding-bottom: 20px;
-            border-radius: 0 0 6px 6px
-        }
-
-        .timeline-header {
-            padding-bottom: 10px;
-            border-bottom: 1px solid #e2e7eb;
-            line-height: 30px
-        }
-
-        .timeline-header .userimage {
-            float: left;
-            width: 34px;
-            height: 34px;
-            border-radius: 40px;
-            overflow: hidden;
-            margin: -2px 10px -2px 0
-        }
-
-        .timeline-header .username {
-            font-size: 16px;
-            font-weight: 600
-        }
-
-
-
-        .timeline img {
-            max-width: 100%;
-            display: block
-        }
-
-        .timeline-content {
-            letter-spacing: 0;
-            line-height: 18px;
-            font-size: 13px
-        }
-
-        .timeline-content:after,
-        .timeline-content:before {
-            content: '';
-            display: table;
-            clear: both
-        }
-
-    </style>
-
     <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-2">
+                test
+            </div>
+            <div class="col-md-10">
                 {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
-                <div id="content" class="content content-full-width">
-                    <div class="profile-content">
-                        <div class="tab-content p-0">
-                            <div class="tab-pane fade active show" id="profile-post">
-                                <ul class="timeline">
-                                    <li>
-                                        <div class="timeline-body">
-                                            <div class="timeline-header">
-                                                <span class="userimage"><img src="https://i.pinimg.com/236x/68/f9/d1/68f9d15127383eec950c3359e74b72d4.jpg" alt=""></span>
-                                                <span class="username"><small>{{ publication.association.name }}</small></span>
-                                                <span class="pull-right badge badge-pill badge-light">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
+                    <div id="content" class="content content-full-width">
+                        <div class="profile-content">
+                            <div class="tab-content p-0">
+                                <div class="tab-pane fade active show" id="profile-post">
+                                    <ul class="timeline">
+                                        <li>
+                                            <div class="timeline-body">
+                                                <div class="timeline-header">
+                                                    <span class="userimage"><img src="https://i.pinimg.com/236x/68/f9/d1/68f9d15127383eec950c3359e74b72d4.jpg" alt=""></span>
+                                                    <span class="username"><small>{{ publication.association.name }}</small></span>
+                                                    <span class="pull-right badge badge-pill badge-light">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <p>
+                                                        {{ publication.description }}
+                                                    </p>
+                                                </div>
                                             </div>
-                                            <div class="timeline-content">
-                                                <p>
-                                                    {{ publication.description }}
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
                 {% endfor %}
             </div>
         </div>
