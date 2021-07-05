@@ -99,10 +99,19 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $credentials = $this->getCredentials($request);
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
             return new RedirectResponse($targetPath);
         }
-        //return new RedirectResponse($this->urlGenerator->generate('default_index'));
+
+        if(!empty($credentials["email"])){
+            $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]);
+            if(in_array("ROLE_ADH",$user->getRoles()) || in_array("ROLE_ASSOC",$user->getRoles())){
+                return new RedirectResponse($this->urlGenerator->generate('profile_register'));
+            }
+        }
+        return new RedirectResponse($this->urlGenerator->generate('default_index'));
+
     }
 
     protected function getLoginUrl()

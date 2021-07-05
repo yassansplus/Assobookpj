@@ -122,8 +122,14 @@ const autoCompleteWithLists = (lists) => {
     });
 }
 
-document.querySelector('#autoComplete').addEventListener('keyup', function (e) {
-    if (e.key === 'Enter') {
-        this.parentNode.parentNode.parentNode.submit();
-    }
-});
+
+const autoCompleteTarget = document.querySelector('#autoComplete');
+
+if(autoCompleteTarget !== null){
+    document.querySelector('#autoComplete').addEventListener('keyup', function (e) {
+        if (e.key === 'Enter') {
+            this.parentNode.parentNode.parentNode.submit();
+        }
+    });
+}
+

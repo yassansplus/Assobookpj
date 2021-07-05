@@ -56,15 +56,14 @@
                             </div>
                         {% endif %}
                         <div class="d-flex flex-wrap mt-3 mx-sm-0 mx-auto" style="width:65%">
-
-                            <div class="col-sm-5 col-12 p-1">
+                            <div class="col-sm-{{ getAssoc and getAssoc.haveCagnotte ? '4' : '5'}} col-12 p-1">
                                 {% if app.user.adherent and conditionAssociation %}
                                     {% if getAssoc in app.user.adherent.associations %}
                                         <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-outline-blue w-100 follow"><i class="fas fa-minus-circle" style="font-size:13px !important;"></i> Ne plus suivre</button>
                                     {% else %}
                                         <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-blue w-100 follow" style="color:white !important;"><i class="fas fa-plus-circle"></i> Follow</button>
                                     {% endif %}
-                                {% elseif getAdh  %}
+                                {% elseif getAdh %}
                                     {% if getAdh is same as app.user.adherent %}<a href="{{ path('profile_update') }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-pencil-alt" style="font-size:13px !important;"></i> Modifier</a>
                                     {% else %}<a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
                                     {% endif %}
@@ -75,8 +74,13 @@
                                 {% endif %}
                             </div>
                             {% if getAssoc and getAssoc.website is not null %}
-                                <div class="col-sm-5 col-12 p-1">
+                                <div class="col-sm-{{ getAssoc and getAssoc.haveCagnotte ? '4' : '5'}} col-12 p-1">
                                     <a href="{{ getAssoc.website }}" class="btn btn-form btn-form-outline-blue w-100"><i class="fas fa-eye" style="font-size:13px !important;"></i> Voir le site</a>
+                                </div>
+                            {% endif %}
+                            {% if (getAssoc and getAssoc is not same as app.user.association and getAssoc.haveCagnotte and app.user.adherent is not null) %}
+                                <div class="col-sm-4 col-12 p-1">
+                                    <a href="{{ path('cagnotte_payment',{"id": getAssoc.id}) }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-hand-holding-usd" style="font-size:17px !important;"></i> Faire un don</a>
                                 </div>
                             {% endif %}
                             <div class="col-sm-2 col-12 p-1">

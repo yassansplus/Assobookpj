@@ -1,0 +1,37 @@
+{% extends 'base_connected.html.twig' %}
+
+{% block title %} Don {{ association.name }} - AssoBook{% endblock %}
+{% block scripts %}
+    <script src="https://js.stripe.com/v3/"></script>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags("stripecss") }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-4">Montant du don</h1>
+    <div class="container">
+        <div class="choose-montant">
+            <div class="row mt-4 mx-auto w-50">
+                <div class="col-lg-3 col-sm-6 col-12 text-center"><button class="btn btn-primary mb-2 w-100 price" data-montant="25">25 €</button></div>
+                <div class="col-lg-3 col-sm-6 col-12 text-center"><button class="btn btn-primary mb-2 w-100 price" data-montant="50">50 €</button></div>
+                <div class="col-lg-3 col-sm-6 col-12 text-center"><button class="btn btn-primary mb-2 w-100 price" data-montant="100">100 €</button></div>
+                <div class="col-lg-3 col-sm-6 col-12 text-center"><button class="btn btn-primary mb-2 w-100 price" data-montant="other">Autre</button></div>
+            </div>
+            <div class="mt-2 mx-auto w-50">
+                <div class="px-2">
+                    {{ form_start(form, {'action': path('cagnotte_merci')}) }}
+                        <input name="id-assoc" value="{{ association.id }}" hidden>
+                        <input name="name-assoc" value="{{ association.name }}" hidden>
+                    {{ form_end(form) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags('stripejs') }}
+{% endblock %}

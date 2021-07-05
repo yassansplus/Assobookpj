@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Association;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -46,6 +47,13 @@ class UpdateAssocType extends AbstractType
                 'attr' => [
                     'placeholder' => 'http://...',
                     'class' => 'form-control mb-2',
+                ]
+            ])
+            ->add('haveCagnotte',CheckboxType::class,[
+                'label' => false,
+                'required' => false,
+                'attr' => [
+                    'class' => 'custom-control-input',
                 ]
             ])
             ->add('submit', SubmitType::class, [

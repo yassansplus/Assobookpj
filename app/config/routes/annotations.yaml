@@ -28,6 +28,11 @@ controllers_search:
     name_prefix: search_
     type: annotation
 
+controllers_cagnotte:
+    resource: ../../src/Controller/Cagnotte
+    name_prefix: cagnotte_
+    type: annotation
+
 controllers_event:
     resource: ../../src/Controller/Event
     type: annotation
