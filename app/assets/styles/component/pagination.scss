@@ -1,0 +1,23 @@
+@import "assets/styles/variables";
+
+.pagination{
+  display: flex;
+  justify-content: center;
+  color: $blue_linkedin !important;
+  font-weight: bold;
+  padding: 20px !important;
+  & .current {
+    background: $blue_linkedin !important;
+    color: $white !important;
+  }
+  & > span {
+    padding: 10px 15px;
+    border-radius: 5px;
+    margin-right:3px;
+    background: $white;
+    & > a {
+      text-decoration: none;
+      color: $black !important;
+    }
+  }
+}

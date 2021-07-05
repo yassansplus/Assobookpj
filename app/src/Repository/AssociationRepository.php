@@ -22,19 +22,14 @@ class AssociationRepository extends ServiceEntityRepository
     // /**
     //  * @return Association[] Returns an array of Association objects
     //  */
-    /*
-    public function findByExampleField($value)
+    public function searchAssociation($value)
     {
         return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
-            ->setMaxResults(10)
+            ->andWhere('lower(a.name) LIKE lower(:val)')
+            ->setParameter('val', '%' . $value . '%')
             ->getQuery()
-            ->getResult()
-        ;
+            ->getResult();
     }
-    */
 
     /*
     public function findOneBySomeField($value): ?Association

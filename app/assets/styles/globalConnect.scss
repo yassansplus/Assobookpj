@@ -45,3 +45,11 @@ html,body {
 .photo-file .vich-image img {
   width: 130px;
 }
+
+.btn-primary{
+  border: none;
+  background-color: $blue-linkedin !important;
+  &:hover {
+    background-color: $blue-linkedin-placeholder !important;
+  }
+}

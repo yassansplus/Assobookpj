@@ -51,7 +51,7 @@
                         </div>
                         {% if getAssoc %}
                             <div class="text-sm-left text-center">
-                                <a href="#">Voir les {{ getAssoc.theme.associations|length}} associations du type :
+                                <a href="{{ path('profile_list_association',{"id": getAssoc.theme.id}) }}">Voir les {{ getAssoc.theme.associations|length}} associations du type :
                                     {{ getAssoc.theme.name|capitalize }} <i class="fas fa-arrow-right" style="font-size:14px;"></i></a>
                             </div>
                         {% endif %}

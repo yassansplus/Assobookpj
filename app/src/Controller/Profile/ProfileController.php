@@ -4,10 +4,12 @@ namespace App\Controller\Profile;
 
 use App\Entity\Adherent;
 use App\Entity\Association;
+use App\Entity\ThemeAssoc;
 use App\Form\AddressType;
 use App\Form\UpdateAdherentType;
 use App\Form\UpdateAssocType;
 use App\Form\UpdateUserType;
+use App\Service\PaginationService;
 use Doctrine\ORM\EntityManagerInterface;
 use PhpParser\Error;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -88,6 +90,24 @@ class ProfileController extends AbstractController
             'adherent' => $adherent,
             'allAssoc' => $allAssoc,
             'count' => $count
+        ]);
+    }
+
+    /**
+     * @Route("/association/theme/{id}", name="list_association")
+     */
+    public function showAssociationByTheme($id, PaginationService $paginationService, Request $request){
+        $users = $this->em->getRepository(ThemeAssoc::class)->find($id);
+        foreach($users->getAssociations() as $user){
+            $arrayUser[] = $user;
+        }
+        $pagination = $paginationService->settingPagination($arrayUser,$request->query->getInt('page',1),6);
+        if($pagination === 'redirect'){
+            return $this->redirectToRoute('profile_list_association');
+        }
+        return $this->render('profile/card_user.html.twig',[
+            'users' => $pagination,
+            'theme' => $users->getName()
         ]);
     }
 
@@ -201,34 +221,6 @@ class ProfileController extends AbstractController
             return new JsonResponse($this->getArrayMessage('OK', $type, $dataCompare));
         }
         return new JsonResponse('Une erreur est survenue', 500);
-    }
-
-    /**
-     * @Route("/reset-password", name="reset_password")
-     */
-    public function resetPassword(Request $request)
-    {
-        if ($request->isXmlHttpRequest()) {
-            $form = $request->request->all();
-            $currentUser = $this->getUser();
-
-            if ((int)$form['input'] !== 3 || (int)$form['required'] !== 3) {
-                return new JsonResponse('Input');
-            }
-            if (!$this->passwordEncoder->isPasswordValid($currentUser, $form['oldpwd'])) {
-                return new JsonResponse('Pwd');
-            }
-            if ($form['newpwd'] !== $form['confirmpwd']) {
-                return new JsonResponse('Equals');
-            }
-            if (strlen($form['newpwd']) < 8 || strlen($form['newpwd']) > 16) {
-                return new JsonResponse('Size');
-            }
-            $currentUser->setPassword($this->passwordEncoder->encodePassword($currentUser, $form['newpwd']));
-            $this->em->flush();
-            return new JsonResponse('OK');
-        }
-        return new JsonResponse('Error', 500);
     }
 
 
