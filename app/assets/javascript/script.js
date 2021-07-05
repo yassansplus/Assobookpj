@@ -122,6 +122,7 @@ const autoCompleteWithLists = (lists) => {
     });
 }
 
+
 const autoCompleteTarget = document.querySelector('#autoComplete');
 
 if(autoCompleteTarget !== null){
@@ -131,3 +132,4 @@ if(autoCompleteTarget !== null){
         }
     });
 }
+

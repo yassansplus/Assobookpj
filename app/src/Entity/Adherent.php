@@ -198,6 +198,7 @@ class Adherent
         return $this;
     }
 
+
     /**
      * @return Collection|Cagnotte[]
      */
@@ -227,4 +228,5 @@ class Adherent
 
         return $this;
     }
+
 }

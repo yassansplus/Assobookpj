@@ -37,6 +37,7 @@ Encore
   .addStyleEntry("pagination", "./assets/styles/component/pagination.scss")
   .addStyleEntry("stripecss", "./assets/styles/stripe.scss")
 
+
   //Add javascript
 
   .addEntry("script", "./assets/javascript/script.js")
