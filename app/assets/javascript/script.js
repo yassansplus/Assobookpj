@@ -27,6 +27,12 @@ const topFunction = () => {
     animateScroll(0,false);
 }
 
+window.setTimeout(function () {
+    $(".alert").fadeTo(1000, 0).slideUp(500, function () {
+        $(this).remove();
+    });
+}, 2000);
+
 const mybutton = document.getElementById("scroll-to-up");
 if(mybutton !== null){
     mybutton.addEventListener('click',topFunction);
@@ -40,12 +46,6 @@ if(mybutton !== null){
             mybutton.style.display = "none";
         }
     }
-
-    window.setTimeout(function () {
-        $(".alert").fadeTo(1000, 0).slideUp(500, function () {
-            $(this).remove();
-        });
-    }, 2000);
 
     $(window).scroll(function() {
         const distanceScrolled = $(this).scrollTop();

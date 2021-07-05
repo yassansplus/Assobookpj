@@ -4,7 +4,7 @@
     {% set hasAssoc = allAssoc is not empty ? allAssoc : isAssoc %}
     <p class="text-sm-center">D'autres associations à découvrir </p>
     {% for assoc in hasAssoc|slice(0,5) %}
-        {% set pathPhoto = assoc.UserAccount.couverture ? "assets/images/profile/uploads/couverture/"~assoc.UserAccount.photo~"" : "assets/images/logo/default-avatar.jpeg" %}
+        {% set pathPhoto = assoc.UserAccount.couverture ? "assets/images/profile/uploads/user/"~assoc.UserAccount.photo~"" : "assets/images/logo/default-avatar.jpeg" %}
         <div class="row align-items-center mb-3">
             <div class="col-lg-2 col-md-12 text-lg-left text-md-center"><img src="{{ asset(pathPhoto) }}" alt="" width="40" height="40"></div>
             <div class="col-lg-7 col-md-12 text-lg-left text-md-center">

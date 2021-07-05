@@ -42,7 +42,7 @@ class SearchController extends AbstractController
     }
 
     /**
-     * @Route("/resultat", name="search")
+     * @Route("/reseau", name="search")
      */
     public function search(PaginationService $paginationService, Request $request, AdherentRepository $adherent, AssociationRepository $association){
         $search = $request->query->get('search');

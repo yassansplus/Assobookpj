@@ -10,7 +10,7 @@
 
 {% block body %}
     <div id="apercu" class="flex-wrap mt-4 mx-3 mx-sm-5">
-        <h1 class="text-center">{{ theme is not defined ? "Recherche : " ~ search ~ "" : 'Liste des associations par thème : '~theme~'' }}</h1>
+        <h1 class="text-center">{{ app.request.server.get("REQUEST_URI") is same as '/reseau' or (search is defined and search is empty)  ? "Utilisateur Assobook" : (theme is not defined ? "Recherche : " ~ search ~ "" : 'Liste des associations par thème : '~theme~'') }}</h1>
         <div class="d-flex flex-wrap justify-content-center">
             {% for user in users|sort %}
                 {% set pathBanner = user.userAccount.couverture ? "assets/images/profile/uploads/couverture/"~ user.userAccount.couverture~"" : "assets/images/logo/banner-default.jpg" %}
