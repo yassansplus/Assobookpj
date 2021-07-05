@@ -22,11 +22,7 @@ class TagsController extends AbstractController
      */
     public function index(): Response
     {
-        $form = $this->createForm(UpdatePwdType::class);
-
-        return $this->render('profile/suggestions.hmtl.twig', [
-            'form' => $form->createView(),
-        ]);
+        return $this->render('profile/suggestions.html.twig');
     }
 
     /**
@@ -110,7 +106,8 @@ class TagsController extends AbstractController
                 if ($res == $tt) {
                     array_push($bestResult, $serializer->serialize($association,
                         'json',
-                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags', 'adherents', 'association','event']]));
+                        [AbstractNormalizer::IGNORED_ATTRIBUTES => ['tags', 'adherents', 'association', 'event', 'theme']]));
+
                 }
 
             }
