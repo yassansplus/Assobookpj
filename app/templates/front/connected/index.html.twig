@@ -11,10 +11,7 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-md-2">
-                test
-            </div>
-            <div class="col-md-10">
+            <div class="col-md-12">
                 {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
                     <div id="content" class="content content-full-width">
                         <div class="profile-content">
