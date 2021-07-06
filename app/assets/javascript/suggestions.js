@@ -17,7 +17,7 @@ $(document).ready(function () {
             data.forEach(e => boxMatched.append('' +
                 '  <li class="list-group-item">'
                 + JSON.parse(e)?.name + '' +
-                ' <button data-id="' + JSON.parse(e)?.id + '" class="btn btn-form-blue text-white">' +
+                ' <button data-id="' + JSON.parse(e)?.id + '" class="btn suivre btn-form-blue text-white">' +
                 'Suivre</button>' +
                 '</li>'))
 
