@@ -36,7 +36,8 @@ Encore
   .addStyleEntry("follower", "./assets/styles/component/follower.scss")
   .addStyleEntry("pagination", "./assets/styles/component/pagination.scss")
   .addStyleEntry("stripecss", "./assets/styles/stripe.scss")
-
+    .addStyleEntry("carte", "./assets/styles/carte.scss")
+    .addStyleEntry("homePublication", "./assets/styles/homePublication.scss")
 
   //Add javascript
 
@@ -49,6 +50,7 @@ Encore
     .addEntry('autocomplete', './assets/javascript/autocomplete.js')
     .addEntry('profilejs', './assets/javascript/profile.js')
     .addEntry('readmore', './assets/javascript/readmore.js')
+    .addEntry('cart', './assets/javascript/cart.js')
     .addEntry('stripejs', './assets/javascript/stripe.js')
 
   // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)

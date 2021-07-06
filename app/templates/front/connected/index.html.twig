@@ -4,14 +4,45 @@
 
 {% block stylesheets %}
     {{ parent() }}
+    {{ encore_entry_link_tags('homePublication') }}
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="row">
 
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
+                    <div id="content" class="content content-full-width">
+                        <div class="profile-content">
+                            <div class="tab-content p-0">
+                                <div class="tab-pane fade active show" id="profile-post">
+                                    <ul class="timeline">
+                                        <li>
+                                            <div class="timeline-body">
+                                                <div class="timeline-header">
+                                                    <span class="userimage"><img src="https://i.pinimg.com/236x/68/f9/d1/68f9d15127383eec950c3359e74b72d4.jpg" alt=""></span>
+                                                    <span class="username"><small>{{ publication.association.name }}</small></span>
+                                                    <span class="pull-right badge badge-pill badge-light">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
+                                                </div>
+                                                <div class="timeline-content">
+                                                    <p>
+                                                        {{ publication.description }}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+
+
 
 {% endblock %}
 

@@ -2,19 +2,44 @@
 
 namespace App\Controller\Connect;
 
+use App\Entity\Publication;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Doctrine\ORM\EntityManagerInterface;
+use App\Entity\Adherent;
 
 class DefaultConnectController extends AbstractController
 {
+
+    private $em;
+
+    public function __construct(EntityManagerInterface $em)
+    {
+        $this->em = $em;
+    }
+
     /**
      * @Route("/home", name="default_connect")
      * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
      */
     public function index(): Response
     {
-        return $this->render('front/connected/index.html.twig');
+        $publications = [];
+        if($this->isGranted('ROLE_ADH_CONFIRME')){
+            $data = $this->getUser()->getAdherent()->getAssociations();
+            foreach ($data as $assoc){
+                foreach($assoc->getPublications() as $publication )
+                {
+                    $publications[] = $publication;
+                }
+            }
+        }
+        //$count = count($publications);
+        return $this->render('front/connected/index.html.twig',
+            [
+                'publications' => $publications,
+            ]);
     }
 }

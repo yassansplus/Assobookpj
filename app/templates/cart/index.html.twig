@@ -1,0 +1,100 @@
+{% extends 'base_connected.html.twig' %}
+
+{% block title %} Carte interactive {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags("cart") }}
+{% endblock %}
+
+{% block body %}
+
+    <style>
+
+        .leaflet-control-zoom-in, .leaflet-control-zoom-out {
+            color: #0a0a0a !important;
+        }
+        .association {
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: box-shadow .3s;
+            padding: 0 20px;
+        }
+
+        .association:hover {
+            box-shadow: 0 0 10px rgba(0,0,0 .1);
+        }
+
+        .association h4 {
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .association p {
+            margin: 0 0 1rem 0;
+        }
+
+        .association img {
+            width: calc(100% + 40px);
+            margin-left: -20px;
+            display: block;
+        }
+
+        .container-cart {
+            display: grid;
+            grid-template-columns: 7fr 4fr;
+        }
+
+        .list {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-column-gap: 30px;
+            padding: 0 30px;
+        }
+
+        .map {
+            background-color: #000000;
+            position: sticky !important;
+            top: 0;
+            right: 0;
+            left: 0;
+            height: 100vh;
+            margin-right: 20px;
+        }
+
+        .marker.is-active {
+            background-color: red;
+        }
+    </style>
+
+    <h3 style="padding: 15px 15px 15px 15px">Liste des associations les plus proches de vous</h3>
+
+    <div class="container-cart">
+        <div class="list">
+            {% for assoc in associations %}
+            <div class="association js-marker" data-lat="{{ assoc.address.latitude }}" data-lng=" {{ assoc.address.longitude }}" data-name="{{ assoc.name }}">
+                <img src="https://via.placeholder.com/400x260" alt="">
+                <h4>
+                    {{ assoc.name }}
+                </h4>
+                <p>
+                    {{ assoc.address.street }}, {{ assoc.address.region }}.
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="map" id="mapid"></div>
+    </div>
+
+    {{ count }}
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+            integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+            crossorigin="">
+    </script>
+    {{ encore_entry_script_tags("cart") }}
+{% endblock %}
