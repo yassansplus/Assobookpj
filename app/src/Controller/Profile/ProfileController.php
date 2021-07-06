@@ -230,9 +230,9 @@ class ProfileController extends AbstractController
 
 
     /**
-     * @Route("/followYass", name="followYass")
+     * @Route("/follow-suggestion", name="follow-suggestion")
      */
-    public function followYass(Request $request): Response
+    public function followSuggestion(Request $request): Response
     {
         $association = $request->get('association');
         $em = $this->getDoctrine()->getManager();

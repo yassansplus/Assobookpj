@@ -16,27 +16,27 @@
     <div class="box d-flex justify-content-center align-items-center">
         {{ form_start(form) }}
         <h1>Completez votre profil</h1>
-            {% if is_granted('ROLE_ADH') %}
-                <div class="fullname_inline">
-                    {{ form_row(form.firstname) }}
-                    {{ form_row(form.lastname) }}
-                </div>
-                {{ form_row(form.birthday) }}
-            {% elseif is_granted('ROLE_ASSOC') %}
-                <div class="row">
-                    <div class="col-lg-6">{{ form_row(form.name) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.theme) }}</div>
-                    <div class="col-lg-12">{{ form_row(form.description) }}</div>
-                    <div class="col-lg-12">{{ form_row(form.website) }}</div>
-                    <div class="col-lg-12">{{ form_row(form.adress.street) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.city, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.postalCode, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.region, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-lg-6">{{ form_row(form.adress.country, {'attr': {'readonly': true}}) }}</div>
-                    <div class="col-lg-12">{{ form_row(form.submit) }}</div>
-                </div>
-            {% endif %}
-            <a class="d-flex justify-content-center" href="{{ path('default_index') }}">Retour à l'accueil</a>
+        {% if is_granted('ROLE_ADH') %}
+            <div class="fullname_inline">
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+            </div>
+            {{ form_row(form.birthday) }}
+        {% elseif is_granted('ROLE_ASSOC') %}
+            <div class="row">
+                <div class="col-lg-6">{{ form_row(form.name) }}</div>
+                <div class="col-lg-6">{{ form_row(form.theme) }}</div>
+                <div class="col-lg-12">{{ form_row(form.description) }}</div>
+                <div class="col-lg-12">{{ form_row(form.website) }}</div>
+                <div class="col-lg-12">{{ form_row(form.adress.street) }}</div>
+                <div class="col-lg-6">{{ form_row(form.adress.city, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-lg-6">{{ form_row(form.adress.postalCode, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-lg-6">{{ form_row(form.adress.region, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-lg-6">{{ form_row(form.adress.country, {'attr': {'readonly': true}}) }}</div>
+                <div class="col-lg-12">{{ form_row(form.submit) }}</div>
+            </div>
+        {% endif %}
+        <a class="d-flex justify-content-center" href="{{ path('default_index') }}">Retour à l'accueil</a>
         {{ form_end(form) }}
     </div>
 {% endblock %}
