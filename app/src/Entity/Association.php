@@ -78,6 +78,14 @@ class Association
      */
     private $haveCagnotte;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Type(
+     *     type="integer",
+     *     message="{{ value }} n'est pas un chiffre.")
+     */
+    private $limitCagnotte;
+
 
     public function __construct()
     {
@@ -267,6 +275,18 @@ class Association
     public function setHaveCagnotte(bool $haveCagnotte): self
     {
         $this->haveCagnotte = $haveCagnotte;
+
+        return $this;
+    }
+
+    public function getLimitCagnotte(): ?int
+    {
+        return $this->limitCagnotte;
+    }
+
+    public function setLimitCagnotte(?int $limitCagnotte): self
+    {
+        $this->limitCagnotte = $limitCagnotte;
 
         return $this;
     }

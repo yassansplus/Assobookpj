@@ -22,13 +22,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CagnotteController extends AbstractController
 {
     private $em;
-    private $requestStack;
+    //private $requestStack;
     private $emailService;
 
-    public function __construct(EntityManagerInterface $em, RequestStack $requestStack,EmailService $emailService)
+    public function __construct(EntityManagerInterface $em, /*RequestStack $requestStack */EmailService $emailService)
     {
         $this->em = $em;
-        $this->requestStack = $requestStack;
+        //$this->requestStack = $requestStack;
         $this->emailService = $emailService;
     }
 
@@ -91,6 +91,27 @@ class CagnotteController extends AbstractController
 
         return $this->render('cagnotte/merci.html.twig',[
             "cagnotte" => $cagnotte
+        ]);
+    }
+
+    /**
+     * @Route("ma-cagnotte",name="ma-cagnotte")
+     * @Security("is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Acces denied")
+     */
+    public function maCagnotte(): Response
+    {
+        $association = $this->getUser()->getAssociation();
+        $limite = !is_null($association->getLimitCagnotte()) ? $association->getLimitCagnotte() : 100;
+        $som = 0;
+        foreach($association->getCagnottes() as $cagnotte){
+            $som += $cagnotte->getMontant();
+        }
+        $pourcentage = ($som * 100) / $limite;
+
+        return $this->render('cagnotte/cagnotte.html.twig',[
+            "som" => $som,
+            "pourcentage" => $pourcentage,
+            "limite" => $limite
         ]);
     }
 

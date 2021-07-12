@@ -1,0 +1,31 @@
+{% extends 'base_connected.html.twig' %}
+
+{% block title %} Ma cagnotte - AssoBook{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <h1 class="text-center mt-4 mb-3">Ma cagnotte</h1>
+    <div class="container">
+        <div class="progress mb-3">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width:{{ pourcentage }}%;">
+                <span style="font-size:{{ pourcentage < 10 ? "10px" : "12px" }};">{{ som }} / {{ limite }}</span>
+            </div>
+        </div>
+        {% if(app.user.association.cagnottes is not empty) %}
+            {% for don in app.user.association.cagnottes %}
+                <div class="shadow p-3 mb-3 bg-white rounded">
+                    <p class="m-0"><i class="fas fa-check-circle text-success"></i> {{ don.donateur.firstname|capitalize ~ ' ' ~ don.donateur.lastname|upper }}
+                        vous a fait un don de <strong>{{ don.montant }} €</strong> le {{ don.createdAt|date('d/m/Y') }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-center">Votre association n'a reçu aucun don pour le moment. Revenez plus tard.</p>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

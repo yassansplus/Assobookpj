@@ -1,0 +1,8 @@
+@import "../variables";
+
+.progress {
+  height: 30px;
+  .progress-bar {
+    background-color: $blue-linkedin;
+  }
+}
