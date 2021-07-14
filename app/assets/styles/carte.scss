@@ -1,11 +1,18 @@
-.leaflet-control-zoom-in, .leaflet-control-zoom-out {
+.leaflet-control-zoom-in, .leaflet-control-zoom-out, .link-assoc {
   color: #0a0a0a !important;
+  text-decoration: none;
 }
+
+.link-assoc a {
+  text-decoration: none;
+}
+
 .association {
   cursor: pointer;
   margin-bottom: 2rem;
   transition: box-shadow .3s;
   padding: 0 20px;
+  height: 22rem;
 }
 
 .association:hover {
@@ -26,28 +33,31 @@
   display: block;
 }
 
-.container-cart {
-  display: grid;
-  grid-template-columns: 7fr 4fr;
-}
-
-.list {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 30px;
-  padding: 0 30px;
-}
-
 .map {
-  background-color: #000000;
-  position: sticky !important;
-  top: 0;
-  right: 0;
-  left: 0;
-  height: 100vh;
-  margin-right: 20px;
+  height: 50vh;
 }
 
-.marker.is-active {
-  background-color: red;
+@media only screen and (min-width: 1100px) {
+
+  .container-cart {
+    display: grid;
+    grid-template-columns: 7fr 4fr;
+  }
+
+  .list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-column-gap: 30px;
+    padding: 0 30px;
+  }
+
+  .map {
+    position: sticky !important;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100vh;
+    margin-right: 20px;
+  }
+
 }
