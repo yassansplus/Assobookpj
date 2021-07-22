@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Association;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -54,6 +55,14 @@ class UpdateAssocType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'custom-control-input',
+                ]
+            ])
+            ->add('limitCagnotte',IntegerType::class,[
+                'label' => 'Limite pour l\'affichage de votre cagnotte',
+                'required' => false,
+                'attr' => [
+                    'placeholder' => '100',
+                    'class' => 'form-control',
                 ]
             ])
             ->add('submit', SubmitType::class, [

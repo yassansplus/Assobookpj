@@ -27,12 +27,13 @@
                     <div class="col-sm-6">{{ form_row(form.name) }}</div>
                     <div class="col-sm-6">{{ form_row(form.website) }}</div>
                     <div class="col-sm-12">{{ form_row(form.description) }}</div>
-                    <div class="mb-2 pl-3">
+                    <div class="col-sm-6 pl-3">
                         <div class="custom-control custom-switch">
                             {{ form_widget(form.haveCagnotte, {'id': 'customSwitch1', 'attr': {'class' : 'custom-control-input'} })}}
                             <label class="custom-control-label" for="customSwitch1">Avoir une cagnotte ?</label>
                         </div>
                     </div>
+                    <div class="col-sm-6 mb-2">{{ form_row(form.limitCagnotte) }}</div>
                 </div>
             {% else %}
                 <div class="row">
