@@ -125,10 +125,16 @@ class User implements UserInterface, \Serializable
      */
     private $updatedCouvertureAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="user_id")
+     */
+    private $commentaires;
+
     public function __construct()
     {
         $this->registerDate = new DateTime();
         $this->tags = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -370,4 +376,39 @@ class User implements UserInterface, \Serializable
             $this->password,
             ) = unserialize($serialized);
     }
+
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getUserId() === $this) {
+                $commentaire->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->getUsername();
+    }
+
 }

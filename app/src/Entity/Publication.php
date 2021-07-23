@@ -50,9 +50,15 @@ class Publication
      */
     private $event;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Commentaire::class, mappedBy="publication_id", orphanRemoval=true)
+     */
+    private $commentaires;
+
     public function __construct()
     {
         $this->comments = new ArrayCollection();
+        $this->commentaires = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -152,5 +158,39 @@ class Publication
         $this->event = $event;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Commentaire[]
+     */
+    public function getCommentaires(): Collection
+    {
+        return $this->commentaires;
+    }
+
+    public function addCommentaire(Commentaire $commentaire): self
+    {
+        if (!$this->commentaires->contains($commentaire)) {
+            $this->commentaires[] = $commentaire;
+            $commentaire->setPublicationId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommentaire(Commentaire $commentaire): self
+    {
+        if ($this->commentaires->removeElement($commentaire)) {
+            // set the owning side to null (unless already changed)
+            if ($commentaire->getPublicationId() === $this) {
+                $commentaire->setPublicationId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString() {
+        return $this->getDescription();
     }
 }
