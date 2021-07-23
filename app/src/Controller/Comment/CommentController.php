@@ -2,9 +2,9 @@
 
 namespace App\Controller\Comment;
 
-use App\Entity\Comment;
-use App\Form\CommentType;
-use App\Repository\CommentRepository;
+use App\Entity\Commentaire;
+use App\Form\CommentaireType;
+use App\Repository\CommentaireRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,7 +18,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/", name="comment_index", methods={"GET"})
      */
-    public function index(CommentRepository $commentRepository): Response
+    public function index(CommentaireRepository $commentRepository): Response
     {
         return $this->render('comment/index.html.twig', [
             'comments' => $commentRepository->findAll(),
@@ -30,13 +30,16 @@ class CommentController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $comment = new Comment();
-        $form = $this->createForm(CommentType::class, $comment);
+        $comment = new Commentaire();
+        //$comment->setUserId($this->getUser());
+        $form = $this->createForm(CommentaireType::class, $comment);
+        //dd($this->createForm(CommentaireType::class, $comment));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
-            //$comment->setPublicationDate();
+            $comment->setUserId($this->getUser());
+            $comment->setCreatedAt();
             $entityManager->persist($comment);
             $entityManager->flush();
 
@@ -52,7 +55,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/{id}", name="comment_show", methods={"GET"})
      */
-    public function show(Comment $comment): Response
+    public function show(Commentaire $comment): Response
     {
         return $this->render('comment/show.html.twig', [
             'comment' => $comment,
@@ -62,9 +65,9 @@ class CommentController extends AbstractController
     /**
      * @Route("/{id}/edit", name="comment_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Comment $comment): Response
+    public function edit(Request $request, Commentaire $comment): Response
     {
-        $form = $this->createForm(CommentType::class, $comment);
+        $form = $this->createForm(CommentaireType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,7 +85,7 @@ class CommentController extends AbstractController
     /**
      * @Route("/{id}", name="comment_delete", methods={"DELETE"})
      */
-    public function delete(Request $request, Comment $comment): Response
+    public function delete(Request $request, Commentaire $comment): Response
     {
         if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
