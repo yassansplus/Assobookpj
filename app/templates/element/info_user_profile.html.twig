@@ -61,7 +61,7 @@
 <div>
     {% for user in arrayForm %}
         <section id="{{ user.id }}" class="menuAncrage p-3 mb-3">
-            <p class="font-weight-bold">{{ user.title }}</p>
+            <p class="font-weight-bold">{{ user.title }} {{ getAdh and user.id is same as 'mes-abonnements' ? '('~ getAdh.associations|length ~')' : (getAssoc and user.id is same as 'mes-abonnes' ? '('~getAssoc.adherents|length~')' : '')}}</p>
             {% if getAdh %}
                 {% if user.id is same as 'a-propos' %}
                     <div class="p-0" style="font-size:14px;">
@@ -87,14 +87,30 @@
                             </div>
                         {% endfor %}
                         <div class="d-flex justify-content-end p-0">
-                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                            <form action="{{ path('search_search') }}" method="POST">
+                                <input name="id-user" value="{{ getAdh.id }}" hidden/>
+                                <input name="user" value="abonnement" hidden/>
+                                <button class="btn btn-form btn-form-blue">Voir plus</button>
+                            </form>
                         </div>
                     {% else %}
                         <p style="font-size:14px;">Aucune associations suivi pour l'instant</p>
                     {% endif %}
                 {% elseif user.id is same as 'mes-centres-d-interets'%}
+                    <p style="font-size:14px;">
+                        {% if getAdh.userAccount.tags is empty %}
+                            {{ getAdh.firstname }} n'a pas ajouté ses centre d'interêt. Nous espérons qu'{{ getAdh.gender ? "il" : "elle"}} aime quelque chose 😢
+                        {% else %}
+                            {{ getAdh.firstname }} aime
+                            {% for index,tag in getAdh.userAccount.tags %}
+                                {% set index = index+1 %}
+                                <strong>{{ tag.tag }}</strong>{{ getAdh.userAccount.tags|length is same as index ? '' : (((getAdh.userAccount.tags|length) -1) is same as index ? ' et ' : ',') }}
+                            {% endfor %}
+                        {% endif %}
+                    </p>
                 {% elseif user.id is same as 'mes-events'%}
-
+                    {# TODO : Condition event participation #}
+                    <p style="font-size:14px;">{{ getAdh.firstname }} ne participe à aucun événément pour l'instant</p>
                 {% endif %}
             {% else %}
                 {% if user.id is same as 'a-propos' %}
@@ -119,7 +135,11 @@
                             </div>
                         {% endfor %}
                         <div class="d-flex justify-content-end p-0">
-                            <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
+                            <form action="{{ path('search_search') }}" method="POST">
+                                <input name="id-user" value="{{ getAssoc.id }}" hidden/>
+                                <input name="user" value="abonne" hidden/>
+                                <button class="btn btn-form btn-form-blue">Voir plus</button>
+                            </form>
                         </div>
                     {% else %}
                         <p style="font-size:14px;">L'association n'a pas encore de follower.</p>
@@ -153,14 +173,8 @@
                                     <div class="col-sm-3 d-flex d-sm-block align-items-center col-6 text-center">
                                         <p>Crée le {{ publi.datePublication|date('d/m/Y') }} à {{ publi.datePublication|date('H:i') }}</p>
                                     </div>
-                                    <div class="col-sm-3 col-12 text-center">
-                                        <a href="#"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
-                                    </div>
                                 </div>
                             {% endfor %}
-                            <div class="d-flex justify-content-end p-0">
-                                <a href=""><button class="btn btn-form btn-form-blue">Voir plus</button></a>
-                            </div>
                         {% else %}
                             <p style="font-size:14px;">Pas encore de publication</p>
                         {% endif %}

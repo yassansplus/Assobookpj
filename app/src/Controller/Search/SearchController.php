@@ -46,15 +46,23 @@ class SearchController extends AbstractController
      */
     public function search(PaginationService $paginationService, Request $request, AdherentRepository $adherent, AssociationRepository $association){
         $search = $request->query->get('search');
-        if(!is_null($search) && !empty($search)){
-            $search = preg_match('/[|]/',$search) ? trim(explode('|',$search)[0]) : $search;
-            $dataAdherent = $adherent->searchAdherent($search);
-            $dataAssociation = $association->searchAssociation($search);
-        }elseif(is_null($search) || empty($search)) {
-            $dataAdherent = $adherent->findAll();
-            $dataAssociation = $association->findAll();
+        $followOrFollowers = $request->request->get('user');
+        $idUser = $request->request->get('id-user');
+        if(is_null($followOrFollowers)){
+            if(!is_null($search) && !empty($search)){
+                $search = preg_match('/[|]/',$search) ? trim(explode('|',$search)[0]) : $search;
+                $dataAdherent = $adherent->searchAdherent($search);
+                $dataAssociation = $association->searchAssociation($search);
+            }elseif(is_null($search) || empty($search)) {
+                $dataAdherent = $adherent->findAll();
+                $dataAssociation = $association->findAll();
+            }
+            $data = array_merge($dataAdherent,$dataAssociation);
+        }else{
+            $data = $followOrFollowers === "abonnement" ?
+                $this->em->getRepository(Adherent::class)->findBy(["id" => $idUser])[0]->getAssociations()->toArray() :
+                $this->em->getRepository(Association::class)->findBy(["id" => $idUser])[0]->getAdherents()->toArray();
         }
-        $data = array_merge($dataAdherent,$dataAssociation);
 
         $pagination = $paginationService->settingPagination($data,$request->query->getInt('page',1),6);
         if($pagination === 'redirect'){
