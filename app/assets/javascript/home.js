@@ -30,6 +30,7 @@ $(document).ready(function () {
                     message: 'Votre commentaire à bien été ajouté !',
                 })
                 $("#load-comment").load(" #load-comment");
+                $("#comment")[0].reset();
             }
         });
 
