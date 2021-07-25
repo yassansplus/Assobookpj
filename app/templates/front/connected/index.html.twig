@@ -101,7 +101,7 @@
                                                 <p class="comment-text">
                                                     {{ publication.description }}
                                                 </p>
-                                                <div id="load-comment">
+                                                <div id="load-{{ publication.id }}">
                                                     {% for commentaire in publication.commentaires %}
                                                         {% set adherent = commentaire.userid.adherent %}
                                                         <hr>
@@ -140,7 +140,7 @@
                                                 </div>
                                                 <hr>
                                                 <div>
-                                                    <form action="{{ path('add_comment', {id: publication.id}) }}" id="comment">
+                                                    <form action="{{ path('add_comment', {id: publication.id}) }}" id="{{ publication.id }}">
                                                         <input type="text" name="commentaire" class="form-control"
                                                                placeholder="Votre commentaire..."
                                                                idPublication="{{ publication.id }}">
@@ -214,12 +214,13 @@
                                                 {% endif %}
                                                 <p class="comment-text"> {{ assocPub.description }}</p>
                                             </div>
-                                            <div id="load-comment">
+                                            <div id="load-{{ assocPub.id }}">
                                                 {% for commentaire in assocPub.commentaires %}
                                                     {% set adherent = commentaire.userid.adherent %}
+                                                    <hr>
                                                     <div class="media m-2">
                                                         <i class="fas fa-share p-2"></i>
-                                                        <div class="media-body">
+                                                        <div class="media-body" id="load-comment">
                                                             {% if adherent == null %}
                                                                 <p>
                                                                     <em>
@@ -250,7 +251,7 @@
                                             </div>
                                             <hr>
                                             <div>
-                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}" id="comment">
+                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}" id="{{ assocPub.id }}">
                                                     <input type="text" name="commentaire" class="form-control"
                                                            placeholder="Votre commentaire..."
                                                            idPublication="{{ assocPub.id }}">
