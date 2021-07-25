@@ -17,6 +17,7 @@ class Publication
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @ORM\JoinColumn(onDelete="CASCADE")
      */
     private $id;
 

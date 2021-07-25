@@ -32,7 +32,7 @@
             <!-- Example row of columns -->
             <div class="row">
                 <div class="col-md-4">
-                    <div class="card m-5" style="width: 20rem;">
+                    <div class="card m-3" style="width: 20rem; position: fixed;">
                         <div class="position-relative">
                             {% set userConnect = getAssoc ? getAssoc.userAccount : getAdh.userAccount %}
                             {% set pathBanner = userConnect.couverture ? "assets/images/profile/uploads/couverture/"~userConnect.couverture~"" : "assets/images/logo/banner-default.jpg" %}
@@ -57,32 +57,92 @@
                     {% if getAdh %}
                         {% if publications is not empty %}
                             {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
-                                <section class="demo m-5">
+                                <section class="demo" id="load-comment">
                                     <div class="d-flex flex-column comment-section demo">
                                         <div class="bg-white p-4 m-2">
                                             <div class="d-flex flex-row user-info">
                                                 <img class="rounded-circle"
-                                                     src="https://i.imgur.com/RpzrMR2.jpg"
+                                                     src="{{ asset(pathAvatar) }}"
                                                      width="40">
                                                 <div class="d-flex flex-column justify-content-start ml-2">
                                                     <span class="d-block font-weight-bold name">{{ publication.association.name }}</span>
                                                     <span class="date text-black-50">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
                                                 </div>
                                             </div>
+                                            <hr>
                                             <div class="mt-2">
-                                                <hr>
+                                                {% set idPub = publication.id %}
+                                                {% if events is not empty %}
+                                                    {% for event in events %}
+                                                        {% set idEvent = event.publication.id %}
+                                                        {% if idPub == idEvent %}
+                                                            <span class="badge badge-pill badge-info">Évènement &#128227;</span>
+                                                            <span class="badge badge-pill badge-success">Début : {{ event.startDate|date('d/m/Y à H:i') }}</span>
+                                                            <span class="badge badge-pill badge-danger">Fin : {{ event.endingDate|date('d/m/Y à H:i') }}</span>
+                                                            <hr>
+                                                            <!-- Button code -->
+                                                            <div title="Add to Calendar"
+                                                                 class="badge badge-pill addeventatc">
+                                                                Ajouter à mon calendrier
+                                                                <span class="start">{{ event.startDate|date('d/m/Y H:i') }}</span>
+                                                                <span class="end">{{ event.endingDate|date('d/m/Y H:i') }}</span>
+                                                                <span class="title">{{ event.title }}</span>
+                                                                <span class="description">{{ event.publication.description }}</span>
+                                                                <span class="location">{{ event.address }}</span>
+                                                                <span class="organizer">{{ publication.association.name }}</span>
+                                                                <span class="organizer_email">{{ publication.association.useraccount.email }}</span>
+                                                            </div>
+                                                            <hr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
                                                 <p class="comment-text">
                                                     {{ publication.description }}
                                                 </p>
-                                                <hr>
-                                                {% for commentaire in publication.commentaires %}
-                                                    {{ commentaire.content }}
-                                                {% endfor %}
+                                                <div class="test-comment">
+                                                    {% for commentaire in publication.commentaires %}
+                                                        {% set adherent = commentaire.userid.adherent %}
+                                                        <hr>
+                                                        <div class="media m-2">
+                                                            <i class="fas fa-share p-2"></i>
+                                                            <div class="media-body">
+                                                                {% if adherent == null %}
+                                                                    <p>
+                                                                        <em>
+                                                                            Par
+                                                                            <a href="association/{{ commentaire.userid.association.id }}"
+                                                                               style="color: #000000 !important;">{{ commentaire.userid.association.name }}</a>
+                                                                        </em>
+                                                                        {% if commentaire.userid.association.id == publication.association.id %}
+                                                                            <span class="badge badge-light">Association</span>
+                                                                        {% endif %}
+                                                                        <span class="badge badge-dark">le {{ commentaire.createdAt|date('d/m/Y à H:i') }}</span>
+                                                                    </p>
+                                                                {% else %}
+                                                                    <p>
+                                                                        <em>
+                                                                            Par
+                                                                            <a href="adherent/{{ commentaire.userid.adherent.id }}"
+                                                                               style="color: #000000 !important;">{{ commentaire.userid.adherent.firstname }} {{ commentaire.userid.adherent.lastname }}</a>
+                                                                        </em>
+                                                                        {% if commentaire.userid.id == app.user.id %}
+                                                                            <span class="badge badge-primary">Moi</span>
+                                                                            <span class="badge badge-dark">le {{ commentaire.createdAt|date('d/m/Y à H:i') }}</span>
+                                                                        {% endif %}
+                                                                    </p>
+                                                                {% endif %}
+                                                                <p><small>{{ commentaire.content }}</small></p>
+                                                            </div>
+                                                        </div>
+                                                    {% endfor %}
+                                                </div>
                                                 <hr>
                                                 <div>
-                                                    <form action="{{ path('add_comment', {id: publication.id}) }}">
-                                                        <input type="text" name="commentaire" class="form-control" placeholder="Votre commentaire..." idPublication="{{ publication.id }}">
-                                                        <button class="submit" id="envoi">Envoyer</button>
+                                                    <form action="{{ path('add_comment', {id: publication.id}) }}" id="comment">
+                                                        <input type="text" name="commentaire" class="form-control"
+                                                               placeholder="Votre commentaire..."
+                                                               idPublication="{{ publication.id }}">
+                                                        <button class="submit" hidden>Envoyer</button>
                                                     </form>
                                                 </div>
                                             </div>
@@ -91,11 +151,37 @@
                                 </section>
                             {% endfor %}
                         {% else %}
-                            <h1 class="mt-5">Aucune publication n'a été trouvé &#128533;</h1>
-                            <p class="lead">Essayer de suivre des associaitions pour voir leurs publications !</p>
+                            <h1 class="mt-5">C'est tout neuf ici &#11088;</h1>
+                            <p class="lead">Essayer de suivre des associations pour voir leurs publications !</p>
                         {% endif %}
                     {% else %}
-                        {{ form(formPublication) }}
+                        <div class="p-4 m-2">
+                            {{ form(formPublication) }}
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                    data-target="#exampleModalCenter">
+                                Créer un événement
+                            </button>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                 aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">Création d'un
+                                                événement</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            {{ form(formEvent) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         {% if assocPublications is not empty %}
                             {% for assocPub in assocPublications|sort((a, b) => b.datePublication <=> a.datePublication) %}
                                 <section class="demo">
@@ -103,7 +189,7 @@
                                         <div class="bg-white p-4 m-2">
                                             <div class="d-flex flex-row user-info">
                                                 <img class="rounded-circle"
-                                                     src="https://i.imgur.com/RpzrMR2.jpg"
+                                                     src="{{ asset(pathAvatar) }}"
                                                      width="40">
                                                 <div class="d-flex flex-column justify-content-start ml-2">
                                                     <span class="d-block font-weight-bold name">{{ assocPub.association.name }}s</span>
@@ -112,17 +198,62 @@
                                             </div>
                                             <hr>
                                             <div class="mt-2">
+                                                {% set idPub = assocPub.id %}
+                                                {% if events is not empty %}
+                                                    {% for event in events %}
+                                                        {% set idEvent = event.publication.id %}
+                                                        {% if idPub == idEvent %}
+                                                            <span class="badge badge-pill badge-info">Évènement &#128227;</span>
+                                                            <span class="badge badge-pill badge-success">Début : {{ event.startDate|date('d/m/Y à H:i') }}</span>
+                                                            <span class="badge badge-pill badge-danger">Fin : {{ event.endingDate|date('d/m/Y à H:i') }}</span>
+                                                            <hr>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
                                                 <p class="comment-text"> {{ assocPub.description }}</p>
                                             </div>
-                                            <hr>
-                                            {% for commentaire in assocPub.commentaires %}
-                                                {{ commentaire.content }}
-                                            {% endfor %}
+                                            <div class="test-comment">
+                                                <hr>
+                                                {% for commentaire in assocPub.commentaires %}
+                                                    {% set adherent = commentaire.userid.adherent %}
+                                                    <div class="media m-2">
+                                                        <i class="fas fa-share p-2"></i>
+                                                        <div class="media-body">
+                                                            {% if adherent == null %}
+                                                                <p>
+                                                                    <em>
+                                                                        Par
+                                                                        <a href="association/{{ commentaire.userid.association.id }}"
+                                                                           style="color: #000000 !important;">{{ commentaire.userid.association.name }} </a>
+                                                                    </em>
+                                                                    {% if commentaire.userid.association.id == assocPub.association.id %}
+                                                                        <span class="badge badge-light">Propriétaire</span>
+                                                                    {% else %}
+                                                                        <span class="badge badge-info">Adhérent</span>
+                                                                    {% endif %}
+                                                                    <span class="badge badge-dark">le {{ commentaire.createdAt|date('d/m/Y à H:i') }}</span>
+                                                                </p>
+                                                            {% else %}
+                                                                <p>
+                                                                    <em>
+                                                                        Par
+                                                                        <a href="adherent/{{ commentaire.userid.adherent.id }}"
+                                                                           style="color: #000000 !important;">{{ commentaire.userid.adherent.firstname }} {{ commentaire.userid.adherent.lastname }}</a>
+                                                                    </em>
+                                                                </p>
+                                                            {% endif %}
+                                                            <p><small>{{ commentaire.content }}</small></p>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
                                             <hr>
                                             <div>
-                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}">
-                                                    <input type="text" name="commentaire" class="form-control" placeholder="Votre commentaire..." idPublication="{{ assocPub.id }}">
-                                                    <button class="submit" id="envoi">Envoyer</button>
+                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}" id="comment">
+                                                    <input type="text" name="commentaire" class="form-control"
+                                                           placeholder="Votre commentaire..."
+                                                           idPublication="{{ assocPub.id }}">
+                                                    <button class="submit" hidden>Envoyer</button>
                                                 </form>
                                             </div>
                                         </div>
@@ -130,7 +261,7 @@
                                 </section>
                             {% endfor %}
                         {% else %}
-                            <h1 class="mt-5">Aucune publication n'a été trouvé &#128533;</h1>
+                            <h1 class="mt-5">C'est tout neuf ici &#11088;</h1>
                             <p class="lead">Essayer de créer une publication pour vos adhérents !</p>
                         {% endif %}
                     {% endif %}
