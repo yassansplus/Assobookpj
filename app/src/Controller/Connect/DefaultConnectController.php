@@ -113,19 +113,20 @@ class DefaultConnectController extends AbstractController
     public function addCommentaire(Publication $publication, Request $request): Response
     {
 
-        header("Content-Type: application/json");
+        //header("Content-Type: application/json");
         try {
-            $json_str = file_get_contents('php://input');
-            $json_obj = json_decode($json_str);
+            //$json_str = file_get_contents('php://input');
+            //$json_obj = json_decode($json_str);
             $comment = new Commentaire();
             $entityManager = $this->getDoctrine()->getManager();
             $comment->setUserId($this->getUser());
             $comment->setCreatedAt();
             $comment->setPublicationId($publication);
-            $comment->setContent($json_obj->commentaire);
+            $comment->setContent($request->request->get('commentaire'));
             $entityManager->persist($comment);
             $entityManager->flush();
 
+            /*
             $commentaire = [
                 "id_user" => $this->getUser()->getAssociation() ? $this->getUser()->getAssociation()->getId() : $this->getUser()->getAdherent()->getId(),
                 "contenu" => $json_obj->commentaire,
@@ -134,8 +135,9 @@ class DefaultConnectController extends AbstractController
                 "is_association" => $this->getUser()->getAssociation() ? true : false,
                 "fullname" => $this->getUser()->getAssociation() ? $this->getUser()->getAssociation()->getName() : $this->getUser()->getAdherent()->getFirstname(). ' ' .  $this->getUser()->getAdherent()->getLastname()
             ];
+            */
 
-            return new JsonResponse($commentaire);
+            return new JsonResponse("Votre commentaire a bien été ajouté !");
         } catch (Exception $e) {
             return new JsonResponse("une erreur est survenu:" . $e->getMessage());
         }

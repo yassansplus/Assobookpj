@@ -57,7 +57,7 @@
                     {% if getAdh %}
                         {% if publications is not empty %}
                             {% for publication in publications|sort((a, b) => b.datePublication <=> a.datePublication) %}
-                                <section class="demo" id="load-comment">
+                                <section class="demo">
                                     <div class="d-flex flex-column comment-section demo">
                                         <div class="bg-white p-4 m-2">
                                             <div class="d-flex flex-row user-info">
@@ -65,7 +65,9 @@
                                                      src="{{ asset(pathAvatar) }}"
                                                      width="40">
                                                 <div class="d-flex flex-column justify-content-start ml-2">
-                                                    <span class="d-block font-weight-bold name">{{ publication.association.name }}</span>
+                                                    <a href="association/{{ publication.association.id }}" style="color: #0a0a0a !important; text-decoration: none;">
+                                                        <span class="d-block font-weight-bold name">{{ publication.association.name }}</span>
+                                                    </a>
                                                     <span class="date text-black-50">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
                                                 </div>
                                             </div>
@@ -99,7 +101,7 @@
                                                 <p class="comment-text">
                                                     {{ publication.description }}
                                                 </p>
-                                                <div class="test-comment">
+                                                <div id="load-comment">
                                                     {% for commentaire in publication.commentaires %}
                                                         {% set adherent = commentaire.userid.adherent %}
                                                         <hr>
@@ -212,8 +214,7 @@
                                                 {% endif %}
                                                 <p class="comment-text"> {{ assocPub.description }}</p>
                                             </div>
-                                            <div class="test-comment">
-                                                <hr>
+                                            <div id="load-comment">
                                                 {% for commentaire in assocPub.commentaires %}
                                                     {% set adherent = commentaire.userid.adherent %}
                                                     <div class="media m-2">
