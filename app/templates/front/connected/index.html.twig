@@ -82,12 +82,22 @@
                                                             <span class="badge badge-pill badge-success">Début : {{ event.startDate|date('d/m/Y à H:i') }}</span>
                                                             <span class="badge badge-pill badge-danger">Fin : {{ event.endingDate|date('d/m/Y à H:i') }}</span>
                                                             <hr>
-                                                            <!-- Button code -->
-                                                            <div title="Add to Calendar"
-                                                                 class="badge badge-pill addeventatc">
-                                                                Ajouter à mon calendrier
+                                                            <div class="addeventatc" data-styling="none">
+                                                                <div class="date">
+                                                                    <span class="mon">{{ event.startDate|date('F') }}</span>
+                                                                    <span class="day">{{ event.startDate|date('d') }}</span>
+                                                                    <div class="bdr1"></div>
+                                                                    <div class="bdr2"></div>
+                                                                </div>
+                                                                <div class="desc">
+                                                                    <p>
+                                                                        <strong class="hed">{{ event.title }}</strong>
+                                                                        <span class="des">{{ event.address }}<br />De {{ event.startDate|date('H:i') }} à {{ event.endingDate|date('H:i') }}</span>
+                                                                    </p>
+                                                                </div>
                                                                 <span class="start">{{ event.startDate|date('d/m/Y H:i') }}</span>
                                                                 <span class="end">{{ event.endingDate|date('d/m/Y H:i') }}</span>
+                                                                <span class="timezone">Europe/Paris</span>
                                                                 <span class="title">{{ event.title }}</span>
                                                                 <span class="description">{{ event.publication.description }}</span>
                                                                 <span class="location">{{ event.address }}</span>
