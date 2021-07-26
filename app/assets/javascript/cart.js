@@ -1,34 +1,87 @@
+function distance(user, assoc, unite) {
+    var radlat1 = Math.PI * user.latitude/180
+    var radlat2 = Math.PI * assoc.dataset.lat/180
+    var theta = user.longitude - assoc.dataset.lng
+    var radtheta = Math.PI * theta/180
+    var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+    if (dist > 1) {
+        dist = 1;
+    }
+    dist = Math.acos(dist)
+    dist = dist * 180/Math.PI
+    dist = dist * 60 * 1.1515
+    if (unite=="K") { dist = dist * 1.609344 }
+    if (unite=="N") { dist = dist * 0.8684 }
+    return {
+        distance: dist,
+        name: assoc.dataset.name,
+        longitude: assoc.dataset.lng,
+        latitude: assoc.dataset.lat,
+        address: assoc.dataset.assoc,
+        id: assoc.dataset.id
+    };
+}
+
+function compare(x, y) {
+    return x.distance - y.distance;
+}
+
 function success(pos) {
 
 
     const crd = pos.coords;
+    let calc = [];
 
-    //console.log(`Latitude : ${crd.latitude}`);
-    //console.log(`Longitude : ${crd.longitude}`);
+    let map = L.map('mapid', { maxZoom: 20 });
 
-    let map = L.map('mapid').setView([crd.latitude, crd.longitude], 14);
+    let options_popup = {
+        autoClose: false,
+        closeOnEscapeKey: false,
+        closeOnClick: false,
+        closeButton: false,
+        className: 'marker',
+        maxWidth: 400
+    }
 
     L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
         attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-        maxZoom: 28,
         id: 'mapbox/streets-v11',
         tileSize: 512,
         zoomOffset: -1,
         accessToken: 'pk.eyJ1IjoibWJsaCIsImEiOiJja3FwZWhwOTUwZjF1MnNuYmFxMWpubjhyIn0.G2B_Cd-CMZEZoQ7wWYvckg'
     }).addTo(map);
 
-    let marker_me = L.marker([crd.latitude, crd.longitude]).addTo(map);
-    marker_me.bindPopup("<b style='color: #1b9448'>Vous êtes ici !</b>").openPopup();
+    let marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
+    marker.bindPopup("Vous êtes ici !").openPopup();
+
 
     Array.from(document.querySelectorAll('.js-marker')).forEach((association) => {
-        let marker = L.marker([association.dataset.lat, association.dataset.lng]).addTo(map);
-        marker.bindPopup(association.dataset.name).openPopup();
-        association.addEventListener('mouseover', function (){
-            marker.getElement().classList.add('is-active')
-        })
-        //map.addMarker(association.dataset.lat, association.dataset.lng, association.dataset.name)
-    })
+        map.setView([crd.latitude, crd.longitude], 14);
+        let assoc_popup = L.popup(options_popup)
+            .setLatLng([association.dataset.lat, association.dataset.lng])
+            .setContent(association.dataset.name)
+        assoc_popup.openOn(map);
+        calc.push(distance(crd, association, "K",));
+    });
 
+    const list = document.querySelector('.list');
+    calc.sort(compare);
+    list.innerHTML = '';
+    calc.forEach((assoc) => {
+        if (assoc.distance < 30) {
+            const div = `
+            <div class="association js-marker" data-lat="${assoc.latitude}" data-lng="${assoc.longitude}" data-name="${assoc.name}">
+                <img src="https://via.placeholder.com/400x260" alt="">
+                <h4>
+                    <a href="association/${assoc.id}" class="link-assoc">${assoc.name}
+                    </a>
+                </h4>
+                <p>${assoc.address}</p>
+            </div>
+        `;
+            list.innerHTML+= div;
+        }
+    });
 }
 
 function error(err) {
@@ -36,56 +89,3 @@ function error(err) {
 }
 
 navigator.geolocation.getCurrentPosition(success, error);
-
-/*
-let $map = document.querySelector('#mapid')
-
-class LeafletMap {
-
-    constructor() {
-        this.map = null
-    }
-
-    async load (element){
-        return new Promise((resolve, reject) => {
-            $script('https://unpkg.com/leaflet@1.7.1/dist/leaflet.js', () => {
-                this.map = L.map(element);
-                L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-                    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
-                    id: 'mapbox/streets-v11',
-                    accessToken: 'pk.eyJ1IjoibWJsaCIsImEiOiJja3FwZWhwOTUwZjF1MnNuYmFxMWpubjhyIn0.G2B_Cd-CMZEZoQ7wWYvckg'
-                }).addTo(this.map)
-                resolve()
-            })
-        })
-    }
-
-
-    addMarker (lat, lng, text) {
-        L.popup({
-            autoClose: false,
-            closeOnEscapeKey: false,
-            closeOnClick: false,
-            closeButton: false,
-            className: 'marker',
-            maxWidth: 400,
-        })
-            .setLatLng([lat, lng])
-            .setContent(text)
-            .openOn(this.map)
-    }
-}
-
-const initMap = async function () {
-    let map = new LeafletMap()
-    await map.load($map)
-    Array.from(document.querySelectorAll('.js-marker')).forEach((association) => {
-        map.addMarker(association.dataset.lat, association.dataset.lng, association.dataset.name)
-    })
-}
-
-if ($map !== null){
-    initMap()
-}
-
- */

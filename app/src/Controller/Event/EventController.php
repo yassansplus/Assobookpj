@@ -25,7 +25,7 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository): Response
     {
-        $form = $this->createForm(UpdatePwdType::class);
+        $form = $this->createForm(EventType::class);
 
         return $this->render('event/index.html.twig', [
             'events' => $eventRepository->findAll(),
@@ -48,6 +48,7 @@ class EventController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $event->getPublication()->setAssociation($this->getUser()->getAssociation());
             $event->getPublication()->setDatePublication();
+            $event->setAssociation($this->getUser()->getAssociation());
             $entityManager->persist($event);
             $entityManager->flush();
 

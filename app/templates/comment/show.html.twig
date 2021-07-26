@@ -12,20 +12,16 @@
                 <td>{{ comment.id }}</td>
             </tr>
             <tr>
+                <th>User</th>
+                <td>{{ comment.userid }}</td>
+            </tr>
+            <tr>
+                <th>Publication</th>
+                <td>{{ comment.publicationid }}</td>
+            </tr>
+            <tr>
                 <th>Comment</th>
-                <td>{{ comment.comment }}</td>
-            </tr>
-            <tr>
-                <th>Promote</th>
-                <td>{{ comment.promote ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsAssoc</th>
-                <td>{{ comment.isAssoc ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>PublicationDate</th>
-                <td>{{ comment.publicationDate ? comment.publicationDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ comment.content }}</td>
             </tr>
         </tbody>
     </table>

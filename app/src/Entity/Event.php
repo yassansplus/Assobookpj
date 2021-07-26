@@ -43,6 +43,12 @@ class Event
      */
     private $publication;
 
+    /**
+     * @ORM\OneToOne(targetEntity=Association::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $association;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +110,18 @@ class Event
     public function setTitle(?string $title): self
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getAssociation(): ?Association
+    {
+        return $this->association;
+    }
+
+    public function setAssociation(Association $association): self
+    {
+        $this->association = $association;
 
         return $this;
     }
