@@ -44,7 +44,7 @@ class Event
     private $publication;
 
     /**
-     * @ORM\OneToOne(targetEntity=Association::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Association::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $association;
