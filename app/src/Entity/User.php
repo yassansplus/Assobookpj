@@ -130,11 +130,18 @@ class User implements UserInterface, \Serializable
      */
     private $commentaires;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Chat::class, mappedBy="sentBy", orphanRemoval=true)
+     */
+    private $messages;
+
+
     public function __construct()
     {
         $this->registerDate = new DateTime();
         $this->tags = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,6 +416,37 @@ class User implements UserInterface, \Serializable
 
     public function __toString() {
         return $this->getUsername();
+    }
+
+
+    /**
+     * @return Collection|Chat[]
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Chat $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setSentBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Chat $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getSentBy() === $this) {
+                $message->setSentBy(null);
+            }
+        }
+
+        return $this;
     }
 
 }

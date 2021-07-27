@@ -68,10 +68,16 @@ class Adherent
      */
     private $cagnottes;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="adherent", orphanRemoval=true)
+     */
+    private $conversations;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
         $this->cagnottes = new ArrayCollection();
+        $this->conversations = new ArrayCollection();
     }
 
 
@@ -223,6 +229,36 @@ class Adherent
             // set the owning side to null (unless already changed)
             if ($cagnotte->getDonateur() === $this) {
                 $cagnotte->setDonateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setAdherent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getAdherent() === $this) {
+                $conversation->setAdherent(null);
             }
         }
 

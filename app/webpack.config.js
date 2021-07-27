@@ -39,7 +39,7 @@ Encore
     .addStyleEntry("carte", "./assets/styles/carte.scss")
     .addStyleEntry("homePublication", "./assets/styles/homePublication.scss")
 
-    //Add javascript
+  //Add javascript
 
     .addEntry("script", "./assets/javascript/script.js")
     .addEntry("counter", "./assets/javascript/counter.js")
@@ -54,6 +54,9 @@ Encore
     .addEntry('stripejs', './assets/javascript/stripe.js')
     .addEntry('home', './assets/javascript/home.js')
 
+    // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
+    .enableStimulusBridge("./assets/controllers.json")
+    .addEntry('chatScript', './assets/javascript/chat.js')
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
     .enableStimulusBridge("./assets/controllers.json")
 

@@ -86,6 +86,11 @@ class Association
      */
     private $limitCagnotte;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Conversation::class, mappedBy="association", orphanRemoval=true)
+     */
+    private $conversations;
+
 
     public function __construct()
     {
@@ -93,6 +98,7 @@ class Association
         $this->adherents = new ArrayCollection();
         $this->cagnottes = new ArrayCollection();
         $this->haveCagnotte = false;
+        $this->conversations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -287,6 +293,36 @@ class Association
     public function setLimitCagnotte(?int $limitCagnotte): self
     {
         $this->limitCagnotte = $limitCagnotte;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Conversation[]
+     */
+    public function getConversations(): Collection
+    {
+        return $this->conversations;
+    }
+
+    public function addConversation(Conversation $conversation): self
+    {
+        if (!$this->conversations->contains($conversation)) {
+            $this->conversations[] = $conversation;
+            $conversation->setAssociation($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConversation(Conversation $conversation): self
+    {
+        if ($this->conversations->removeElement($conversation)) {
+            // set the owning side to null (unless already changed)
+            if ($conversation->getAssociation() === $this) {
+                $conversation->setAssociation(null);
+            }
+        }
 
         return $this;
     }
