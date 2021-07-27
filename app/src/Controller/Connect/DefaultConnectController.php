@@ -21,6 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\EventAdherent;
 use App\Form\EventAdherentType;
 use App\Repository\EventAdherentRepository;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class ProfileController
@@ -74,6 +75,9 @@ class DefaultConnectController extends AbstractController
         if ($this->isGranted('ROLE_ASSOC_CONFIRME')) {
             $formPublication = new Publication();
             $event = new Event();
+            //$dateRef = new \DateTime;
+            //$dateStart = $event->getStartDate();
+            //$dateEnd = $event->getEndingDate();
             $form = $this->createForm(PublicationType::class, $formPublication);
             $formEvent = $this->createForm(EventType::class, $event);
             $form->handleRequest($request);

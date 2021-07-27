@@ -17,14 +17,17 @@ class EventType extends AbstractType
     {
         $builder
             ->add('startDate', DateTimeType::class, [
-                'label' => 'Date de début'
+                'label' => 'Date de début',
+                'widget' => 'single_text',
             ])
             ->add('endingDate', DateTimeType::class, [
-                'label' => 'Date de fin'
+                'label' => 'Date de fin',
+                'widget' => 'single_text',
             ])
             ->add('title', TextType::class, [
                 'label' => 'Titre',
-                'required' => true
+                'required' => true,
+                'attr' => ['class' => 'form-control'],
             ])
             ->add('Publication', PublicationType::class);
         ;

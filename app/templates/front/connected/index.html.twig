@@ -65,7 +65,8 @@
                                                      src="{{ asset(pathAvatar) }}"
                                                      width="40">
                                                 <div class="d-flex flex-column justify-content-start ml-2">
-                                                    <a href="association/{{ publication.association.id }}" style="color: #0a0a0a !important; text-decoration: none;">
+                                                    <a href="association/{{ publication.association.id }}"
+                                                       style="color: #0a0a0a !important; text-decoration: none;">
                                                         <span class="d-block font-weight-bold name">{{ publication.association.name }}</span>
                                                     </a>
                                                     <span class="date text-black-50">le {{ publication.datePublication|date('d/m/Y à H:i') }}</span>
@@ -93,7 +94,7 @@
                                                                 <div class="desc">
                                                                     <p>
                                                                         <strong class="hed">{{ event.title }}</strong>
-                                                                        <span class="des">{{ event.address }}<br />De {{ event.startDate|date('H:i') }} à {{ event.endingDate|date('H:i') }}</span>
+                                                                        <span class="des">{{ event.address }}<br/>De {{ event.startDate|date('H:i') }} à {{ event.endingDate|date('H:i') }}</span>
                                                                     </p>
                                                                 </div>
                                                                 <span class="start">{{ event.startDate|date('d/m/Y H:i') }}</span>
@@ -111,9 +112,10 @@
                                                                         {% set existEvent = true %}
                                                                     {% endif %}
                                                                 {% endfor %}
-                                                                <form method="POST" action="{{ existEvent ? path('desinscrire_participate') : path('add_participate') }}">
+                                                                <form method="POST"
+                                                                      action="{{ existEvent ? path('desinscrire_participate') : path('add_participate') }}">
                                                                     <input name="event" value="{{ event.id }}" hidden>
-                                                                    <button class="btn btn-form btn-form-{{ existEvent ? "outline-blue" : "blue"}} participation-event">
+                                                                    <button class="btn btn-form btn-form-{{ existEvent ? "outline-blue" : "blue" }} participation-event">
                                                                         {{ existEvent ? "Me désinscrire" : "Participer" }}</button>
                                                                 </form>
                                                             </div>
@@ -163,7 +165,8 @@
                                                 </div>
                                                 <hr>
                                                 <div>
-                                                    <form action="{{ path('add_comment', {id: publication.id}) }}" id="{{ publication.id }}">
+                                                    <form action="{{ path('add_comment', {id: publication.id}) }}"
+                                                          id="{{ publication.id }}">
                                                         <input type="text" name="commentaire" class="form-control"
                                                                placeholder="Votre commentaire..."
                                                                idPublication="{{ publication.id }}">
@@ -194,14 +197,24 @@
                                 <div class="modal-dialog modal-dialog-centered" role="document">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalCenterTitle">Création d'un
-                                                événement</h5>
+                                            <h5 class="modal-title" id="exampleModalCenterTitle">
+                                                Création d'un événement
+                                            </h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
                                         <div class="modal-body">
-                                            {{ form(formEvent) }}
+                                            {{ form_start(formEvent) }}
+                                            <div class="row">
+                                                <div class="col">
+                                                    {{ form_row(formEvent.startDate) }}
+                                                </div>
+                                                <div class="col">
+                                                    {{ form_row(formEvent.endingDate) }}
+                                                </div>
+                                            </div>
+                                            {{ form_end(formEvent) }}
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +287,8 @@
                                             </div>
                                             <hr>
                                             <div>
-                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}" id="{{ assocPub.id }}">
+                                                <form action="{{ path('add_comment', {id: assocPub.id}) }}"
+                                                      id="{{ assocPub.id }}">
                                                     <input type="text" name="commentaire" class="form-control"
                                                            placeholder="Votre commentaire..."
                                                            idPublication="{{ assocPub.id }}">

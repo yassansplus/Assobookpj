@@ -86,8 +86,7 @@ function success(pos) {
     });
 }
 
-function error(err) {
-    console.warn(`ERREUR (${err.code}): ${err.message}`);
+function error() {
     iziToast.warning({
         message: 'Vous devez activer la géolocalisation de votre navigateur pour accèder à ce service !'
     })
