@@ -9,13 +9,27 @@
 
 {% block body %}
 
-    <h3 style="padding: 15px 15px 15px 15px">Liste des associations les plus proches de vous</h3>
+    <style>
+        .loader{
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: url('https://i.pinimg.com/originals/65/ba/48/65ba488626025cff82f091336fbf94bb.gif')
+            50% 50% no-repeat rgb(249,249,249);
+        }
+    </style>
+
+    <h3 style="padding: 15px 15px 15px 15px" class="lead">Liste des associations les plus proches de vous (30km)</h3>
 
     <div class="container-cart">
         <div class="list">
+            <div class="loader"></div>
             {% for key,assoc in associations %}
             <div class="d-none association js-marker" data-lat="{{ assoc.address.latitude }}" data-lng=" {{ assoc.address.longitude }}" data-name="{{ assoc.name }}" data-assoc="{{ assoc.address.street }}, {{ assoc.address.city }}, {{ assoc.address.region }}" data-id="{{ assoc.id }}">
-                <img src="https://via.placeholder.com/400x260" alt="">
+                <img src="https://www.allmysms.com/wp-content/uploads/group-300x300.png" alt="">
                 <h4>
                     <a href="" class="link-assoc" id="link-assoc">
                         {{ assoc.name }}
@@ -25,7 +39,7 @@
             </div>
             {% endfor %}
         </div>
-        <div class="map" id="mapid"></div>
+        <div class="map" id="map"></div>
     </div>
 {% endblock %}
 
