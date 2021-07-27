@@ -106,6 +106,7 @@
                                                                 <span class="organizer">{{ publication.association.name }}</span>
                                                                 <span class="organizer_email">{{ publication.association.useraccount.email }}</span>
                                                             </div>
+                                                            <hr>
                                                             <div>
                                                                 {% for eventAdh in event.eventAdherents %}
                                                                     {% if eventAdh.adherent is same as app.user.adherent and eventAdh.event is same as event %}
@@ -115,7 +116,7 @@
                                                                 <form method="POST"
                                                                       action="{{ existEvent ? path('desinscrire_participate') : path('add_participate') }}">
                                                                     <input name="event" value="{{ event.id }}" hidden>
-                                                                    <button class="btn btn-form btn-form-{{ existEvent ? "outline-blue" : "blue" }} participation-event">
+                                                                    <button class="btn btn-lg btn-block btn-form btn-form-{{ existEvent ? "outline-blue" : "blue" }} participation-event">
                                                                         {{ existEvent ? "Me désinscrire" : "Participer" }}</button>
                                                                 </form>
                                                             </div>
