@@ -41,6 +41,9 @@ controllers_cart:
     resource: ../../src/Controller/Cart
     type: annotation
 
+controllers_chat:
+    resource: ../../src/Controller/Chat
+    type: annotation
 kernel:
     resource: ../../src/Kernel.php
     type: annotation

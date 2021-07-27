@@ -1,0 +1,47 @@
+{% extends 'base_connected.html.twig' %}
+
+{% block title %} Carte interactive {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {{ encore_entry_link_tags("chat") }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="errorsSide">
+        </div>
+
+        <div class="mainChater">
+
+
+            <div class="blackout"></div>
+
+            <div class="chatArea changeW">
+                {% include 'chat/chatLoop.html.twig' %}
+                <form action="{{ path('chat_new') }}" id="myForm">
+                    <div class="messageBox">
+                        <input type="hidden" aria-label="userToTalk" id="talkingTo" name="userToTalk"
+                               value="{{ userToTalk.id }}">
+
+                        <div class="textA"><textarea id="message" name="message" rows="1" cols="30"
+                                                     placeholder="Type your message here"></textarea>
+
+                        </div>
+                        <button id="send" class="button-s1" tooltip="Send" flow="left"><i class="fa fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </form>
+                <div id="goToDown" class="downDowny"><i class="fas fa-arrow-down"></i></div>
+            </div>
+
+
+        </div>
+    </div>
+{% endblock %}
+    {% block javascripts %}
+
+        {{ parent() }}
+        {{ encore_entry_script_tags("chatScript") }}
+    {% endblock %}

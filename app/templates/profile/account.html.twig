@@ -59,7 +59,8 @@
                             <div class="col-sm-{{ getAssoc and getAssoc.haveCagnotte ? '4' : '5'}} col-12 p-1">
                                 {% if app.user.adherent and conditionAssociation %}
                                     {% if getAssoc in app.user.adherent.associations %}
-                                        <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-outline-blue w-100 follow"><i class="fas fa-minus-circle" style="font-size:13px !important;"></i> Ne plus suivre</button>
+                                        <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-outline-blue follow"><i class="fas fa-minus-circle" style="font-size:13px !important;"></i> Ne plus suivre</button>
+                                        <a href="{{ path('chat_To', {id: getAssoc.userAccount.id}) }}" class="btn btn-form btn-form-outline-blue  ">Contacter</a>
                                     {% else %}
                                         <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-blue w-100 follow" style="color:white !important;"><i class="fas fa-plus-circle"></i> Follow</button>
                                     {% endif %}
@@ -69,7 +70,8 @@
                                     {% endif %}
                                 {% else %}
                                     {% if getAssoc is same as app.user.association %}<a href="{{ path('profile_update') }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-pencil-alt" style="font-size:13px !important;"></i> Modifier</a>
-                                    {% else %}<a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
+                                    {% else %}
+                                        <a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
                                     {% endif %}
                                 {% endif %}
                             </div>
