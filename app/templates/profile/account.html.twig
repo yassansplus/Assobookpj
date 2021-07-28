@@ -60,7 +60,7 @@
                                 {% if app.user.adherent and conditionAssociation %}
                                     {% if getAssoc in app.user.adherent.associations %}
                                         <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-outline-blue follow"><i class="fas fa-minus-circle" style="font-size:13px !important;"></i> Ne plus suivre</button>
-                                        <a href="{{ path('chat_To', {id: getAssoc.userAccount.id}) }}" class="btn btn-form btn-form-outline-blue  ">Contacter</a>
+                                        <a href="{{ path('chat_To', {id: getAssoc.id}) }}" class="btn btn-form btn-form-outline-blue  ">Contacter</a>
                                     {% else %}
                                         <button data-id="{{ getAssoc.id }}" class="btn btn-form btn-form-blue w-100 follow" style="color:white !important;"><i class="fas fa-plus-circle"></i> Follow</button>
                                     {% endif %}
