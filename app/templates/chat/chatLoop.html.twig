@@ -6,10 +6,10 @@
 
         </div>
         {% if app.user.association is not null %}
-          <h1 class="roomTitle">
-              {{ userToTalk.firstname }}
-              {{ userToTalk.lastname }}
-          </h1>
+            <h1 class="roomTitle">
+                {{ userToTalk.firstname }}
+                {{ userToTalk.lastname }}
+            </h1>
 
         {% else %}
             {{ userToTalk.name }}
@@ -17,28 +17,29 @@
         {% endif %}
         <p id="copyLinker2" class="copyLinker2">#40</p>
     </div>
-    {% for message in conversation.messages %}
-        {% if message.sentBy.id ==app.user.id %}
-            <div class="message mMess 1122334" data-number="1122334">
-                <div class="messArea">
-                    {# <p id="sname">James Ericson</p> #}
-                    <div class="textM">
-                        {{ message.message }}
+    {% if conversation is not null %}
+        {% for message in conversation.messages %}
+            {% if message.sentBy.id ==app.user.id %}
+                <div class="message mMess 1122334" data-number="1122334">
+                    <div class="messArea">
+                        {# <p id="sname">James Ericson</p> #}
+                        <div class="textM">
+                            {{ message.message }}
+                        </div>
+                    </div>
+
+                    <div class="prof" style="background-color: #ff7b54;"><p>Moi</p></div>
+                </div>
+            {% else %}
+                <div class="message">
+                    <div class="prof"><p>Con</p></div>
+                    <div class="messArea">
+                        {# <p id="sname">Lance Francisco | Team Poster</p> #}
+                        <div class="textM">{{ message.message }}</div>
                     </div>
                 </div>
-
-                <div class="prof" style="background-color: #ff7b54;"><p>Moi</p></div>
-            </div>
-        {% else %}
-            <div class="message">
-                <div class="prof"><p>Con</p></div>
-                <div class="messArea">
-                    {# <p id="sname">Lance Francisco | Team Poster</p> #}
-                    <div class="textM">{{ message.message }}</div>
-                </div>
-            </div>
-        {% endif %}
-    {% endfor %}
-
+            {% endif %}
+        {% endfor %}
+    {% endif %}
     <!--End of Chat cont-->
 </div>

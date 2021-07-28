@@ -38,7 +38,7 @@ Encore
     .addStyleEntry("stripecss", "./assets/styles/stripe.scss")
     .addStyleEntry("carte", "./assets/styles/carte.scss")
     .addStyleEntry("homePublication", "./assets/styles/homePublication.scss")
-
+    .addStyleEntry("chat", "./assets/styles/chat.scss")
   //Add javascript
 
     .addEntry("script", "./assets/javascript/script.js")
