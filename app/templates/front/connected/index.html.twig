@@ -97,8 +97,8 @@
                                                                         <span class="des">{{ event.address }}<br/>De {{ event.startDate|date('H:i') }} à {{ event.endingDate|date('H:i') }}</span>
                                                                     </p>
                                                                 </div>
-                                                                <span class="start">{{ event.startDate|date('d/m/Y H:i') }}</span>
-                                                                <span class="end">{{ event.endingDate|date('d/m/Y H:i') }}</span>
+                                                                <span class="start">{{ event.startDate|date('d-m-Y') }}</span>
+                                                                <span class="end">{{ event.endingDate|date('d-m-Y') }}</span>
                                                                 <span class="timezone">Europe/Paris</span>
                                                                 <span class="title">{{ event.title }}</span>
                                                                 <span class="description">{{ event.publication.description }}</span>
