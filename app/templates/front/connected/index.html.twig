@@ -114,11 +114,6 @@
                                                                         {% set existEvent = true %}
                                                                     {% endif %}
                                                                 {% endfor %}
-                                                                <form method="POST" action="{{ existEvent ? path('desinscrire_participate') : path('add_participate') }}">
-                                                                    <input name="event" value="{{ event.id }}" hidden>
-                                                                    <button class="btn btn-form btn-form-{{ existEvent ? "outline-blue" : "blue"}} participation-event">
-                                                                        {{ existEvent ? "Me désinscrire" : "Participer" }}</button>
-                                                                </form>
                                                             </div>
                                                             <hr>
                                                             <div>

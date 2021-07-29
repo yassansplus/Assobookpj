@@ -61,28 +61,36 @@
 <div>
     {% for user in arrayForm %}
         <section id="{{ user.id }}" class="menuAncrage p-3 mb-3">
-            <p class="font-weight-bold">{{ user.title }} {{ getAdh and user.id is same as 'mes-abonnements' ? '('~ getAdh.associations|length ~')' : (getAssoc and user.id is same as 'mes-abonnes' ? '('~getAssoc.adherents|length~')' : '')}}</p>
+            <p class="font-weight-bold">{{ user.title }} {{ getAdh and user.id is same as 'mes-abonnements' ? '('~ getAdh.associations|length ~')' : (getAssoc and user.id is same as 'mes-abonnes' ? '('~getAssoc.adherents|length~')' : '') }}</p>
             {% if getAdh %}
                 {% if user.id is same as 'a-propos' %}
                     <div class="p-0" style="font-size:14px;">
-                        <p class="m-0">{{ getAdh.firstname }} suit {{ getAdh.associations|length  }} association{{ getAdh.associations|length > 1 ? 's' : '' }}.</p>
-                        <p class="m-0">Il est inscrit depuis le {{ getAdh.userAccount.registerDate|date('d/m/Y') }} ({{leftDays}} jours)</p>
+                        <p class="m-0">{{ getAdh.firstname }} suit {{ getAdh.associations|length }}
+                            association{{ getAdh.associations|length > 1 ? 's' : '' }}.</p>
+                        <p class="m-0">Il est inscrit depuis le {{ getAdh.userAccount.registerDate|date('d/m/Y') }}
+                            ({{ leftDays }} jours)</p>
                         {% if getAdh.associations|length > 0 %}
                             <p>Le thème le plus suivi est <i>{{ count.theme }}</i></p>
                         {% endif %}
                     </div>
-                {% elseif user.id is same as 'mes-abonnements'%}
+                {% elseif user.id is same as 'mes-abonnements' %}
                     {% if  getAdh.associations is not empty %}
                         {% for assoc in getAdh.associations|slice(0,2) %}
-                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~ assoc.userAccount.photo ~ "" : "assets/images/logo/default-avatar.jpeg"  %}
+                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~ assoc.userAccount.photo ~ "" : "assets/images/logo/default-avatar.jpeg" %}
                             <div class="row align-items-center p-0">
-                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
+                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60">
+                                </div>
                                 <div class="col-md-4 col-6">
                                     <p class="m-0" style="font-size:13px;">{{ assoc.name }}</p>
-                                    <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }} - {{ assoc.adherents|length }} follower{{ assoc.adherents|length > 1 ? 's' : ''}}</p>
+                                    <p class="m-0"
+                                       style="opacity: 0.4;font-size:12px"> {{ assoc.theme.name|capitalize }}
+                                        - {{ assoc.adherents|length }}
+                                        follower{{ assoc.adherents|length > 1 ? 's' : '' }}</p>
                                 </div>
                                 <div class="col-md-3 col-3">
-                                    <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                    <a href="{{ path('profile_show', {"id": assoc.id}) }}"><i
+                                                class="design-logo fas fa-eye"
+                                                style="font-size:35px !important;"></i></a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -96,10 +104,10 @@
                     {% else %}
                         <p style="font-size:14px;">Aucune associations suivi pour l'instant</p>
                     {% endif %}
-                {% elseif user.id is same as 'mes-centres-d-interets'%}
+                {% elseif user.id is same as 'mes-centres-d-interets' %}
                     <p style="font-size:14px;">
                         {% if getAdh.userAccount.tags is empty %}
-                            {{ getAdh.firstname }} n'a pas ajouté ses centre d'interêt. Nous espérons qu'{{ getAdh.gender ? "il" : "elle"}} aime quelque chose 😢
+                            {{ getAdh.firstname }} n'a pas ajouté ses centres d'interêts. Nous espérons qu'{{ getAdh.gender ? "il" : "elle" }} aime quelque chose 😢
                         {% else %}
                             {{ getAdh.firstname }} aime
                             {% for index,tag in getAdh.userAccount.tags %}
@@ -108,29 +116,58 @@
                             {% endfor %}
                         {% endif %}
                     </p>
-                {% elseif user.id is same as 'mes-events'%}
-                    {# TODO : Condition event participation #}
-                    <p style="font-size:14px;">{{ getAdh.firstname }} ne participe à aucun événément pour l'instant</p>
+                {% elseif user.id is same as 'mes-events' %}
+                    {% if getAdh.eventAdherents|length > 0 %}
+                        {% for event in getAdh.eventAdherents|reverse|slice(0,1) %}
+                            <div class="row">
+                                <div class="col-sm-4 col-6 text-justify">
+                                    <p class="m-0 read-more font-weight-bold"
+                                       style="font-size:14px;">{{ event.event.title }}</p>
+                                </div>
+                                <div class="d-flex align-items-center text-center">
+                                    <p class="mr-1" style="font-size:14px;">Débute
+                                        le {{ event.event.startDate|date('d/m/Y') }}
+                                        à {{ event.event.startDate|date('H:i') }} | </p>
+                                    <p style="font-size:14px;">Termine le {{ event.event.endingDate|date('d/m/Y') }}
+                                        à {{ event.event.endingDate|date('H:i') }}</p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="text-right">
+                            <a href="{{ path('default_connect') }}" class="btn btn-form btn-form-blue"
+                               style="color:white !important;">Voir plus</a>
+                        </div>
+                    {% else %}
+                        <p style="font-size:14px;">{{ getAdh.firstname }} ne participe à aucun événément pour
+                            l'instant</p>
+                    {% endif %}
                 {% endif %}
             {% else %}
                 {% if user.id is same as 'a-propos' %}
                     <div class="p-0" style="font-size:14px;">
-                        <p class="m-0">{{ getAssoc.name }} est suivi par {{ getAssoc.adherents|length  }} adherent{{ getAssoc.adherents|length > 1 ? 's' : '' }}.</p>
-                        <p class="m-0">L'association est inscrite depuis le {{ getAssoc.userAccount.registerDate|date('d/m/Y') }} ({{leftDays}} jours)</p>
+                        <p class="m-0">{{ getAssoc.name }} est suivi par {{ getAssoc.adherents|length }}
+                            adherent{{ getAssoc.adherents|length > 1 ? 's' : '' }}.</p>
+                        <p class="m-0">L'association est inscrite depuis
+                            le {{ getAssoc.userAccount.registerDate|date('d/m/Y') }} ({{ leftDays }} jours)</p>
 
                     </div>
-                {% elseif user.id is same as 'mes-abonnes'%}
+                {% elseif user.id is same as 'mes-abonnes' %}
                     {% if getAssoc.adherents|length > 0 %}
                         {% for assoc in getAssoc.adherents|slice(0,2) %}
-                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~assoc.userAccount.photo ~"" : "assets/images/logo/default-avatar.jpeg"  %}
+                            {% set photo = assoc.userAccount.photo ? "assets/images/profile/uploads/user/"~assoc.userAccount.photo ~"" : "assets/images/logo/default-avatar.jpeg" %}
                             <div class="row align-items-center p-0">
-                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60"></div>
+                                <div class="col-md-2 col-3"><img src="{{ asset(photo) }}" alt="" width="60" height="60">
+                                </div>
                                 <div class="col-md-4 col-6">
-                                    <p class="m-0" style="font-size:13px;">{{ assoc.firstname ~ ' ' ~ assoc.lastname }}</p>
-                                    <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.associations|length }} suivis</p>
+                                    <p class="m-0"
+                                       style="font-size:13px;">{{ assoc.firstname ~ ' ' ~ assoc.lastname }}</p>
+                                    <p class="m-0" style="opacity: 0.4;font-size:12px"> {{ assoc.associations|length }}
+                                        suivis</p>
                                 </div>
                                 <div class="col-md-3 col-3">
-                                    <a href="{{ path('profile_show_adherent', {"id": assoc.id}) }}"><i class="design-logo fas fa-eye" style="font-size:35px !important;"></i></a>
+                                    <a href="{{ path('profile_show_adherent', {"id": assoc.id}) }}"><i
+                                                class="design-logo fas fa-eye"
+                                                style="font-size:35px !important;"></i></a>
                                 </div>
                             </div>
                         {% endfor %}
@@ -144,24 +181,39 @@
                     {% else %}
                         <p style="font-size:14px;">L'association n'a pas encore de follower.</p>
                     {% endif %}
-                {% elseif user.id is same as 'mes-evenements'%}
+                {% elseif user.id is same as 'mes-evenements' %}
                     <div class="p-0" style="font-size:14px;">
                         {% if getAssoc.publications is not empty %}
-                            <p class="">Dernière événements : </p>
-                            {% set break = false %}
-                            {% for publi in (getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)|reverse) and not break %}
+                            {% set event = "" %}
+                            {% for publi in (getAssoc.publications|sort((a,b) => a.datePublication <=> b.datePublication)) %}
                                 {% if publi.event %}
-                                    {% set break = true %}
+                                    {% set event = publi.event %}
                                 {% endif %}
                             {% endfor %}
-                            {% if break is same as false %}
-                                <p style="font-size:14px;">Les publications actuelles n'ont pas d'événements</p>
+                            {% if event is not same as "" %}
+                                <p class="m-0">Dernier événement : </p>
+                                <div class="row">
+                                    <div class="col-sm-4 col-6 text-justify">
+                                        <p class="m-0 read-more font-weight-bold">{{ event.title }}</p>
+                                    </div>
+                                    <div class="d-flex align-items-center text-center">
+                                        <p class="mr-1">Débute le {{ event.startDate|date('d/m/Y') }}
+                                            à {{ event.startDate|date('H:i') }} | </p>
+                                        <p>Termine le {{ event.endingDate|date('d/m/Y') }}
+                                            à {{ event.endingDate|date('H:i') }}</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <a href="{{ path('default_connect') }}" class="btn btn-form btn-form-blue" style="color:white !important">Voir plus</a>
+                                </div>
+                            {% else %}
+                                <p style="font-size:14px;">Pas encore d'événements</p>
                             {% endif %}
                         {% else %}
                             <p style="font-size:14px;">Pas encore d'événements</p>
                         {% endif %}
                     </div>
-                {% elseif user.id is same as 'mes-publications'%}
+                {% elseif user.id is same as 'mes-publications' %}
                     <div class="p-0" style="font-size:14px;">
                         {% if getAssoc.publications is not empty %}
                             <p class="m-0">Dernière publication : </p>
@@ -171,7 +223,8 @@
                                         <p class="m-0 read-more">{{ publi.description }}</p>
                                     </div>
                                     <div class="col-sm-3 d-flex d-sm-block align-items-center col-6 text-center">
-                                        <p>Crée le {{ publi.datePublication|date('d/m/Y') }} à {{ publi.datePublication|date('H:i') }}</p>
+                                        <p>Crée le {{ publi.datePublication|date('d/m/Y') }}
+                                            à {{ publi.datePublication|date('H:i') }}</p>
                                     </div>
                                 </div>
                             {% endfor %}
