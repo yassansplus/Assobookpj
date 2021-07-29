@@ -61,15 +61,6 @@ class DefaultConnectController extends AbstractController
             $eventAdherent = new EventAdherent;
             $eventAdherentForm = $this->createForm(EventAdherentType::class, $eventAdherent);
             $eventAdherentForm->handleRequest($request);
-
-//            if ($eventAdherentForm->isSubmitted() && $eventAdherentForm->isValid()){
-//                $entityManager = $this->getDoctrine()->getManager();
-//                $eventAdherent->setAdherent($this->getUser()->getAdherent());
-//                $eventAdherent->setEvent($this->getUser()->getAssociation()->getEvent());
-//                $entityManager->persist($eventAdherent);
-//                $entityManager->flush();
-//                //dd($eventAdherent);
-//            }
         }
 
         if ($this->isGranted('ROLE_ASSOC_CONFIRME')) {
@@ -144,30 +135,15 @@ class DefaultConnectController extends AbstractController
      */
     public function addCommentaire(Publication $publication, Request $request): Response
     {
-
-        //header("Content-Type: application/json");
         try {
-            //$json_str = file_get_contents('php://input');
-            //$json_obj = json_decode($json_str);
             $comment = new Commentaire();
             $entityManager = $this->getDoctrine()->getManager();
             $comment->setUserId($this->getUser());
             $comment->setCreatedAt();
-            $comment->setPublicationId($publication);
             $comment->setContent($request->request->get('commentaire'));
+            $comment->setPublicationId($publication);
             $entityManager->persist($comment);
             $entityManager->flush();
-
-            /*
-            $commentaire = [
-                "id_user" => $this->getUser()->getAssociation() ? $this->getUser()->getAssociation()->getId() : $this->getUser()->getAdherent()->getId(),
-                "contenu" => $json_obj->commentaire,
-                "date" => $comment->getCreatedAt()->format("d/m/Y"),
-                "heure" =>$comment->getCreatedAt()->format("H:i"),
-                "is_association" => $this->getUser()->getAssociation() ? true : false,
-                "fullname" => $this->getUser()->getAssociation() ? $this->getUser()->getAssociation()->getName() : $this->getUser()->getAdherent()->getFirstname(). ' ' .  $this->getUser()->getAdherent()->getLastname()
-            ];
-            */
 
             return new JsonResponse("Votre commentaire a bien été ajouté !");
         } catch (Exception $e) {

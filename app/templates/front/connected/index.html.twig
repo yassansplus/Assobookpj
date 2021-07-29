@@ -175,7 +175,7 @@
                                                 </div>
                                                 <hr>
                                                 <div>
-                                                    <form action="{{ path('add_comment', {id: publication.id}) }}"
+                                                    <form action="{{ path('add_comment', {id: publication.id}) }}" method="post"
                                                           id="{{ publication.id }}">
                                                         <input type="text" name="commentaire" class="form-control"
                                                                placeholder="Votre commentaire..."
