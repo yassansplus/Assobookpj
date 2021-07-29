@@ -66,12 +66,9 @@
                                     {% endif %}
                                 {% elseif getAdh %}
                                     {% if getAdh is same as app.user.adherent %}<a href="{{ path('profile_update') }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-pencil-alt" style="font-size:13px !important;"></i> Modifier</a>
-                                    {% else %}<a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
                                     {% endif %}
                                 {% else %}
                                     {% if getAssoc is same as app.user.association %}<a href="{{ path('profile_update') }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-pencil-alt" style="font-size:13px !important;"></i> Modifier</a>
-                                    {% else %}
-                                        <a href="#" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-envelope" style="font-size:13px !important;"></i> Contacter</a>
                                     {% endif %}
                                 {% endif %}
                             </div>
@@ -85,18 +82,6 @@
                                     <a href="{{ path('cagnotte_payment',{"id": getAssoc.id}) }}" class="btn btn-form btn-form-blue w-100" style="color:white !important;"><i class="fas fa-hand-holding-usd" style="font-size:17px !important;"></i> Faire un don</a>
                                 </div>
                             {% endif %}
-                            <div class="col-sm-2 col-12 p-1">
-                                <div class="dropdown">
-                                    <button class="btn btn-form btn-form-light w-100" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Action</a>
-                                        <a class="dropdown-item" href="#">Another action</a>
-                                        <a class="dropdown-item" href="#">Something else here</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
