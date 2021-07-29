@@ -73,11 +73,17 @@ class Adherent
      */
     private $conversations;
 
+    /**
+     * @ORM\OneToMany(targetEntity=EventAdherent::class, mappedBy="adherent", orphanRemoval=true)
+     */
+    private $eventAdherents;
+
     public function __construct()
     {
         $this->associations = new ArrayCollection();
         $this->cagnottes = new ArrayCollection();
         $this->conversations = new ArrayCollection();
+        $this->eventAdherents = new ArrayCollection();
     }
 
 
@@ -259,6 +265,36 @@ class Adherent
             // set the owning side to null (unless already changed)
             if ($conversation->getAdherent() === $this) {
                 $conversation->setAdherent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventAdherent[]
+     */
+    public function getEventAdherents(): Collection
+    {
+        return $this->eventAdherents;
+    }
+
+    public function addEventAdherent(EventAdherent $eventAdherent): self
+    {
+        if (!$this->eventAdherents->contains($eventAdherent)) {
+            $this->eventAdherents[] = $eventAdherent;
+            $eventAdherent->setAdherent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventAdherent(EventAdherent $eventAdherent): self
+    {
+        if ($this->eventAdherents->removeElement($eventAdherent)) {
+            // set the owning side to null (unless already changed)
+            if ($eventAdherent->getAdherent() === $this) {
+                $eventAdherent->setAdherent(null);
             }
         }
 

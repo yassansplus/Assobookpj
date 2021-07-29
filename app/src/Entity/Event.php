@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EventRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,10 +46,20 @@ class Event
     private $publication;
 
     /**
-     * @ORM\OneToOne(targetEntity=Association::class, cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity=Association::class, cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $association;
+
+    /**
+     * @ORM\OneToMany(targetEntity=EventAdherent::class, mappedBy="event", orphanRemoval=true)
+     */
+    private $eventAdherents;
+
+    public function __construct()
+    {
+        $this->eventAdherents = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -122,6 +134,36 @@ class Event
     public function setAssociation(Association $association): self
     {
         $this->association = $association;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EventAdherent[]
+     */
+    public function getEventAdherents(): Collection
+    {
+        return $this->eventAdherents;
+    }
+
+    public function addEventAdherent(EventAdherent $eventAdherent): self
+    {
+        if (!$this->eventAdherents->contains($eventAdherent)) {
+            $this->eventAdherents[] = $eventAdherent;
+            $eventAdherent->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventAdherent(EventAdherent $eventAdherent): self
+    {
+        if ($this->eventAdherents->removeElement($eventAdherent)) {
+            // set the owning side to null (unless already changed)
+            if ($eventAdherent->getEvent() === $this) {
+                $eventAdherent->setEvent(null);
+            }
+        }
 
         return $this;
     }

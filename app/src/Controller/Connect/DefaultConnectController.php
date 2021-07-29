@@ -18,6 +18,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\EventAdherent;
+use App\Form\EventAdherentType;
+use App\Repository\EventAdherentRepository;
+use Symfony\Component\Validator\Constraints\Date;
 
 /**
  * Class ProfileController
@@ -53,6 +57,19 @@ class DefaultConnectController extends AbstractController
                     $publications[] = $publication;
                 }
             }
+
+            $eventAdherent = new EventAdherent;
+            $eventAdherentForm = $this->createForm(EventAdherentType::class, $eventAdherent);
+            $eventAdherentForm->handleRequest($request);
+
+//            if ($eventAdherentForm->isSubmitted() && $eventAdherentForm->isValid()){
+//                $entityManager = $this->getDoctrine()->getManager();
+//                $eventAdherent->setAdherent($this->getUser()->getAdherent());
+//                $eventAdherent->setEvent($this->getUser()->getAssociation()->getEvent());
+//                $entityManager->persist($eventAdherent);
+//                $entityManager->flush();
+//                //dd($eventAdherent);
+//            }
         }
 
         if ($this->isGranted('ROLE_ASSOC_CONFIRME')) {
@@ -101,7 +118,7 @@ class DefaultConnectController extends AbstractController
             return $this->render('front/connected/index.html.twig',
                 [
                     'publications' => $publications,
-                    'events' => $events
+                    'events' => $events,
                 ]);
         }
     }
@@ -141,7 +158,46 @@ class DefaultConnectController extends AbstractController
         } catch (Exception $e) {
             return new JsonResponse("une erreur est survenu:" . $e->getMessage());
         }
+    }
 
+    /**
+     * @Route("/participate", name="add_participate")
+     */
+    public function participation(Request $request): Response{
+        try{
+            if($this->getUser()->getAdherent()){
+                $event = $this->em->getRepository(Event::class)->find((int) $request->request->get('event'));
+                $adherent = $this->getUser()->getAdherent();
+                $eventAdh = new EventAdherent();
+                $eventAdh->setAdherent($adherent)
+                    ->setEvent($event);
+                $this->em->persist($eventAdh);
+                $this->em->flush();
+                return new JsonResponse(200);
+            }else{
+                return new JsonResponse(403);
+            }
+        }catch (Exception $e) {
+            return new JsonResponse("une erreur est survenu:" . $e->getMessage());
+        }
+    }
 
+    /**
+     * @Route("/desinscrire", name="desinscrire_participate")
+     */
+    public function desinscrire(Request $request): Response{
+        try{
+            if($this->getUser()->getAdherent()){
+                $event = $this->em->getRepository(Event::class)->find((int) $request->request->get('event'));
+                $eventAdh = $this->em->getRepository(EventAdherent::class)->findBy(["event" => $event,"adherent" => $this->getUser()->getAdherent()])[0];
+                $this->em->remove($eventAdh);
+                $this->em->flush();
+                return new JsonResponse(204);
+            }else{
+                return new JsonResponse(403);
+            }
+        }catch (Exception $e) {
+            return new JsonResponse("une erreur est survenu:" . $e->getMessage());
+        }
     }
 }

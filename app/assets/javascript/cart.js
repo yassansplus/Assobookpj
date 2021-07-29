@@ -1,17 +1,21 @@
 function distance(user, assoc, unite) {
-    var radlat1 = Math.PI * user.latitude/180
-    var radlat2 = Math.PI * assoc.dataset.lat/180
+    var radlat1 = Math.PI * user.latitude / 180
+    var radlat2 = Math.PI * assoc.dataset.lat / 180
     var theta = user.longitude - assoc.dataset.lng
-    var radtheta = Math.PI * theta/180
+    var radtheta = Math.PI * theta / 180
     var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
     if (dist > 1) {
         dist = 1;
     }
     dist = Math.acos(dist)
-    dist = dist * 180/Math.PI
+    dist = dist * 180 / Math.PI
     dist = dist * 60 * 1.1515
-    if (unite=="K") { dist = dist * 1.609344 }
-    if (unite=="N") { dist = dist * 0.8684 }
+    if (unite == "K") {
+        dist = dist * 1.609344
+    }
+    if (unite == "N") {
+        dist = dist * 0.8684
+    }
     return {
         distance: dist,
         name: assoc.dataset.name,
@@ -28,11 +32,12 @@ function compare(x, y) {
 
 function success(pos) {
 
-
     const crd = pos.coords;
     let calc = [];
 
-    let map = L.map('mapid', { maxZoom: 20 });
+    let map = L.map('map', {maxZoom: 20});
+    let marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
+    marker.bindPopup("Vous êtes ici !").openPopup();
 
     let options_popup = {
         autoClose: false,
@@ -51,16 +56,13 @@ function success(pos) {
         accessToken: 'pk.eyJ1IjoibWJsaCIsImEiOiJja3FwZWhwOTUwZjF1MnNuYmFxMWpubjhyIn0.G2B_Cd-CMZEZoQ7wWYvckg'
     }).addTo(map);
 
-    let marker = L.marker([crd.latitude, crd.longitude]).addTo(map);
-    marker.bindPopup("Vous êtes ici !").openPopup();
-
 
     Array.from(document.querySelectorAll('.js-marker')).forEach((association) => {
-        map.setView([crd.latitude, crd.longitude], 14);
         let assoc_popup = L.popup(options_popup)
             .setLatLng([association.dataset.lat, association.dataset.lng])
             .setContent(association.dataset.name)
         assoc_popup.openOn(map);
+        map.setView([crd.latitude, crd.longitude], 14)
         calc.push(distance(crd, association, "K",));
     });
 
@@ -71,7 +73,7 @@ function success(pos) {
         if (assoc.distance < 30) {
             const div = `
             <div class="association js-marker" data-lat="${assoc.latitude}" data-lng="${assoc.longitude}" data-name="${assoc.name}">
-                <img src="https://via.placeholder.com/400x260" alt="">
+                <img src="http://espacedeviesociale30.org/wp-content/uploads/2020/11/logo.png" alt="">
                 <h4>
                     <a href="association/${assoc.id}" class="link-assoc">${assoc.name}
                     </a>
@@ -79,13 +81,16 @@ function success(pos) {
                 <p>${assoc.address}</p>
             </div>
         `;
-            list.innerHTML+= div;
+            list.innerHTML += div;
         }
     });
 }
 
-function error(err) {
-    console.warn(`ERREUR (${err.code}): ${err.message}`);
+function error() {
+    iziToast.warning({
+        message: 'Vous devez activer la géolocalisation de votre navigateur pour accèder à ce service !'
+    })
+
 }
 
 navigator.geolocation.getCurrentPosition(success, error);

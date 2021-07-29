@@ -20,7 +20,7 @@ class CartController extends AbstractController
 
     /**
      * @Route("/carte", name="cart")
-     * * @Security("is_granted('ROLE_ADH_CONFIRME') or is_granted('ROLE_ASSOC_CONFIRME')", statusCode=403, message="Veuillez vous connecter")
+     * * @Security("is_granted('ROLE_ADH_CONFIRME')", statusCode=403, message="Cette page est réservé aux adhérents")
      */
     public function index(): Response
     {
