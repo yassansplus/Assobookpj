@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class UpdateAdherentType extends AbstractType
 {
@@ -20,10 +21,12 @@ class UpdateAdherentType extends AbstractType
             ->add('firstname', TextType::class, [
                 'label' => 'Votre prénom',
                 'required' => false,
-                'constraints' => new Length([
+                'empty_data' => '',
+                'constraints' => [new Length([
                     'min' => 2,
                     'max' => 30
                 ]),
+                    new NotBlank(),],
                 'attr' => [
                     'placeholder' => 'Prénom',
                     'class' => 'form-control',
@@ -32,23 +35,25 @@ class UpdateAdherentType extends AbstractType
             ->add('lastname', TextType::class, [
                 'label' => 'Votre nom',
                 'required' => false,
-                'constraints' => new Length([
+                'empty_data' => '',
+                'constraints' => [new Length([
                     'min' => 2,
-                    'max' => 60
+                    'max' => 30
                 ]),
+                    new NotBlank(),],
                 'attr' => [
                     'placeholder' => 'Nom',
                     'class' => 'form-control',
                 ]
             ])
-            ->add('birthday',DateType::class,[
+            ->add('birthday', DateType::class, [
                 'label' => 'Date d\'anniversaire',
                 'widget' => 'single_text',
                 'attr' => [
                     'class' => 'form-control mt-2',
                 ],
             ])
-            ->add('bio',TextareaType::class,[
+            ->add('bio', TextareaType::class, [
                 'label' => 'Bio',
                 'required' => false,
                 'constraints' => new Length([
@@ -65,8 +70,7 @@ class UpdateAdherentType extends AbstractType
                 'attr' => [
                     'class' => 'btn btn-block btn-primary mt-2',
                 ]
-            ])
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
