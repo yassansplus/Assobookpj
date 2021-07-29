@@ -25,6 +25,14 @@ $(document).ready(function () {
             })
         }
 
+
+        if(data === "error_date") {
+            iziToast.error({
+                message: "Veuillez vérifier que vos dates correspondent et sont cohérentes !",
+            })
+        }
+
+
         return false;
     });
 
@@ -71,4 +79,5 @@ $(document).ready(function () {
 
         return false;
     });
+
 });

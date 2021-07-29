@@ -75,6 +75,8 @@ class DefaultConnectController extends AbstractController
         if ($this->isGranted('ROLE_ASSOC_CONFIRME')) {
             $formPublication = new Publication();
             $event = new Event();
+            $dateRef = new \DateTime;
+            $newDate = $dateRef->format('Y-m-d H:i:s');
             $form = $this->createForm(PublicationType::class, $formPublication);
             $formEvent = $this->createForm(EventType::class, $event);
             $form->handleRequest($request);
@@ -88,12 +90,21 @@ class DefaultConnectController extends AbstractController
             }
 
             if ($formEvent->isSubmitted() && $formEvent->isValid()) {
-                $entityManager = $this->getDoctrine()->getManager();
-                $event->getPublication()->setAssociation($this->getUser()->getAssociation());
-                $event->getPublication()->setDatePublication();
-                $event->setAssociation($this->getUser()->getAssociation());
-                $entityManager->persist($event);
-                $entityManager->flush();
+                $dateStart = $event->getStartDate();
+                $newDateStart = $dateStart->format('Y-m-d H:i:s');
+                $dateEnd = $event->getEndingDate();
+                $newDateEnd = $dateEnd->format('Y-m-d H:i:s');
+                if ($newDate <= $newDateStart && $newDateStart <= $newDateEnd){
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $event->getPublication()->setAssociation($this->getUser()->getAssociation());
+                    $event->getPublication()->setDatePublication();
+                    $event->setAssociation($this->getUser()->getAssociation());
+                    $entityManager->persist($event);
+                    $entityManager->flush();
+                    $this->addFlash('success','L\'évènement a bien été crée');
+                } else {
+                    $this->addFlash('danger','Veuillez vérifier vos dates !');
+                }
             }
 
             $id = $this->getUser()->getAssociation()->getId();
@@ -106,13 +117,17 @@ class DefaultConnectController extends AbstractController
                 ['association' => $id]
             );
 
+            if (($form->isSubmitted() && $form->isValid()) || ($formEvent->isSubmitted() && $formEvent->isValid())){
+                return $this->redirectToRoute('default_connect');
+            }
+
             return $this->render('front/connected/index.html.twig',
                 [
                     'publications' => $publications,
                     'formPublication' => $form->createView(),
                     'formEvent' => $formEvent->createView(),
                     'assocPublications' => $assocPublications,
-                    'events' => $events
+                    'events' => $events,
                 ]);
         } else {
             return $this->render('front/connected/index.html.twig',
