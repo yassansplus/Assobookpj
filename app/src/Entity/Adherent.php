@@ -34,6 +34,7 @@ class Adherent
 
     /**
      * @ORM\Column(type="boolean")
+     * @Assert\NotNull(message="Veuillez choisir votre genre")
      */
     private $gender;
 

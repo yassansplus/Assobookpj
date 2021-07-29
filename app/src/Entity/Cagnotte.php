@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\CagnotteRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=CagnotteRepository::class)
@@ -19,6 +20,7 @@ class Cagnotte
 
     /**
      * @ORM\Column(type="float")
+     * @Assert\NotNull(message="Le montant ne peut pas être vide")
      */
     private $montant;
 
